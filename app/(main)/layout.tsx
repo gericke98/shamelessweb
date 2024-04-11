@@ -1,4 +1,3 @@
-import Banner from "@/components/banner";
 import { HeaderComponent } from "@/components/header";
 
 type Props = {
@@ -9,9 +8,8 @@ const MainLayout = ({ children }: Props) => {
   return (
     <>
       <HeaderComponent />
-      <Banner text="PENINSULAR FREE SHIPPING" />
-      <main className="px-2">
-        <div className="max-w-[1056px] mx-auto pt-6 h-full">{children}</div>
+      <main>
+        <div className=" mx-auto h-full">{children}</div>
       </main>
     </>
   );

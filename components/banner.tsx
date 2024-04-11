@@ -1,4 +1,11 @@
-export const Banner = ({ text }: { text: string }) => {
+import { cn } from "@/lib/utils";
+
+type Props = {
+  text: string;
+  variant: "dark" | "white";
+};
+
+export const Banner = ({ text, variant }: Props) => {
   const repeatCount = 5;
   const repeatedTexts = Array(repeatCount)
     .fill(null)
@@ -9,13 +16,25 @@ export const Banner = ({ text }: { text: string }) => {
     ));
 
   return (
-    <div className="flex overflow-hidden select-none p-0 m-0 h-[1.5vw]">
-      <div className="flex-shrink-0 flex justify-around items-center min-w-full gap-4 animate-infinite-scroll bg-black text-white border-transparent">
+    <div
+      className={cn(
+        "flex overflow-hidden select-none p-0 m-0 h-[50px] bg-black",
+        variant === "dark" ? "bg-black" : "bg-white"
+      )}
+    >
+      <div
+        className={cn(
+          "flex-shrink-0 flex justify-around items-center min-w-full gap-4 animate-infinite-scroll border-transparent border-none",
+          variant === "dark" ? "bg-black text-white" : "bg-white text-black"
+        )}
+      >
         {repeatedTexts}
       </div>
       <div
-        className="flex-shrink-0 flex justify-around items-center min-w-full gap-4 animate-infinite-scroll bg-black text-white border-transparent"
-        aria-hidden="true"
+        className={cn(
+          "flex-shrink-0 flex justify-around items-center min-w-full gap-4 animate-infinite-scroll border-transparent aria-hidden:true border-nones",
+          variant === "dark" ? "bg-black text-white" : "bg-white text-black"
+        )}
       >
         {repeatedTexts}
       </div>

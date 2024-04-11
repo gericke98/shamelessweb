@@ -9,7 +9,7 @@ const links = [
   { name: "SHOP ALL", path: "/shop-all" },
   { name: "T-SHIRTS", path: "/t-shirts" },
   { name: "LONGSLEEVE TEES", path: "/longsleeve-tees" },
-  { name: "CREWNECK", path: "/crewneck" },
+  { name: "CREWNECKS", path: "/crewnecks" },
   { name: "HOODIES", path: "/hoodies" },
 ];
 
