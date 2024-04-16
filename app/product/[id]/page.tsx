@@ -107,7 +107,7 @@ const ProductPage = ({ params }: Props) => {
             </Button>
 
             <Button variant="secondary" size="xlg" onClick={onPay}>
-              BUY WITH SHOP PAY
+              BUY NOW
             </Button>
           </div>
         ) : (

@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import DoneIcon from "../public/done.svg";
 import CloseIcon from "../public/close.svg";
+import Link from "next/link";
 
 const CartDropdown = () => {
   const { cartItems, setIsCartOpen } = useContext(CartContext);
@@ -34,8 +35,12 @@ const CartDropdown = () => {
         )}
       </div>
       <div className="flex flex-row justify-between mt-4 w-full p-3">
-        <Button variant="default" size="ancho" onClick={() => {}}>
-          VIEW CART
+        <Button
+          variant="default"
+          size="ancho"
+          onClick={() => setIsCartOpen(false)}
+        >
+          <Link href="/cart">VIEW CART</Link>
         </Button>
         <Button variant="default" size="ancho" onClick={() => {}}>
           CHECKOUT
