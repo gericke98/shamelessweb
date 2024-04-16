@@ -1,12 +1,13 @@
 "use client";
+import { createStripeUrl } from "@/actions/payments";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CartContext } from "@/contexts/cart.context";
 import { cn } from "@/lib/utils";
 import { products } from "@/placeholder";
 import Image from "next/image";
-import Link from "next/link";
-import { useContext, useState } from "react";
+import { toast } from "sonner";
+import { useContext, useState, useTransition } from "react";
 
 type Props = {
   params: {
@@ -25,7 +26,7 @@ const ProductPage = ({ params }: Props) => {
     (variant) => variant.name === activeVariant
   )[0].stock;
 
-  const { addItemToCart } = useContext(CartContext);
+  const { addItemToCart, isCartOpen } = useContext(CartContext);
   const addProductToCart = () => {
     if (stockActive > 0) {
       addItemToCart({
@@ -34,13 +35,34 @@ const ProductPage = ({ params }: Props) => {
         price: productfiltered[0].price,
         variant: activeVariant,
         quantity: 0,
+        imageSrc: productfiltered[0].frontImageSrc,
       });
     }
   };
+  const [pending, startTransition] = useTransition();
+  console.log(productfiltered);
+
+  //Payment
+  const onPay = () => {
+    startTransition(() => {
+      createStripeUrl(productfiltered)
+        .then((res) => {
+          if (res.data) {
+            window.location.href = res.data;
+          }
+        })
+        .catch(() => toast.error("Something went wrong"));
+    });
+  };
 
   return (
-    <div className="flex flex-row w-full h-full">
-      <ScrollArea className="flex flex-col h-[100vh] w-[65vw]">
+    <div
+      className={cn(
+        "flex flex-row w-full h-full ",
+        isCartOpen && "bg-slate-100"
+      )}
+    >
+      <ScrollArea className="flex flex-col h-[100vh] w-[65vw] ">
         <Image
           src={productfiltered[0].frontImageSrc}
           alt={productfiltered[0].name}
@@ -83,11 +105,10 @@ const ProductPage = ({ params }: Props) => {
             <Button variant="default2" size="xlg" onClick={addProductToCart}>
               ADD TO CART
             </Button>
-            <Link href="/checkout">
-              <Button variant="secondary" size="xlg">
-                BUY WITH SHOP PAY
-              </Button>
-            </Link>
+
+            <Button variant="secondary" size="xlg" onClick={onPay}>
+              BUY WITH SHOP PAY
+            </Button>
           </div>
         ) : (
           <div className="mt-16 flex flex-col w-[25vw] gap-2">

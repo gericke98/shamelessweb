@@ -4,6 +4,7 @@ export type CartItem = {
   price: number;
   quantity: number;
   variant: string;
+  imageSrc: string;
 };
 
 export type CartContextType = {

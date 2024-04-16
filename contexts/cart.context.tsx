@@ -8,6 +8,7 @@ const addCartItem = (cartItems: CartItem[], productToAdd: CartItem) => {
     name: productToAdd.name,
     price: productToAdd.price,
     variant: productToAdd.variant,
+    imageSrc: productToAdd.imageSrc,
   };
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id

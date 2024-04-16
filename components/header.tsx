@@ -51,7 +51,7 @@ export const HeaderComponent = () => {
         ))}
       </div>
       <div className="flex-1 flex items-center justify-end p-5">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center cursor-pointer">
           <Image
             onClick={toggleIsCartOpen}
             src={CartIcon}
