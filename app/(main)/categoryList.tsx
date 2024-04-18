@@ -13,12 +13,12 @@ export const CategoryList = () => {
           return (
             <div
               key={idx}
-              className="flex flex-col w-full m-2 p-10 items-center justify-center"
+              className="flex flex-col w-full m-2 lg:p-10 p-4 items-center justify-center"
             >
               <h2 className="font-bold text-center mb-10 text-2xl">
                 {category.name.toUpperCase()}
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full ">
                 {productsFiltered.map((product, idx) => (
                   <Card key={idx} product={product} />
                 ))}

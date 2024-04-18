@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import DoneIcon from "../public/done.svg";
 import CloseIcon from "../public/close.svg";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 
 const CartDropdown = () => {
@@ -12,6 +13,9 @@ const CartDropdown = () => {
   if (cartItems.length === 0) {
     setIsCartOpen(false);
   }
+  const goToCart = () => {
+    setIsCartOpen(false);
+  };
   return cartItems.length ? (
     <div className="absolute w-[440px] h-[320px] flex flex-col top-20 right-5  bg-white outline-offset-3">
       <div className="flex justify-end pr-2 cursor-pointer">
@@ -35,13 +39,11 @@ const CartDropdown = () => {
         )}
       </div>
       <div className="flex flex-row justify-between mt-4 w-full p-3">
-        <Button
-          variant="default"
-          size="ancho"
-          onClick={() => setIsCartOpen(false)}
-        >
-          <Link href="/cart">VIEW CART</Link>
-        </Button>
+        <Link href="/cart">
+          <Button variant="default" size="ancho" onClick={goToCart}>
+            VIEW CART
+          </Button>
+        </Link>
         <Button variant="default" size="ancho" onClick={() => {}}>
           CHECKOUT
         </Button>

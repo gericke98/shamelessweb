@@ -11,12 +11,15 @@ const addCartItem = (cartItems: CartItem[], productToAdd: CartItem) => {
     imageSrc: productToAdd.imageSrc,
   };
   const existingCartItem = cartItems.find(
-    (cartItem) => cartItem.id === productToAdd.id
+    (cartItem) =>
+      cartItem.id === productToAdd.id &&
+      cartItem.variant === productToAdd.variant
   );
 
   if (existingCartItem) {
     return cartItems.map((cartItem) =>
-      cartItem.id === productToAdd.id
+      cartItem.id === productToAdd.id &&
+      cartItem.variant === productToAdd.variant
         ? { ...cartItem, quantity: cartItem.quantity + 1 }
         : cartItem
     );
@@ -27,24 +30,37 @@ const addCartItem = (cartItems: CartItem[], productToAdd: CartItem) => {
 const removeCartItem = (cartItems: CartItem[], cartItemToRemove: CartItem) => {
   // find the cart item to remove
   const existingCartItem = cartItems.find(
-    (cartItem) => cartItem.id === cartItemToRemove.id
+    (cartItem) =>
+      cartItem.id === cartItemToRemove.id &&
+      cartItem.variant === cartItemToRemove.variant
   );
 
   // check if quantity is equal to 1, if it is remove that item from the cart
   if (existingCartItem?.quantity === 1) {
-    return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
+    return cartItems.filter(
+      (cartItem) =>
+        !(
+          cartItem.id === cartItemToRemove.id &&
+          cartItem.variant === cartItemToRemove.variant
+        )
+    );
   }
 
   // return back cartitems with matching cart item with reduced quantity
   return cartItems.map((cartItem) =>
-    cartItem.id === cartItemToRemove.id
+    cartItem.id === cartItemToRemove.id &&
+    cartItem.variant === cartItemToRemove.variant
       ? { ...cartItem, quantity: cartItem.quantity - 1 }
       : cartItem
   );
 };
 
 const clearCartItem = (cartItems: CartItem[], cartItemToClear: CartItem) =>
-  cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
+  cartItems.filter(
+    (cartItem) =>
+      cartItem.id === cartItemToClear.id &&
+      cartItem.variant === cartItemToClear.variant
+  );
 
 export const CartContext = createContext<CartContextType>({
   isCartOpen: false,

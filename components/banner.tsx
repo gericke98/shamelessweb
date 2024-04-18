@@ -3,10 +3,11 @@ import { cn } from "@/lib/utils";
 type Props = {
   text: string;
   variant: "dark" | "white";
+  repeat: number;
 };
 
-export const Banner = ({ text, variant }: Props) => {
-  const repeatCount = 5;
+export const Banner = ({ text, variant, repeat }: Props) => {
+  const repeatCount = repeat;
   const repeatedTexts = Array(repeatCount)
     .fill(null)
     .map((_, index) => (

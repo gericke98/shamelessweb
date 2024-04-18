@@ -19,13 +19,8 @@ import { createStripeUrl2 } from "@/actions/payments";
 import { toast } from "sonner";
 
 const CartPage = () => {
-  const {
-    cartItems,
-    setIsCartOpen,
-    addItemToCart,
-    clearItemFromCart,
-    removeItemToCart,
-  } = useContext(CartContext);
+  const { cartItems, addItemToCart, removeItemToCart, cartTotal } =
+    useContext(CartContext);
   const removeItemFromCart = (cartItem: CartItem) => {
     removeItemToCart({
       id: cartItem.id,
@@ -60,7 +55,7 @@ const CartPage = () => {
     });
   };
   return (
-    <div className="m-24">
+    <div className="lg:m-24 m-2 ">
       <Table>
         <TableHeader>
           <TableRow>
@@ -76,36 +71,42 @@ const CartPage = () => {
               <TableCell className="flex flex-row w-full flex-start items-top mb-5 gap-4 mt-5 ">
                 <Image
                   src={item.imageSrc}
-                  width={100}
-                  height={150}
+                  width="0"
+                  height="0"
                   alt={item.name}
+                  sizes="33vw"
+                  className="h-auto w-auto lg:block hidden"
                 />
                 <div className="flex flex-col flex-start gap-2">
-                  <span className="text-md">{item.name}</span>
-                  <span className="text-md text-slate-400">{item.variant}</span>
+                  <span className="lg:text-md text-xs">{item.name}</span>
+                  <span className="lg:text-md text-xs text-slate-400">
+                    {item.variant}
+                  </span>
                 </div>
               </TableCell>
-              <TableCell>€{item.price}.00</TableCell>
+              <TableCell className="text-xs">€{item.price}.00</TableCell>
               <TableCell>
                 <div className="flex flex-row">
                   <Image
                     src={leftArrow}
-                    width={18}
-                    height={18}
+                    width={0}
+                    height={0}
+                    sizes="33vw"
                     alt="left arrow"
-                    className="cursor-pointer"
+                    className="cursor-pointer h-auto w-[4vw]"
                     onClick={() => removeItemFromCart(item)}
                   />
-                  <div className="flex flex-col flex-start gap-2">
+                  <div className="flex flex-col flex-start gap-2 text-xs">
                     {item.quantity}
                   </div>
                   <Image
                     src={rightArrow}
-                    width={18}
-                    height={18}
+                    width={0}
+                    height={0}
                     alt="right arrow"
-                    className="cursor-pointer"
+                    className="cursor-pointer h-auto w-[4vw]"
                     onClick={() => addItemCart(item)}
+                    sizes="33vw"
                   />
                 </div>
               </TableCell>
@@ -116,7 +117,7 @@ const CartPage = () => {
       </Table>
       <div className="flex flex-row justify-between mt-10 mb-10 border-t-2 border-b-2 border-black pt-3 pl-4 pr-4 pb-3">
         <span>Subtotal</span>
-        <span>€100.00</span>
+        <span>€{cartTotal}.00</span>
       </div>
       <Button variant="default" size="ancho" onClick={onPay}>
         CHECKOUT

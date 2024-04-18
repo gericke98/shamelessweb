@@ -4,17 +4,21 @@ import Image from "next/image";
 export const Hero = () => {
   return (
     <div className="w-full h-full">
-      <Banner text="PENINSULAR FREE SHIPPING" variant="dark" />
+      <Banner text="PENINSULAR FREE SHIPPING" variant="dark" repeat={5} />
       <div className="h-screen w-full relative">
         <Image
           src="/heropc.jpg"
           alt="Hero"
           fill
           style={{ objectFit: "cover", objectPosition: "10% 12%" }}
-          quality={100}
+          priority
         />
       </div>
-      <Banner text="LIVE WITHOUT SHAME WEAR WITHOUT FEAR" variant="white" />
+      <Banner
+        text="LIVE WITHOUT SHAME WEAR WITHOUT FEAR"
+        variant="white"
+        repeat={4}
+      />
     </div>
   );
 };

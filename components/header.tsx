@@ -23,15 +23,16 @@ export const HeaderComponent = () => {
   const { cartCount, isCartOpen, setIsCartOpen } = useContext(CartContext);
   const toggleIsCartOpen = () => setIsCartOpen(!isCartOpen);
   return (
-    <div className="flex items-center justify-center gap-2 bg-white h-[80px]">
+    <div className="hidden lg:flex items-center justify-center gap-2 bg-white h-[80px]">
       <div className="flex-1 p-5 items-center justify-center">
         <Link href="/">
           <Image
             src={"/LOGO_black.png"}
-            width={100}
-            height={100}
+            width={0}
+            height={0}
+            sizes="33vw"
             alt="Logo"
-            className="cursor-pointer"
+            className="cursor-pointer w-[8vw] h-auto"
           />
         </Link>
       </div>
