@@ -1,15 +1,17 @@
 import { categories, products } from "@/placeholder";
 import { Card } from "./card";
+import { getCollections } from "@/db/queries";
 
-export const CategoryList = () => {
+export const CategoryList = async () => {
+  // Extraigo los productos
+  // const productsfromDb = getProducts();
+  const collectionsfromDb = getCollections();
+  const [collectionsDb] = await Promise.all([collectionsfromDb]);
+
   return (
     <div className="mx-auto px-4 w-full flex flex-col">
-      {categories.map((category, idx) => {
-        //Extraer los productos que tienen la categoria específica
-        const productsFiltered = products.filter((product) =>
-          category.products.includes(product.id)
-        );
-        if (productsFiltered.length > 0) {
+      {collectionsDb.map((category, idx) => {
+        if (category.products.length > 0) {
           return (
             <div
               key={idx}
@@ -19,7 +21,7 @@ export const CategoryList = () => {
                 {category.name.toUpperCase()}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full ">
-                {productsFiltered.map((product, idx) => (
+                {category.products.map((product, idx) => (
                   <Card key={idx} product={product} />
                 ))}
               </div>

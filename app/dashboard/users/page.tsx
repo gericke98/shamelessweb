@@ -3,7 +3,9 @@ import Search from "@/components/dashboard/search/search";
 import Link from "next/link";
 import React from "react";
 
-const UsersPage = () => {
+const UsersPage = async () => {
+  // const users = await fetchUsers();
+  // console.log(users);
   return (
     <div className="bg-[var(--primary-soft-color)] p-5 rounded-sm m-5">
       <div className="flex items-center justify-between">

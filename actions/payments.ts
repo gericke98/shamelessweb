@@ -1,29 +1,17 @@
 "use server";
 
+import { products } from "@/db/schema";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
 import { CartItem } from "@/types";
 
 const returnUrl = absoluteUrl("/");
 
-type Variant = {
-  id: string;
-  name: string;
-  stock: number;
-};
-
 type Props = {
-  id: string;
-  name: string;
-  price: number;
-  collectionId: string[];
-  frontImageSrc: string;
-  backImageSrc: string;
-  description: string;
-  variants: Variant[];
+  product: typeof products.$inferSelect;
 }[];
 
-export const createStripeUrl = async (cartProducts: Props) => {
+export const createStripeUrl = async ({ cartProducts }: Props) => {
   const stripeSession = await stripe.checkout.sessions.create({
     mode: "payment",
     payment_method_types: ["card"],

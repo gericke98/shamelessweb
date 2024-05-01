@@ -2,18 +2,10 @@
 import Image from "next/image";
 import { motion, MotionConfig } from "framer-motion";
 import Link from "next/link";
-
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  collectionId: string[];
-  frontImageSrc: string;
-  backImageSrc: string;
-};
+import { products } from "@/db/schema";
 
 type Props = {
-  product: Product;
+  product: typeof products.$inferSelect;
 };
 
 export const Card = ({ product }: Props) => {
