@@ -1,5 +1,7 @@
+import { products, variants } from "@/db/schema";
+
 export type CartItem = {
-  id: string;
+  id: number;
   name: string;
   price: number;
   quantity: number;
@@ -16,4 +18,8 @@ export type CartContextType = {
   clearItemFromCart: (product: CartItem) => void;
   cartCount: number;
   cartTotal: number;
+};
+
+export type ProductType = typeof products.$inferSelect & {
+  variants: (typeof variants.$inferSelect)[];
 };

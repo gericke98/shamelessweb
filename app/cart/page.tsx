@@ -15,7 +15,7 @@ import {
 import Image from "next/image";
 import { CartItem } from "@/types";
 import { Button } from "@/components/ui/button";
-import { createStripeUrl2 } from "@/actions/payments";
+import { createStripeUrl } from "@/actions/payments";
 import { toast } from "sonner";
 
 const CartPage = () => {
@@ -45,7 +45,7 @@ const CartPage = () => {
 
   const onPay = () => {
     startTransition(() => {
-      createStripeUrl2(cartItems)
+      createStripeUrl(cartItems)
         .then((res) => {
           if (res.data) {
             window.location.href = res.data;
@@ -55,7 +55,7 @@ const CartPage = () => {
     });
   };
   return (
-    <div className="lg:m-24 m-2 ">
+    <div className="lg:m-24 m-15">
       <Table>
         <TableHeader>
           <TableRow>
@@ -67,14 +67,14 @@ const CartPage = () => {
         </TableHeader>
         <TableBody>
           {cartItems.map((item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item.id + item.variant}>
               <TableCell className="flex flex-row w-full flex-start items-top mb-5 gap-4 mt-5 ">
                 <Image
                   src={item.imageSrc}
                   width="0"
                   height="0"
                   alt={item.name}
-                  sizes="33vw"
+                  sizes="15vw"
                   className="h-auto w-auto lg:block hidden"
                 />
                 <div className="flex flex-col flex-start gap-2">
@@ -84,19 +84,19 @@ const CartPage = () => {
                   </span>
                 </div>
               </TableCell>
-              <TableCell className="text-xs">€{item.price}.00</TableCell>
+              <TableCell className="text-md">€{item.price}.00</TableCell>
               <TableCell>
-                <div className="flex flex-row">
+                <div className="flex flex-row items-center justify-center">
                   <Image
                     src={leftArrow}
                     width={0}
                     height={0}
-                    sizes="33vw"
+                    sizes="10vw"
                     alt="left arrow"
-                    className="cursor-pointer h-auto w-[4vw]"
+                    className="cursor-pointer h-auto lg:w-[1.5vw] w-[3vw]"
                     onClick={() => removeItemFromCart(item)}
                   />
-                  <div className="flex flex-col flex-start gap-2 text-xs">
+                  <div className="flex flex-col flex-start gap-2 lg:text-lg text-xs">
                     {item.quantity}
                   </div>
                   <Image
@@ -104,9 +104,9 @@ const CartPage = () => {
                     width={0}
                     height={0}
                     alt="right arrow"
-                    className="cursor-pointer h-auto w-[4vw]"
+                    className="cursor-pointer h-auto lg:w-[1.5vw] w-[3vw]"
                     onClick={() => addItemCart(item)}
-                    sizes="33vw"
+                    sizes="10vw"
                   />
                 </div>
               </TableCell>

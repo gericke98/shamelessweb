@@ -5,7 +5,6 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import DoneIcon from "../public/done.svg";
 import CloseIcon from "../public/close.svg";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 
 const CartDropdown = () => {
@@ -33,7 +32,9 @@ const CartDropdown = () => {
       </div>
       <div className="flex flex-col overflow-auto p-4">
         {cartItems.length ? (
-          cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)
+          cartItems.map((item) => (
+            <CartItem key={item.id + item.variant} cartItem={item} />
+          ))
         ) : (
           <p>Your cart is empty</p>
         )}

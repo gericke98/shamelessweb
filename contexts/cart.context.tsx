@@ -1,4 +1,5 @@
 "use client";
+import { products } from "@/db/schema";
 import { CartContextType, CartItem } from "@/types";
 import { createContext, useState, useEffect } from "react";
 

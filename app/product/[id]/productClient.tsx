@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/carousel";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CartContext } from "@/contexts/cart.context";
-import { products } from "@/db/schema";
 import { cn } from "@/lib/utils";
+import { ProductType } from "@/types";
 import Image from "next/image";
 import { useContext, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 type Props = {
-  product: typeof products.$inferSelect;
+  product: ProductType;
 };
 
 export const ProductClientPage = ({ product }: Props) => {
@@ -26,11 +26,12 @@ export const ProductClientPage = ({ product }: Props) => {
   const stockActive = product.variants.filter(
     (variant) => variant.name === activeVariant
   )[0].stock;
+
   const { addItemToCart, isCartOpen } = useContext(CartContext);
   const addProductToCart = () => {
     if (stockActive > 0) {
       addItemToCart({
-        id: String(product.id),
+        id: product.id,
         name: product.name,
         price: product.price,
         variant: activeVariant,
@@ -44,7 +45,16 @@ export const ProductClientPage = ({ product }: Props) => {
   //Payment
   const onPay = () => {
     startTransition(() => {
-      createStripeUrl(product)
+      createStripeUrl([
+        {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          quantity: 1,
+          variant: activeVariant,
+          imageSrc: product.frontImageSrc,
+        },
+      ])
         .then((res) => {
           if (res.data) {
             window.location.href = res.data;
@@ -177,7 +187,7 @@ export const ProductClientPage = ({ product }: Props) => {
               </Button>
             </div>
           ) : (
-            <div className="mt-16 flex flex-col w-[25vw] gap-2">
+            <div className="mt-16 flex flex-col w-[90vw] gap-2">
               <Button variant="default2" size="xlg" disabled>
                 OUT OF STOCK
               </Button>

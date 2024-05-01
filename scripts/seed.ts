@@ -245,7 +245,7 @@ const main = async () => {
       {
         productId: 6,
         name: "MEDIUM",
-        stock: 5,
+        stock: 0,
       },
       {
         productId: 6,
@@ -255,7 +255,7 @@ const main = async () => {
       {
         productId: 6,
         name: "X-LARGE",
-        stock: 5,
+        stock: 4,
       },
       {
         productId: 7,
