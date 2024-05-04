@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const ProductClientPage = ({ product }: Props) => {
-  const [activeVariant, setVariant] = useState("SMALL");
+  const [activeVariant, setVariant] = useState<string>("SMALL");
 
   const stockActive = product.variants.filter(
     (variant) => variant.name === activeVariant

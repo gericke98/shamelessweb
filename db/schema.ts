@@ -50,11 +50,11 @@ export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   total: integer("total").notNull(),
-  stock: integer("stock").notNull(),
 });
 
 export const productOrders = pgTable("productOrders", {
   id: serial("id").primaryKey(),
   orderId: text("orderId").notNull(),
   productId: text("productId").notNull(),
+  quantity: integer("quantity").notNull(),
 });

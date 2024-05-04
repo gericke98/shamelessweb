@@ -7,6 +7,13 @@ import { CartItem } from "@/types";
 const returnUrl = absoluteUrl("/");
 
 export const createStripeUrl = async (cartProducts: CartItem[]) => {
+  const serializedProducts = JSON.stringify(
+    cartProducts.map((product) => ({
+      id: product.id,
+      variant: product.variant,
+      quantity: product.quantity,
+    }))
+  );
   const stripeSession = await stripe.checkout.sessions.create({
     mode: "payment",
     payment_method_types: ["card"],
@@ -29,6 +36,9 @@ export const createStripeUrl = async (cartProducts: CartItem[]) => {
         },
       };
     }),
+    metadata: {
+      products: serializedProducts,
+    },
     success_url: returnUrl,
     cancel_url: returnUrl,
   });
