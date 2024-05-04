@@ -41,7 +41,7 @@ const CartItem = ({ cartItem }: { cartItem: CartItemType }) => {
     });
   };
   return (
-    <div className="flex flex-col w-full h-full mb-2">
+    <div className="flex flex-col w-full h-full mb-6">
       <div className="flex flex-row w-full flex-start items-top mb-5 gap-4 mt-5">
         <Image
           src={cartItem.imageSrc}
