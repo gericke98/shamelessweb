@@ -39,26 +39,19 @@ export async function POST(req: Request) {
         async (product: { id: number; variant: string; quantity: number }) => {
           const variant = await getVariant(product.id, product.variant);
           if (variant && variant.stock >= product.quantity) {
+            // Actualizo el stock
             await db
               .update(variants)
               .set({ stock: variant.stock - product.quantity })
               .where(eq(variants.id, variant.id));
+            //Creo el pedido en la tabla de orders
           }
         }
       );
       revalidatePath("/", "layout");
     } catch (e) {
-      console.error(e);
+      throw new Error("Not able to update database");
     }
-
-    // await db.update(variants).set({}).where(eq("1", "1"));
-    // await db.insert(userSubscription).values({
-    //   userId: session.metadata.userId,
-    //   stripeSubscriptionId: subscription.id,
-    //   stripeCustomerId: subscription.customer as string,
-    //   stripePriceId: subscription.items.data[0].price.id,
-    //   stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
-    // });
   }
   return new NextResponse(null, { status: 200 });
 }
