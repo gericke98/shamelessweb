@@ -338,6 +338,134 @@ const main = async () => {
         stock: 5,
       },
     ]);
+
+    await db.insert(schema.shipping).values([
+      {
+        id: 1,
+        name: "Spain",
+        cost: 0,
+      },
+      {
+        id: 2,
+        name: "Andorra",
+        cost: 0,
+      },
+      {
+        id: 3,
+        name: "Austria",
+        cost: 0,
+      },
+      {
+        id: 4,
+        name: "Belgium",
+        cost: 0,
+      },
+      {
+        id: 5,
+        name: "Bulgaria",
+        cost: 0,
+      },
+      {
+        id: 6,
+        name: "Croatia",
+        cost: 0,
+      },
+      {
+        id: 7,
+        name: "Czechia",
+        cost: 0,
+      },
+      {
+        id: 8,
+        name: "Denmark",
+        cost: 0,
+      },
+      {
+        id: 9,
+        name: "Finland",
+        cost: 0,
+      },
+      {
+        id: 10,
+        name: "France",
+        cost: 0,
+      },
+      {
+        id: 11,
+        name: "Germany",
+        cost: 0,
+      },
+      {
+        id: 12,
+        name: "Greece",
+        cost: 0,
+      },
+      {
+        id: 13,
+        name: "Hungary",
+        cost: 0,
+      },
+      {
+        id: 14,
+        name: "Ireland",
+        cost: 0,
+      },
+      {
+        id: 15,
+        name: "Italy",
+        cost: 0,
+      },
+      {
+        id: 16,
+        name: "Luxembourg",
+        cost: 0,
+      },
+      {
+        id: 17,
+        name: "Malta",
+        cost: 0,
+      },
+      {
+        id: 18,
+        name: "Netherlands",
+        cost: 0,
+      },
+      {
+        id: 19,
+        name: "Norway",
+        cost: 0,
+      },
+      {
+        id: 20,
+        name: "Poland",
+        cost: 0,
+      },
+      {
+        id: 21,
+        name: "Portugal",
+        cost: 0,
+      },
+      {
+        id: 22,
+        name: "Romania",
+        cost: 0,
+      },
+      {
+        id: 23,
+        name: "Serbia",
+        cost: 0,
+      },
+      {
+        id: 24,
+        name: "Sweden",
+        cost: 0,
+      },
+      {
+        id: 25,
+        name: "Switzerland",
+        cost: 0,
+      },
+    ]);
     console.log("Seeding finished!!!!!");
   } catch (error) {
     console.error(error);

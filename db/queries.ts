@@ -1,7 +1,7 @@
 import { cache } from "react";
 import db from "./drizzle";
-import { and, eq } from "drizzle-orm";
-import { products, variants } from "./schema";
+import { and, asc, eq } from "drizzle-orm";
+import { products, shipping, variants } from "./schema";
 
 export const getCollections = cache(async () => {
   const data = await db.query.collections.findMany({
@@ -17,8 +17,17 @@ export const getProduct = cache(async (id: string) => {
   const data = await db.query.products.findMany({
     where: eq(products.id, idnumber),
     with: {
-      variants: true,
+      variants: {
+        orderBy: [asc(variants.id)],
+      },
     },
+  });
+  return data;
+});
+
+export const getShipping = cache(async () => {
+  const data = await db.query.shipping.findMany({
+    orderBy: [asc(shipping.id)],
   });
   return data;
 });

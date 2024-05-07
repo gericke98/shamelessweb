@@ -13,6 +13,7 @@ import { CartContext } from "@/contexts/cart.context";
 import { cn } from "@/lib/utils";
 import { ProductType } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 import { useContext, useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -113,10 +114,16 @@ export const ProductClientPage = ({ product }: Props) => {
             <Button variant="default2" size="xlg" onClick={addProductToCart}>
               ADD TO CART
             </Button>
-
-            <Button variant="secondary" size="xlg" onClick={onPay}>
-              BUY NOW
-            </Button>
+            <Link href="/checkout" className="w-full">
+              <Button
+                variant="secondary"
+                size="xlg"
+                onClick={() => {}}
+                className="w-full"
+              >
+                BUY NOW
+              </Button>
+            </Link>
           </div>
         ) : (
           <div className="mt-16 flex flex-col w-[25vw] gap-2">

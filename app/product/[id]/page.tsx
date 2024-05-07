@@ -9,7 +9,6 @@ type Props = {
 
 const ProductPage = async ({ params }: Props) => {
   const product = await getProduct(params.id);
-
   return <ProductClientPage product={product[0]} />;
 };
 

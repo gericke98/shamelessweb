@@ -58,3 +58,9 @@ export const productOrders = pgTable("productOrders", {
   productId: text("productId").notNull(),
   quantity: integer("quantity").notNull(),
 });
+
+export const shipping = pgTable("shipping", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  cost: integer("cost").notNull(),
+});
