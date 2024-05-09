@@ -28,9 +28,25 @@ export const ProductClientPage = ({ product }: Props) => {
     (variant) => variant.name === activeVariant
   )[0].stock;
 
-  const { addItemToCart, isCartOpen } = useContext(CartContext);
+  const { addItemToCart, isCartOpen, cartItems } = useContext(CartContext);
   const addProductToCart = () => {
-    if (stockActive > 0) {
+    // Reviso si existe stock suficiente de ese producto
+    const existingCartItem = cartItems.find(
+      (cartItem) =>
+        cartItem.id === product.id && cartItem.variant === activeVariant
+    );
+    if (existingCartItem) {
+      if (existingCartItem.quantity < stockActive) {
+        addItemToCart({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          variant: activeVariant,
+          quantity: 0,
+          imageSrc: product.frontImageSrc,
+        });
+      }
+    } else if (stockActive > 0) {
       addItemToCart({
         id: product.id,
         name: product.name,
@@ -39,6 +55,8 @@ export const ProductClientPage = ({ product }: Props) => {
         quantity: 0,
         imageSrc: product.frontImageSrc,
       });
+    } else {
+      toast.error("No more products available at this moment");
     }
   };
   const [pending, startTransition] = useTransition();
@@ -85,23 +103,34 @@ export const ProductClientPage = ({ product }: Props) => {
           height={1000}
         />
       </ScrollArea>
-      <div className="hidden lg:block w-[35vw] overflow-hidden h-full ml-10 pl-10 pr-10">
+      <div className="hidden lg:block w-[35vw] overflow-hidden h-full pl-10 pr-10">
         <h1 className="text-3xl pt-10">{product.name}</h1>
         <h3 className="text-xl pt-5">{product.price}.00 €</h3>
-        <p className="mt-1">Impuestos incluidos</p>
+        <p className="mt-1">Taxes included</p>
 
         <div className="pr-4 mt-10 ">
           <p className="text-lg">{product.description}</p>
+          <p className="mt-14 text-lg">Model (man) wearing size L - 188 cm</p>
+          <p className="mt-8 text-lg">Model (woman) wearing size S - 170 cm</p>
         </div>
 
-        <h5 className="mt-10 font-bold text-lg">Talla</h5>
-        <div className="flex flex-row gap-8 mt-2">
+        <h4 className="mt-10 font-bold text-lg">Sizes</h4>
+        <div className="flex flex-row gap-8 mt-2 border-t-2 pt-6 pb-6 border-b-2 justify-between px-4">
           {product.variants.map((variant) => (
             <p
               key={variant.id}
               className={cn(
                 "cursor-pointer text-md uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300",
-                variant.name === activeVariant && "border-b-current"
+                {
+                  "border-b-current": variant.name === activeVariant,
+                  "line-through text-slate-300":
+                    variant.stock < 1 ||
+                    (cartItems.find(
+                      (cartItem) =>
+                        cartItem.id === product.id &&
+                        cartItem.variant === variant.name
+                    )?.quantity ?? 0) >= variant.stock,
+                }
               )}
               onClick={() => setVariant(variant.name)}
             >
@@ -109,8 +138,12 @@ export const ProductClientPage = ({ product }: Props) => {
             </p>
           ))}
         </div>
-        {stockActive > 0 ? (
-          <div className="mt-16 flex flex-col w-[25vw] gap-2">
+        {stockActive > 0 &&
+        (cartItems.find(
+          (cartItem) =>
+            cartItem.id === product.id && cartItem.variant === activeVariant
+        )?.quantity ?? 0) < stockActive ? (
+          <div className="mt-16 flex flex-col gap-2">
             <Button variant="default2" size="xlg" onClick={addProductToCart}>
               ADD TO CART
             </Button>
@@ -118,7 +151,7 @@ export const ProductClientPage = ({ product }: Props) => {
               <Button
                 variant="secondary"
                 size="xlg"
-                onClick={() => {}}
+                onClick={addProductToCart}
                 className="w-full"
               >
                 BUY NOW
@@ -126,7 +159,7 @@ export const ProductClientPage = ({ product }: Props) => {
             </Link>
           </div>
         ) : (
-          <div className="mt-16 flex flex-col w-[25vw] gap-2">
+          <div className="mt-16 flex flex-col gap-2">
             <Button variant="default2" size="xlg" disabled>
               OUT OF STOCK
             </Button>
@@ -175,7 +208,16 @@ export const ProductClientPage = ({ product }: Props) => {
                 key={variant.id}
                 className={cn(
                   "cursor-pointer text-md uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300",
-                  variant.name === activeVariant && "border-b-current"
+                  {
+                    "border-b-current": variant.name === activeVariant,
+                    "line-through text-slate-300":
+                      variant.stock < 1 ||
+                      (cartItems.find(
+                        (cartItem) =>
+                          cartItem.id === product.id &&
+                          cartItem.variant === variant.name
+                      )?.quantity ?? 0) >= variant.stock,
+                  }
                 )}
                 onClick={() => setVariant(variant.name)}
               >
@@ -183,7 +225,11 @@ export const ProductClientPage = ({ product }: Props) => {
               </p>
             ))}
           </div>
-          {stockActive > 0 ? (
+          {stockActive > 0 &&
+          (cartItems.find(
+            (cartItem) =>
+              cartItem.id === product.id && cartItem.variant === activeVariant
+          )?.quantity ?? 0) < stockActive ? (
             <div className="mt-16 flex flex-col w-[90vw] gap-2">
               <Button variant="default2" size="xlg" onClick={addProductToCart}>
                 ADD TO CART

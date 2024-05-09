@@ -11,7 +11,7 @@ const MainLayout = ({ children }: Props) => {
       <HeaderComponent />
       <MobileHeader />
       <main className="h-full w-full">
-        <div className=" mx-auto h-full">{children}</div>
+        <div className="mx-auto h-full mt-14">{children}</div>
       </main>
     </>
   );

@@ -1,5 +1,4 @@
 "use client";
-import { products } from "@/db/schema";
 import { CartContextType, CartItem } from "@/types";
 import { createContext, useState, useEffect } from "react";
 
@@ -11,6 +10,7 @@ const addCartItem = (cartItems: CartItem[], productToAdd: CartItem) => {
     variant: productToAdd.variant,
     imageSrc: productToAdd.imageSrc,
   };
+
   const existingCartItem = cartItems.find(
     (cartItem) =>
       cartItem.id === productToAdd.id &&

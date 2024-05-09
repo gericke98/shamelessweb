@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import CartIcon from "../public/cart.svg";
 import CartDropdown from "./cartDropdown";
@@ -21,9 +21,34 @@ const links = [
 export const HeaderComponent = () => {
   const pathname = usePathname();
   const { cartCount, isCartOpen, setIsCartOpen } = useContext(CartContext);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [headerVisible, setHeaderVisible] = useState(true);
   const toggleIsCartOpen = () => setIsCartOpen(!isCartOpen);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < lastScrollY) {
+        setHeaderVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        setHeaderVisible(false);
+      }
+      setLastScrollY(currentScrollY);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
   return (
-    <div className="hidden lg:flex items-center justify-center gap-2 bg-white h-[80px]">
+    <div
+      className={cn(
+        "fixed top-0 w-full z-10 bg-white transition-transform duration-300",
+        headerVisible ? "transform-none" : "-translate-y-full",
+        "hidden lg:flex items-center justify-center gap-2 h-14 px-3 border-b-2 border-slate-900"
+      )}
+    >
       <div className="flex-1 p-5 items-center justify-center">
         <Link href="/">
           <Image
@@ -32,7 +57,7 @@ export const HeaderComponent = () => {
             height={0}
             sizes="33vw"
             alt="Logo"
-            className="cursor-pointer w-[8vw] h-auto"
+            className="cursor-pointer w-[6vw] h-auto"
           />
         </Link>
       </div>
@@ -42,7 +67,7 @@ export const HeaderComponent = () => {
             key={link.name}
             href="/"
             className={cn(
-              "cursor-pointer text-md tracking-wide uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300",
+              "cursor-pointer text-md tracking-wide uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300 sm:text-sm md:text-md",
               pathname === link.path && "border-b-current"
             )}
             passHref
@@ -56,11 +81,11 @@ export const HeaderComponent = () => {
           <Image
             onClick={toggleIsCartOpen}
             src={CartIcon}
-            height={30}
-            width={30}
+            height={25}
+            width={25}
             alt="Cart icon"
           />
-          <h2 className="">{cartCount}</h2>
+          <h2 className="text-sm">{cartCount}</h2>
         </div>
       </div>
       {isCartOpen && <CartDropdown />}
