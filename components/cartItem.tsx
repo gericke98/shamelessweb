@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import leftArrow from "../public/left.svg";
 import rightArrow from "../public/right.svg";
 import { CartContext } from "@/contexts/cart.context";
+import { toast } from "sonner";
 
 const CartItem = ({ cartItem }: { cartItem: CartItemType }) => {
   const { addItemToCart, removeItemToCart, clearItemFromCart } =
@@ -16,18 +17,24 @@ const CartItem = ({ cartItem }: { cartItem: CartItemType }) => {
       variant: cartItem.variant,
       quantity: 0,
       imageSrc: cartItem.imageSrc,
+      maxstock: cartItem.maxstock,
     });
   };
 
   const addItemCart = () => {
-    addItemToCart({
-      id: cartItem.id,
-      name: cartItem.name,
-      price: cartItem.price,
-      variant: cartItem.variant,
-      quantity: 0,
-      imageSrc: cartItem.imageSrc,
-    });
+    try {
+      addItemToCart({
+        id: cartItem.id,
+        name: cartItem.name,
+        price: cartItem.price,
+        variant: cartItem.variant,
+        quantity: 0,
+        imageSrc: cartItem.imageSrc,
+        maxstock: cartItem.maxstock,
+      });
+    } catch (e) {
+      toast.error("No more stock available");
+    }
   };
 
   const removeItem = () => {
@@ -38,6 +45,7 @@ const CartItem = ({ cartItem }: { cartItem: CartItemType }) => {
       variant: cartItem.variant,
       quantity: 0,
       imageSrc: cartItem.imageSrc,
+      maxstock: cartItem.maxstock,
     });
   };
   return (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Eczar } from "next/font/google";
 import { CartProvider } from "@/contexts/cart.context";
+import { Toaster } from "@/components/ui/sonner";
 
 const eczar = Eczar({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Toaster />
       <CartProvider>
         <body className={eczar.className}>{children}</body>
       </CartProvider>

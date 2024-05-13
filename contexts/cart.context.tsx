@@ -9,6 +9,7 @@ const addCartItem = (cartItems: CartItem[], productToAdd: CartItem) => {
     price: productToAdd.price,
     variant: productToAdd.variant,
     imageSrc: productToAdd.imageSrc,
+    maxstock: productToAdd.maxstock,
   };
 
   const existingCartItem = cartItems.find(
@@ -18,12 +19,16 @@ const addCartItem = (cartItems: CartItem[], productToAdd: CartItem) => {
   );
 
   if (existingCartItem) {
-    return cartItems.map((cartItem) =>
-      cartItem.id === productToAdd.id &&
-      cartItem.variant === productToAdd.variant
-        ? { ...cartItem, quantity: cartItem.quantity + 1 }
-        : cartItem
-    );
+    if (existingCartItem.quantity < productToAdd.maxstock) {
+      return cartItems.map((cartItem) =>
+        cartItem.id === productToAdd.id &&
+        cartItem.variant === productToAdd.variant
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem
+      );
+    } else {
+      throw new Error("No more stock available");
+    }
   }
   return [...cartItems, { ...newProduct, quantity: 1 }];
 };
@@ -101,7 +106,13 @@ export const CartProvider = ({
   }, [cartItems]);
 
   const addItemToCart = (productToAdd: CartItem) => {
-    setCartItems(addCartItem(cartItems, productToAdd));
+    try {
+      setCartItems(addCartItem(cartItems, productToAdd));
+      setIsCartOpen(true);
+    } catch (e) {
+      console.log("entro en context");
+      throw new Error("No more stock available");
+    }
   };
 
   const removeItemToCart = (cartItemToRemove: CartItem) => {

@@ -14,12 +14,12 @@ export const CategoryList = async () => {
           return (
             <div
               key={idx}
-              className="flex flex-col w-full lg:p-10 p-4 items-center justify-center"
+              className="flex flex-col w-full items-center justify-center mt-16"
             >
               <h2 className="font-bold text-center mb-10 text-2xl">
                 {category.name.toUpperCase()}
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full lg:p-8 p-4">
                 {category.products.map((product, idx) => (
                   <Card key={idx} product={product} />
                 ))}

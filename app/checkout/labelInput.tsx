@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
+import { debounce } from "./validation";
 
 const FloatingLabelInput = ({
   name,
@@ -11,7 +12,29 @@ const FloatingLabelInput = ({
   placeholder: string;
   type: string;
 }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const validateInput = debounce((inputValue: string) => {
+    let isValid = true;
+    if (type === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      isValid = emailRegex.test(inputValue);
+    } else if (type === "number") {
+      const number = parseInt(inputValue, 10);
+      isValid = !isNaN(number) && number >= 1 && number <= 100;
+    }
+    if (!isValid) {
+      setError("Invalid input, please check your data."); // Set an error message
+    } else {
+      setError(""); // Clear error message when input is valid
+    }
+  }, 500); // Delay of 500ms
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setValue(value);
+    validateInput(value);
+  };
 
   return (
     <div className="w-full relative">
@@ -24,7 +47,7 @@ const FloatingLabelInput = ({
         )}
         placeholder={placeholder}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleChange}
         required
       />
       <label
@@ -37,6 +60,7 @@ const FloatingLabelInput = ({
       >
         {placeholder}
       </label>
+      {error && <p className="text-red-500 text-xs italic">{error}</p>}
     </div>
   );
 };

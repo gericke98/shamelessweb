@@ -57,7 +57,7 @@ export const HeaderComponent = () => {
             height={0}
             sizes="33vw"
             alt="Logo"
-            className="cursor-pointer w-[6vw] h-auto"
+            className="cursor-pointer w-[6vw] h-auto max-w-28"
           />
         </Link>
       </div>

@@ -37,14 +37,20 @@ export const ProductClientPage = ({ product }: Props) => {
     );
     if (existingCartItem) {
       if (existingCartItem.quantity < stockActive) {
-        addItemToCart({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          variant: activeVariant,
-          quantity: 0,
-          imageSrc: product.frontImageSrc,
-        });
+        try {
+          addItemToCart({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            variant: activeVariant,
+            quantity: 0,
+            imageSrc: product.frontImageSrc,
+            maxstock: stockActive,
+          });
+        } catch (error) {
+          console.error("Caught error:", error);
+          toast.error("No more products available at this moment");
+        }
       }
     } else if (stockActive > 0) {
       addItemToCart({
@@ -54,6 +60,7 @@ export const ProductClientPage = ({ product }: Props) => {
         variant: activeVariant,
         quantity: 0,
         imageSrc: product.frontImageSrc,
+        maxstock: stockActive,
       });
     } else {
       toast.error("No more products available at this moment");
@@ -61,19 +68,9 @@ export const ProductClientPage = ({ product }: Props) => {
   };
   const [pending, startTransition] = useTransition();
 
-  //Payment
   const onPay = () => {
     startTransition(() => {
-      createStripeUrl([
-        {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          quantity: 1,
-          variant: activeVariant,
-          imageSrc: product.frontImageSrc,
-        },
-      ])
+      createStripeUrl(cartItems)
         .then((res) => {
           if (res.data) {
             window.location.href = res.data;
@@ -234,7 +231,6 @@ export const ProductClientPage = ({ product }: Props) => {
               <Button variant="default2" size="xlg" onClick={addProductToCart}>
                 ADD TO CART
               </Button>
-
               <Button variant="secondary" size="xlg" onClick={onPay}>
                 BUY NOW
               </Button>

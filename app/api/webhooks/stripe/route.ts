@@ -5,10 +5,10 @@ import { stripe } from "@/lib/stripe";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   // Extraigo el body
   const body = await req.text();
   const signature = headers().get("Stripe-Signature") as string;
@@ -33,8 +33,8 @@ export async function POST(req: Request) {
     }
     const products = JSON.parse(session.metadata.products);
 
-    //Update the stock of each product
     try {
+      //Update the stock of each product
       products.map(
         async (product: { id: number; variant: string; quantity: number }) => {
           const variant = await getVariant(product.id, product.variant);

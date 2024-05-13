@@ -7,6 +7,7 @@ export type CartItem = {
   quantity: number;
   variant: string;
   imageSrc: string;
+  maxstock: number;
 };
 
 export type CartContextType = {

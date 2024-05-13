@@ -29,6 +29,7 @@ const CartPage = () => {
       variant: cartItem.variant,
       quantity: 0,
       imageSrc: cartItem.imageSrc,
+      maxstock: cartItem.maxstock,
     });
   };
 
@@ -40,6 +41,7 @@ const CartPage = () => {
       variant: cartItem.variant,
       quantity: 0,
       imageSrc: cartItem.imageSrc,
+      maxstock: cartItem.maxstock,
     });
   };
 

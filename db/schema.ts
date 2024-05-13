@@ -17,6 +17,7 @@ export const products = pgTable("products", {
   }),
   name: text("name").notNull(),
   description: text("description").notNull(),
+  tag: text("tag").notNull(),
   price: integer("price").notNull(),
   frontImageSrc: text("front_image").notNull(),
   backImageSrc: text("back_image").notNull(),
@@ -49,6 +50,13 @@ export const variantsRelations = relations(variants, ({ one }) => ({
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  surname: text("surname").notNull(),
+  address1: text("address1").notNull(),
+  address2: text("address2"),
+  zipcode: text("zip").notNull(),
+  city: text("city").notNull(),
+  number: integer("number").notNull(),
+  email: text("email").notNull(),
   total: integer("total").notNull(),
 });
 

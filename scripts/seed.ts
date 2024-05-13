@@ -13,6 +13,8 @@ const main = async () => {
     await db.delete(schema.products);
     await db.delete(schema.variants);
     await db.delete(schema.collections);
+    await db.delete(schema.shipping);
+    await db.delete(schema.orders);
 
     await db.insert(schema.collections).values([
       {
@@ -40,6 +42,7 @@ const main = async () => {
         name: "WITHOUT SHAME TEE",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "BACK IN STOCK",
         price: 35,
         frontImageSrc: "/wstee-front.jpg",
         backImageSrc: "/wstee-back.jpg",
@@ -50,6 +53,7 @@ const main = async () => {
         name: "LOST GENERATION TEE",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "BACK IN STOCK",
         price: 35,
         frontImageSrc: "/lg-front.jpg",
         backImageSrc: "/lg-back.jpg",
@@ -60,6 +64,7 @@ const main = async () => {
         name: "CIAO AMORE TEE",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "BACK IN STOCK",
         price: 35,
         frontImageSrc: "/ciao-front.jpg",
         backImageSrc: "/ciao-back.jpg",
@@ -70,6 +75,7 @@ const main = async () => {
         name: "TOO LATE LONGSLEEVE TEE",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "BACK IN STOCK",
         price: 39,
         frontImageSrc: "/too-late-front.jpg",
         backImageSrc: "/too-late-back.jpg",
@@ -80,6 +86,7 @@ const main = async () => {
         name: "WORLD TOUR LONGSLEEVE TEE",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "BACK IN STOCK",
         price: 39,
         frontImageSrc: "/world-tour-front.jpg",
         backImageSrc: "/world-tour-back.jpg",
@@ -90,6 +97,7 @@ const main = async () => {
         name: "STARBOY CREWNECK",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "NEW IN",
         price: 59,
         frontImageSrc: "/starboy-front.jpg",
         backImageSrc: "/starboy-back.jpg",
@@ -100,16 +108,18 @@ const main = async () => {
         name: "WITHOUT SHAME SAPPHIRE CREWNECK",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "NEW IN",
         price: 59,
         frontImageSrc: "/ws-front.jpg",
         backImageSrc: "/ws-back.jpg",
       },
       {
         id: 8,
-        categoryId: 1,
+        categoryId: 4,
         name: "ESSENTIAL SAPPHIRE CREWNECK",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "BACK IN STOCK",
         price: 59,
         frontImageSrc: "/essential-front.jpg",
         backImageSrc: "/essential-back.jpg",
@@ -120,6 +130,7 @@ const main = async () => {
         name: "ESSENTIAL WALNUT CREWNECK",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "BACK IN STOCK",
         price: 59,
         frontImageSrc: "/walnut-front.jpg",
         backImageSrc: "/walnut-back.jpg",
@@ -130,6 +141,7 @@ const main = async () => {
         name: "TWO-SIDES ZIPPED HOODIE",
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "NEW IN",
         price: 84,
         frontImageSrc: "/zip-front.jpg",
         backImageSrc: "/zip-back.jpg",
