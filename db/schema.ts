@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { integer, text, pgTable, serial } from "drizzle-orm/pg-core";
+import {
+  integer,
+  text,
+  pgTable,
+  serial,
+  timestamp,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 export const collections = pgTable("collections", {
   id: serial("id").primaryKey(),
@@ -58,6 +65,9 @@ export const orders = pgTable("orders", {
   number: integer("number").notNull(),
   email: text("email").notNull(),
   total: integer("total").notNull(),
+  createdAt: timestamp("created_at"),
+  updatedAt: timestamp("updated_at"),
+  paid: boolean("paid").notNull(),
 });
 
 export const productOrders = pgTable("productOrders", {

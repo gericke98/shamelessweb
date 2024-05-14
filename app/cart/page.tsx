@@ -15,8 +15,8 @@ import {
 import Image from "next/image";
 import { CartItem } from "@/types";
 import { Button } from "@/components/ui/button";
-import { createStripeUrl } from "@/actions/payments";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const CartPage = () => {
   const { cartItems, addItemToCart, removeItemToCart, cartTotal } =
@@ -45,17 +45,6 @@ const CartPage = () => {
     });
   };
 
-  const onPay = () => {
-    startTransition(() => {
-      createStripeUrl(cartItems)
-        .then((res) => {
-          if (res.data) {
-            window.location.href = res.data;
-          }
-        })
-        .catch(() => toast.error("Something went wrong"));
-    });
-  };
   return (
     <div className="lg:m-24 m-15">
       <Table>
@@ -121,9 +110,11 @@ const CartPage = () => {
         <span>Subtotal</span>
         <span>€{cartTotal}.00</span>
       </div>
-      <Button variant="default" size="ancho" onClick={onPay}>
-        CHECKOUT
-      </Button>
+      <Link href="/checkout" className="w-full">
+        <Button variant="secondary" size="xlg" className="w-full">
+          CHECKOUT
+        </Button>
+      </Link>
     </div>
   );
 };

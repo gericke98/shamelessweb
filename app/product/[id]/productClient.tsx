@@ -1,5 +1,4 @@
 "use client";
-import { createStripeUrl } from "@/actions/payments";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -68,17 +67,6 @@ export const ProductClientPage = ({ product }: Props) => {
   };
   const [pending, startTransition] = useTransition();
 
-  const onPay = () => {
-    startTransition(() => {
-      createStripeUrl(cartItems)
-        .then((res) => {
-          if (res.data) {
-            window.location.href = res.data;
-          }
-        })
-        .catch(() => toast.error("Something went wrong"));
-    });
-  };
   return (
     <div
       className={cn(

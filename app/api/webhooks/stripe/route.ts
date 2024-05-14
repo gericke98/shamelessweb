@@ -1,6 +1,6 @@
 import db from "@/db/drizzle";
 import { getVariant } from "@/db/queries";
-import { variants } from "@/db/schema";
+import { orders, variants } from "@/db/schema";
 import { stripe } from "@/lib/stripe";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Products are required", { status: 400 });
     }
     const products = JSON.parse(session.metadata.products);
+    const orderId = JSON.parse(session.metadata.orderId);
 
     try {
       //Update the stock of each product
@@ -48,6 +49,9 @@ export async function POST(req: NextRequest) {
           }
         }
       );
+      //Update the order
+      await db.update(orders).set({ paid: true }).where(eq(orders.id, orderId));
+
       revalidatePath("/", "layout");
     } catch (e) {
       throw new Error("Not able to update database");

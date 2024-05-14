@@ -2,12 +2,10 @@
 import { Progress } from "@/components/ui/progress";
 import FloatingLabelInput from "./labelInput";
 import { shipping } from "@/db/schema";
-import { startTransition, useContext } from "react";
-import { createStripeUrl } from "@/actions/payments";
+import { useContext } from "react";
 import { createOrder } from "@/actions/shippingForm";
 import { Button } from "@/components/ui/button";
 import { CartContext } from "@/contexts/cart.context";
-import { toast } from "sonner";
 
 type shippingInfo = typeof shipping.$inferSelect;
 type Props = {
@@ -17,18 +15,6 @@ type Props = {
 export const CheckoutClient = ({ shipping }: Props) => {
   const { cartItems } = useContext(CartContext);
   const createNewOrder = createOrder.bind(null, cartItems);
-  //Payment
-  const onPay = () => {
-    startTransition(() => {
-      createStripeUrl(cartItems)
-        .then((res) => {
-          if (res.data) {
-            window.location.href = res.data;
-          }
-        })
-        .catch(() => toast.error("Something went wrong"));
-    });
-  };
   return (
     <div className="w-3/4 h-full p-5 mt-20 ml-[15%]">
       <Progress value={50} className="mb-5" />
@@ -98,13 +84,7 @@ export const CheckoutClient = ({ shipping }: Props) => {
           placeholder={"Phone"}
           type={"phone"}
         />
-        <Button
-          variant="secondary"
-          type="submit"
-          size="xlg"
-          className="w-full"
-          onClick={onPay}
-        >
+        <Button variant="secondary" type="submit" size="xlg" className="w-full">
           BUY NOW
         </Button>
       </form>
