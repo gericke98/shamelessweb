@@ -49,8 +49,12 @@ export async function POST(req: NextRequest) {
           }
         }
       );
-      //Update the order
-      await db.update(orders).set({ paid: true }).where(eq(orders.id, orderId));
+      //Update the orders table
+      const currentTime = new Date(); // Current timestamp
+      await db
+        .update(orders)
+        .set({ updatedAt: currentTime, paid: true })
+        .where(eq(orders.id, orderId));
 
       revalidatePath("/", "layout");
     } catch (e) {

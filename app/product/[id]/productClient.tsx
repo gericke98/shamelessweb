@@ -219,9 +219,16 @@ export const ProductClientPage = ({ product }: Props) => {
               <Button variant="default2" size="xlg" onClick={addProductToCart}>
                 ADD TO CART
               </Button>
-              <Button variant="secondary" size="xlg" onClick={onPay}>
-                BUY NOW
-              </Button>
+              <Link href="/checkout" className="w-full">
+                <Button
+                  variant="secondary"
+                  size="xlg"
+                  onClick={addProductToCart}
+                  className="w-full"
+                >
+                  BUY NOW
+                </Button>
+              </Link>
             </div>
           ) : (
             <div className="mt-16 flex flex-col w-[90vw] gap-2">

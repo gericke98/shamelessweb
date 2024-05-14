@@ -9,7 +9,8 @@ const returnUrl = absoluteUrl("/");
 export const createStripeUrl = async (
   cartProducts: CartItem[],
   email: string,
-  order: string
+  order: string,
+  discount: number
 ) => {
   const serializedProducts = JSON.stringify(
     cartProducts.map((product) => ({
@@ -36,7 +37,7 @@ export const createStripeUrl = async (
               cartProduct.variant,
             description: "Shameless",
           },
-          unit_amount: cartProduct.price * 100,
+          unit_amount: Math.round(cartProduct.price * (1 - discount) * 100),
         },
       };
     }),

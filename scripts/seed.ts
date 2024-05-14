@@ -478,6 +478,14 @@ const main = async () => {
         cost: 0,
       },
     ]);
+
+    await db.insert(schema.discounts).values([
+      {
+        id: 1,
+        name: "SHAME20",
+        percentage: 20,
+      },
+    ]);
     console.log("Seeding finished!!!!!");
   } catch (error) {
     console.error(error);

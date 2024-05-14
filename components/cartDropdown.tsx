@@ -45,9 +45,11 @@ const CartDropdown = () => {
             VIEW CART
           </Button>
         </Link>
-        <Button variant="default" size="ancho" onClick={() => {}}>
-          CHECKOUT
-        </Button>
+        <Link href="/checkout">
+          <Button variant="default" size="ancho">
+            CHECKOUT
+          </Button>
+        </Link>
       </div>
     </div>
   ) : (

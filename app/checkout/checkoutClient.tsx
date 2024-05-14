@@ -13,8 +13,13 @@ type Props = {
 };
 
 export const CheckoutClient = ({ shipping }: Props) => {
-  const { cartItems } = useContext(CartContext);
-  const createNewOrder = createOrder.bind(null, cartItems);
+  const { cartItems, cartTotal, discount } = useContext(CartContext);
+  const checkoutparam = {
+    cartitems: cartItems,
+    carttotal: cartTotal,
+    discount: discount,
+  };
+  const createNewOrder = createOrder.bind(null, checkoutparam);
   return (
     <div className="w-3/4 h-full p-5 mt-20 ml-[15%]">
       <Progress value={50} className="mb-5" />

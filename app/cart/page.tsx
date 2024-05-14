@@ -1,6 +1,6 @@
 "use client";
 import { CartContext } from "@/contexts/cart.context";
-import { startTransition, useContext } from "react";
+import { useContext } from "react";
 import leftArrow from "../../public/left.svg";
 import rightArrow from "../../public/right.svg";
 
@@ -19,8 +19,13 @@ import { toast } from "sonner";
 import Link from "next/link";
 
 const CartPage = () => {
-  const { cartItems, addItemToCart, removeItemToCart, cartTotal } =
-    useContext(CartContext);
+  const {
+    cartItems,
+    addItemToCart,
+    removeItemToCart,
+    cartTotal,
+    setIsCartOpen,
+  } = useContext(CartContext);
   const removeItemFromCart = (cartItem: CartItem) => {
     removeItemToCart({
       id: cartItem.id,
@@ -34,15 +39,20 @@ const CartPage = () => {
   };
 
   const addItemCart = (cartItem: CartItem) => {
-    addItemToCart({
-      id: cartItem.id,
-      name: cartItem.name,
-      price: cartItem.price,
-      variant: cartItem.variant,
-      quantity: 0,
-      imageSrc: cartItem.imageSrc,
-      maxstock: cartItem.maxstock,
-    });
+    try {
+      addItemToCart({
+        id: cartItem.id,
+        name: cartItem.name,
+        price: cartItem.price,
+        variant: cartItem.variant,
+        quantity: 0,
+        imageSrc: cartItem.imageSrc,
+        maxstock: cartItem.maxstock,
+      });
+      setIsCartOpen(false);
+    } catch (e) {
+      toast.error("No more stock available");
+    }
   };
 
   return (
@@ -59,14 +69,13 @@ const CartPage = () => {
         <TableBody>
           {cartItems.map((item) => (
             <TableRow key={item.id + item.variant}>
-              <TableCell className="flex flex-row w-full flex-start items-top mb-5 gap-4 mt-5 ">
+              <TableCell className="flex flex-row w-full flex-start items-top mb-5 gap-4 mt-5">
                 <Image
                   src={item.imageSrc}
-                  width="0"
-                  height="0"
+                  width="150"
+                  height="150"
                   alt={item.name}
-                  sizes="15vw"
-                  className="h-auto w-auto lg:block hidden"
+                  className="h-auto w-auto lg:block hidden bg-green-500"
                 />
                 <div className="flex flex-col flex-start gap-2">
                   <span className="lg:text-md text-xs">{item.name}</span>

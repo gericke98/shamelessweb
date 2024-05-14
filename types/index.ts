@@ -17,8 +17,10 @@ export type CartContextType = {
   addItemToCart: (product: CartItem) => void;
   removeItemToCart: (product: CartItem) => void;
   clearItemFromCart: (product: CartItem) => void;
+  updatePrice: (percentage: number) => void;
   cartCount: number;
   cartTotal: number;
+  discount: number;
 };
 
 export type ProductType = typeof products.$inferSelect & {

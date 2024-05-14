@@ -48,6 +48,7 @@ export const variants = pgTable("variants", {
 });
 
 export const variantsRelations = relations(variants, ({ one }) => ({
+  productOrder: one(productOrders),
   product: one(products, {
     fields: [variants.productId],
     references: [products.id],
@@ -69,6 +70,9 @@ export const orders = pgTable("orders", {
   updatedAt: timestamp("updated_at"),
   paid: boolean("paid").notNull(),
 });
+export const orderRelations = relations(orders, ({ many }) => ({
+  products: many(productOrders),
+}));
 
 export const productOrders = pgTable("productOrders", {
   id: serial("id").primaryKey(),
@@ -77,8 +81,25 @@ export const productOrders = pgTable("productOrders", {
   quantity: integer("quantity").notNull(),
 });
 
+export const productOrderRelations = relations(productOrders, ({ one }) => ({
+  order: one(orders, {
+    fields: [productOrders.orderId],
+    references: [orders.id],
+  }),
+  variant: one(variants, {
+    fields: [productOrders.productId],
+    references: [variants.id],
+  }),
+}));
+
 export const shipping = pgTable("shipping", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   cost: integer("cost").notNull(),
+});
+
+export const discounts = pgTable("discounts", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  percentage: integer("percentage").notNull(),
 });
