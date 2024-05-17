@@ -45,3 +45,20 @@ export const getDiscount = cache(async (name: string) => {
   });
   return data;
 });
+
+export const getProducts = cache(async () => {
+  const data = await db.query.products.findMany({
+    with: {
+      variants: {
+        orderBy: [asc(variants.id)],
+      },
+    },
+  });
+  return data;
+});
+
+export const deleteProduct = async (id: number) => {
+  // TO DO: HANDLE DELETE
+  console.log(`Elimino product ${id}`);
+  // await db.delete(products).where(eq(products.id, id));
+};

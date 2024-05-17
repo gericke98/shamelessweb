@@ -19,9 +19,7 @@ export const categoriesRelations = relations(collections, ({ many }) => ({
 
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
-  categoryId: integer("category_id").references(() => collections.id, {
-    onDelete: "cascade",
-  }),
+  categoryId: integer("category_id"),
   name: text("name").notNull(),
   description: text("description").notNull(),
   tag: text("tag").notNull(),

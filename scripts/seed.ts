@@ -15,6 +15,7 @@ const main = async () => {
     await db.delete(schema.collections);
     await db.delete(schema.shipping);
     await db.delete(schema.orders);
+    await db.delete(schema.discounts);
 
     await db.insert(schema.collections).values([
       {
