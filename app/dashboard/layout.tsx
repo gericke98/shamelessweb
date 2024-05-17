@@ -8,7 +8,7 @@ type Props = {
 };
 const LayoutDashboard = ({ children }: Props) => {
   return (
-    <div className="bg-[var(--primary-dark-color)] flex flex-row h-screen w-full">
+    <div className="bg-[var(--primary-dark-color)] flex flex-row h-full w-full">
       <div className="basis-1/5 bg-[var(--primary-soft-color)] p-5 text-white">
         <SideBar />
       </div>

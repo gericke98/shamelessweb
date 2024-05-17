@@ -56,17 +56,17 @@ const menuItems = [
 ];
 export const SideBar = () => {
   return (
-    <div className="sticky top-4">
+    <div className="sticky top-4 h-full">
       <div className="flex items-center gap-5 mb-5">
         <Image
-          src=""
-          alt=""
+          src="/user.png"
+          alt="User"
           width={50}
           height={50}
           className="rounded-[50%] object-cover"
         />
         <div className="flex flex-col">
-          <span className="font-medium">John Joe</span>
+          <span className="font-medium">Santiago Gericke</span>
           <span className="text-xs text-slate-500">Administrator</span>
         </div>
       </div>
