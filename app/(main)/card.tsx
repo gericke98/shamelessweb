@@ -11,10 +11,10 @@ type Props = {
 export const Card = ({ product }: Props) => {
   return (
     <Link href={`/product/${product.id}`}>
-      <div className="w-full h-full mb-5 relative overflow-hidden cursor-pointer">
+      <div className="w-full h-full mb-5 relative overflow-hidden cursor-pointer pt-10">
         <MotionConfig transition={{ duration: 1 }}>
           <motion.div
-            className="relative lg:h-[65vh] h-[30vh] w-auto"
+            className="relative lg:h-[65vh] h-[20vh] w-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -29,7 +29,7 @@ export const Card = ({ product }: Props) => {
                 sizes="33vw"
               />
               <div className="absolute top-0 left-0 bg-white z-200 w-22 h-7 flex items-center justify-center ml-4 mt-3">
-                <h5 className="text-xs">{product.tag}</h5>
+                <h5 className="lg:text-xs text-xxs">{product.tag}</h5>
               </div>
             </div>
             <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-100 opacity-0">
@@ -42,7 +42,7 @@ export const Card = ({ product }: Props) => {
                 sizes="33vw"
               />
             </div>
-            <div className="absolute top-0 left-0 bg-white z-200 w-24 h-7 flex items-center justify-center ml-4 mt-3">
+            <div className="absolute top-0 left-0 bg-white z-200 w-20 lg:w-24 h-5 lg:h-7 flex items-center justify-center lg:ml-4 ml-2 lg:mt-3 mt-2">
               <h5 className="text-xs">{product.tag}</h5>
             </div>
           </motion.div>
