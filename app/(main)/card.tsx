@@ -19,7 +19,7 @@ export const Card = ({ product }: Props) => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-0 opacity-100 pt-10">
+            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-0 opacity-100 pt-14">
               <Image
                 src={product.frontImageSrc}
                 alt={product.name}
@@ -32,7 +32,7 @@ export const Card = ({ product }: Props) => {
                 <h5 className="lg:text-xs text-xxs">{product.tag}</h5>
               </div>
             </div>
-            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-100 opacity-0">
+            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-100 opacity-0 pt-14">
               <Image
                 src={product.backImageSrc}
                 alt={product.name}
@@ -43,7 +43,7 @@ export const Card = ({ product }: Props) => {
               />
             </div>
             <div className="absolute top-0 left-0 bg-white z-200 w-20 lg:w-24 h-5 lg:h-7 flex items-center justify-center lg:ml-4 ml-2 lg:mt-3 mt-2">
-              <h5 className="text-xs">{product.tag}</h5>
+              <h5 className="lg:text-xs text-xxs">{product.tag}</h5>
             </div>
           </motion.div>
         </MotionConfig>
