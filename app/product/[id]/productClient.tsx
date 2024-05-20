@@ -92,13 +92,13 @@ export const ProductClientPage = ({ product }: Props) => {
         <h3 className="text-xl pt-5">{product.price}.00 €</h3>
         <p className="mt-1">Taxes included</p>
 
-        <div className="pr-4 mt-10 ">
+        <div className="pr-4 mt-10">
           <p className="text-md">{product.description}</p>
           <p className="mt-14 text-md">Model (man) wearing size L - 188 cm</p>
           <p className="mt-8 text-md">Model (woman) wearing size S - 170 cm</p>
         </div>
 
-        <h4 className="mt-10 font-bold text-lg">Sizes</h4>
+        <h4 className="mt-10 font-bold text-md">Sizes</h4>
         <div className="flex flex-row gap-8 mt-2 border-t-2 pt-6 pb-6 border-b-2 justify-between px-4">
           {product.variants.map((variant) => (
             <p
