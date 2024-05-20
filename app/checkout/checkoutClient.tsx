@@ -22,7 +22,7 @@ export const CheckoutClient = ({ shipping }: Props) => {
   const createNewOrder = createOrder.bind(null, checkoutparam);
   return (
     <div className="lg:w-3/4 w-full h-full p-5 mt-20 lg:ml-[15%]">
-      <Progress value={50} className="mb-5" />
+      <Progress value={50} className="mb-4" />
       <form
         action={createNewOrder}
         className="flex flex-wrap justify-between gap-3 w-full"
@@ -37,7 +37,7 @@ export const CheckoutClient = ({ shipping }: Props) => {
         <select
           id="Country"
           name="country"
-          className="p-5 w-full bg-transparent border-2 border-[#d6d7d9] rounded-xl"
+          className="p-3 text-sm w-full bg-transparent border-2 border-[#d6d7d9] rounded-xl"
         >
           {shipping.map((country: shippingInfo) => (
             <option key={country.id} value={country.name}>
