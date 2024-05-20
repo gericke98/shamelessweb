@@ -14,7 +14,7 @@ export const Card = ({ product }: Props) => {
       <div className="w-full h-full mb-5 relative overflow-hidden cursor-pointer">
         <MotionConfig transition={{ duration: 1 }}>
           <motion.div
-            className="relative lg:h-[65vh] h-[40vh] w-auto"
+            className="relative lg:h-[65vh] h-[30vh] w-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
