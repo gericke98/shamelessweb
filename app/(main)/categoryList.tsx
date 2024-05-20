@@ -19,7 +19,7 @@ export const CategoryList = async () => {
               <h2 className="font-bold text-center mb-10 text-2xl">
                 {category.name.toUpperCase()}
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full lg:p-8 p-1">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full lg:p-8 p-2">
                 {category.products.map((product, idx) => (
                   <Card key={idx} product={product} />
                 ))}

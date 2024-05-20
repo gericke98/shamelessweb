@@ -14,12 +14,12 @@ export const Card = ({ product }: Props) => {
       <div className="w-full h-full mb-5 relative overflow-hidden cursor-pointer ">
         <MotionConfig transition={{ duration: 1 }}>
           <motion.div
-            className="relative lg:h-[65vh] h-[35vh] w-auto"
+            className="relative lg:h-[65vh] h-[40vh] w-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-0 opacity-100 pt-14">
+            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-0 opacity-100">
               <Image
                 src={product.frontImageSrc}
                 alt={product.name}
@@ -28,11 +28,11 @@ export const Card = ({ product }: Props) => {
                 priority
                 sizes="33vw"
               />
-              <div className="absolute top-0 left-0 bg-white z-200 w-22 h-7 flex items-center justify-center ml-4 mt-3">
+              <div className="absolute top-0 left-0 bg-white z-200 w-20 lg:w-24 h-5 lg:h-7 flex items-center justify-center lg:ml-4 ml-2 lg:mt-3 mt-2">
                 <h5 className="lg:text-xs text-xxs">{product.tag}</h5>
               </div>
             </div>
-            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-100 opacity-0 pt-14">
+            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-100 opacity-0">
               <Image
                 src={product.backImageSrc}
                 alt={product.name}
