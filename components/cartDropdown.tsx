@@ -13,7 +13,7 @@ const CartDropdown = () => {
     setIsCartOpen(false);
   };
   return cartItems.length ? (
-    <div className="absolute lg:w-[440px] w-screen h-[320px] flex flex-col top-12 lg:right-5 right-0 bg-white outline-offset-3 mt-2">
+    <div className="absolute lg:w-[440px] w-screen h-[320px] flex flex-col top-14 lg:right-5 right-0 bg-white outline-offset-3">
       <div className="flex justify-end pr-2 pt-1 cursor-pointer">
         <Image
           src={CloseIcon}
@@ -36,7 +36,7 @@ const CartDropdown = () => {
           <p>Your cart is empty</p>
         )}
       </div>
-      <div className="flex flex-row justify-between mt-4 w-full lg:p-3 p-1 lg:gap-2 gap-1">
+      <div className="flex flex-row justify-between mt-4 w-full lg:p-3 p-2">
         <Link href="/cart">
           <Button variant="default" size="ancho" onClick={goToCart}>
             VIEW CART
