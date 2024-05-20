@@ -93,9 +93,9 @@ export const ProductClientPage = ({ product }: Props) => {
         <p className="mt-1">Taxes included</p>
 
         <div className="pr-4 mt-10 ">
-          <p className="text-lg">{product.description}</p>
-          <p className="mt-14 text-lg">Model (man) wearing size L - 188 cm</p>
-          <p className="mt-8 text-lg">Model (woman) wearing size S - 170 cm</p>
+          <p className="text-md">{product.description}</p>
+          <p className="mt-14 text-md">Model (man) wearing size L - 188 cm</p>
+          <p className="mt-8 text-md">Model (woman) wearing size S - 170 cm</p>
         </div>
 
         <h4 className="mt-10 font-bold text-lg">Sizes</h4>
@@ -104,7 +104,7 @@ export const ProductClientPage = ({ product }: Props) => {
             <p
               key={variant.id}
               className={cn(
-                "cursor-pointer text-md uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300",
+                "cursor-pointer text-sm uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300",
                 {
                   "border-b-current": variant.name === activeVariant,
                   "line-through text-slate-300":
@@ -182,7 +182,11 @@ export const ProductClientPage = ({ product }: Props) => {
           <p className="mt-1 text-sm">Impuestos incluidos</p>
 
           <div className="pr-4 mt-10 ">
-            <p className="lg:text-lg text-md">{product.description}</p>
+            <p className="text-sm">{product.description}</p>
+            <p className="mt-14 text-sm">Model (man) wearing size L - 188 cm</p>
+            <p className="mt-8 text-sm">
+              Model (woman) wearing size S - 170 cm
+            </p>
           </div>
 
           <h5 className="mt-10 font-bold text-lg">Talla</h5>
@@ -191,7 +195,7 @@ export const ProductClientPage = ({ product }: Props) => {
               <p
                 key={variant.id}
                 className={cn(
-                  "cursor-pointer text-md uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300",
+                  "cursor-pointer text-sm uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300",
                   {
                     "border-b-current": variant.name === activeVariant,
                     "line-through text-slate-300":
