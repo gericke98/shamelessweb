@@ -13,7 +13,7 @@ const CartDropdown = () => {
     setIsCartOpen(false);
   };
   return cartItems.length ? (
-    <div className="absolute  lg:w-[440px] w-screen h-[320px] flex flex-col top-14 right-5 bg-white outline-offset-3">
+    <div className="absolute  lg:w-[440px] w-screen h-[320px] flex flex-col top-14 right-5 bg-white outline-offset-3 ">
       <div className="flex justify-end pr-2 pt-1 cursor-pointer">
         <Image
           src={CloseIcon}
@@ -23,11 +23,11 @@ const CartDropdown = () => {
           onClick={() => setIsCartOpen(false)}
         />
       </div>
-      <div className="flex flex-row items-center gap-1 pl-2">
+      <div className="flex flex-row items-center gap-1 pl-2 ">
         <Image src={DoneIcon} height={30} width={30} alt="Done icon" />
         <h3 className="font-thin">Added to cart</h3>
       </div>
-      <div className="flex flex-col overflow-auto p-4">
+      <div className="flex flex-col overflow-auto p-4 bg-red-200">
         {cartItems.length ? (
           cartItems.map((item) => (
             <CartItem key={item.id + item.variant} cartItem={item} />
