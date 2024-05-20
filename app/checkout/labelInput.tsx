@@ -42,8 +42,8 @@ const FloatingLabelInput = ({
         type={type}
         name={name}
         className={cn(
-          "pt-5 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5",
-          value ? "pb-1" : "pb-5"
+          "pt-3 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5 text-sm",
+          value ? "pb-1" : "pb-3"
         )}
         placeholder={placeholder}
         value={value}
