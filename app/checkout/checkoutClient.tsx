@@ -21,19 +21,21 @@ export const CheckoutClient = ({ shipping }: Props) => {
   };
   const createNewOrder = createOrder.bind(null, checkoutparam);
   return (
-    <div className="lg:w-3/4 w-full h-full p-5 mt-20 lg:ml-[15%]">
+    <div className="lg:w-3/4 w-full h-full p-5 lg:mt-20 mt-6 lg:ml-[15%]">
       <Progress value={50} className="mb-4" />
       <form
         action={createNewOrder}
         className="flex flex-wrap justify-between gap-3 w-full"
       >
-        <h1 className="w-full font-bold text-2xl">Contact</h1>
+        <h1 className="w-full font-bold lg:text-2xl text-lg">Contact</h1>
         <FloatingLabelInput
           name={"email"}
           placeholder={"Email"}
           type={"email"}
         />
-        <h1 className="w-full font-bold text-2xl mt-20">Shipping</h1>
+        <h1 className="w-full font-bold lg:mt-20 mt-10 lg:text-2xl text-lg">
+          Shipping
+        </h1>
         <select
           id="Country"
           name="country"
