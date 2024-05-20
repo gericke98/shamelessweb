@@ -13,7 +13,7 @@ const CartDropdown = () => {
     setIsCartOpen(false);
   };
   return cartItems.length ? (
-    <div className="absolute lg:w-[440px] w-screen h-[320px] flex flex-col top-14 lg:right-5 right-0 bg-white outline-offset-3">
+    <div className="absolute lg:w-[440px] w-screen h-[320px] flex flex-col top-14 lg:right-5 right-0 bg-white outline-offset-3 mt-2">
       <div className="flex justify-end pr-2 pt-1 cursor-pointer">
         <Image
           src={CloseIcon}
