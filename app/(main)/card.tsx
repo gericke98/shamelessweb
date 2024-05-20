@@ -11,15 +11,15 @@ type Props = {
 export const Card = ({ product }: Props) => {
   return (
     <Link href={`/product/${product.id}`}>
-      <div className="w-full h-full mb-5 relative overflow-hidden cursor-pointer pt-10">
+      <div className="w-full h-full mb-5 relative overflow-hidden cursor-pointer ">
         <MotionConfig transition={{ duration: 1 }}>
           <motion.div
-            className="relative lg:h-[65vh] h-[20vh] w-auto"
+            className="relative lg:h-[65vh] h-[35vh] w-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-0 opacity-100">
+            <div className="absolute inset-0 transition-opacity duration-500 hover:opacity-0 opacity-100 pt-10">
               <Image
                 src={product.frontImageSrc}
                 alt={product.name}
