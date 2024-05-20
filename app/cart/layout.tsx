@@ -11,7 +11,7 @@ const CartLayout = ({ children }: Props) => {
       <HeaderComponent />
       <MobileHeader />
       <main>
-        <div className=" mx-auto h-full">{children}</div>
+        <div className="mx-auto h-full">{children}</div>
       </main>
     </>
   );

@@ -8,7 +8,7 @@ import { UserRow } from "./userRow";
 const UsersPage = async () => {
   const users = await getUsers();
   return (
-    <div className="bg-[var(--primary-soft-color)] p-5 rounded-sm m-5">
+    <div className="bg-[var(--primary-soft-color)] p-5 rounded-sm m-5 min-h-screen">
       <div className="flex items-center justify-between">
         {/* <Search placeholder="Search for a user" /> */}
         <Link href="/dashboard/users/add">

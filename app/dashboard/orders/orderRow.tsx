@@ -8,9 +8,16 @@ type Props = {
 export const OrderRow = ({ order }: Props) => {
   return (
     <tr>
+      <td className="p-2">#33{order.id}</td>
+      <td className="p-2">
+        {order.createdAt
+          ? order.createdAt.toLocaleString()
+          : new Date().toLocaleString()}
+      </td>
       <td className="p-2">
         {order.client.name} {order.client.surname}
       </td>
+      <td className="p-2">€{order.total / 100}</td>
       <td className="p-2">
         <span
           className={cn(
@@ -22,11 +29,16 @@ export const OrderRow = ({ order }: Props) => {
         </span>
       </td>
       <td className="p-2">
-        {order.createdAt
-          ? order.createdAt.toLocaleString()
-          : new Date().toLocaleString()}
+        <span
+          className={cn(
+            "rounded-sm p-1 text-sm white",
+            order.fulfilled === false ? "bg-[#f7737375]" : "bg-[#afd6ee75]"
+          )}
+        >
+          {order.fulfilled === false ? "Not fulfilled" : "Fulfilled"}
+        </span>
       </td>
-      <td className="p-2">€{order.total / 100}</td>
+      <td className="p-2">{order.products.length} items</td>
     </tr>
   );
 };

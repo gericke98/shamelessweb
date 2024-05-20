@@ -14,7 +14,7 @@ const SingleProductPage = async ({ params }: Props) => {
   const product = await getProduct(params.id);
 
   return (
-    <div className="flex gap-20 mt-5">
+    <div className="flex gap-20 mt-5 ">
       <div className="basis-1/4">
         <div className="w-full h-[450px] relative rounded-sm overflow-hidden bg-[var(--primary-soft-color)] mb-5">
           <Image src={product[0].frontImageSrc} alt={product[0].name} fill />

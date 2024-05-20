@@ -64,8 +64,10 @@ const removeCartItem = (cartItems: CartItem[], cartItemToRemove: CartItem) => {
 const clearCartItem = (cartItems: CartItem[], cartItemToClear: CartItem) =>
   cartItems.filter(
     (cartItem) =>
-      cartItem.id === cartItemToClear.id &&
-      cartItem.variant === cartItemToClear.variant
+      !(
+        cartItem.id === cartItemToClear.id &&
+        cartItem.variant === cartItemToClear.variant
+      )
   );
 
 export const CartContext = createContext<CartContextType>({
@@ -113,7 +115,6 @@ export const CartProvider = ({
       setCartItems(addCartItem(cartItems, productToAdd));
       setIsCartOpen(true);
     } catch (e) {
-      console.log("entro en context");
       throw new Error("No more stock available");
     }
   };

@@ -66,6 +66,7 @@ export const orders = pgTable("orders", {
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
   paid: boolean("paid").notNull(),
+  fulfilled: boolean("fulfilled").notNull(),
 });
 export const orderRelations = relations(orders, ({ one, many }) => ({
   products: many(productOrders),

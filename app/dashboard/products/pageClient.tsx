@@ -33,10 +33,10 @@ export const PageClient = ({ products }: Props) => {
       </div>
       <table className="w-full text-left">
         <thead>
-          <th className="p-2">Title</th>
+          <th className="p-2">Product</th>
           <th className="p-2">Price</th>
           <th className="p-2">Created at</th>
-          <th className="p-2">Stock</th>
+          <th className="p-2">Inventory</th>
           <th className="p-2">Actions</th>
         </thead>
         <tbody>

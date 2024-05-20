@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { ProductType } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useState, useTransition } from "react";
+import { useContext, useState } from "react";
 import { toast } from "sonner";
 
 type Props = {
@@ -65,7 +65,6 @@ export const ProductClientPage = ({ product }: Props) => {
       toast.error("No more products available at this moment");
     }
   };
-  const [pending, startTransition] = useTransition();
 
   return (
     <div

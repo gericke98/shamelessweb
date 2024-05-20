@@ -9,14 +9,11 @@ import Link from "next/link";
 
 const CartDropdown = () => {
   const { cartItems, setIsCartOpen } = useContext(CartContext);
-  if (cartItems.length === 0) {
-    setIsCartOpen(false);
-  }
   const goToCart = () => {
     setIsCartOpen(false);
   };
   return cartItems.length ? (
-    <div className="absolute w-[440px] h-[320px] flex flex-col top-14 right-5  bg-white outline-offset-3">
+    <div className="absolute  lg:w-[440px] w-screen h-[320px] flex flex-col top-14 right-5 bg-white outline-offset-3">
       <div className="flex justify-end pr-2 pt-1 cursor-pointer">
         <Image
           src={CloseIcon}
@@ -53,8 +50,8 @@ const CartDropdown = () => {
       </div>
     </div>
   ) : (
-    <div className="absolute w-[440px] h-[320px] flex flex-col top-20 right-5  bg-white outline-offset-3">
-      <p>Your cart is empty</p>
+    <div className="absolute w-[440px] h-[320px] flex flex-col top-14 right-5  bg-white outline-offset-3">
+      <p className="p-2">Your cart is empty</p>
     </div>
   );
 };

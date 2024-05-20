@@ -21,7 +21,7 @@ export const CheckoutClient = ({ shipping }: Props) => {
   };
   const createNewOrder = createOrder.bind(null, checkoutparam);
   return (
-    <div className="w-3/4 h-full p-5 mt-20 ml-[15%]">
+    <div className="lg:w-3/4 w-full h-full p-5 mt-20 lg:ml-[15%]">
       <Progress value={50} className="mb-5" />
       <form
         action={createNewOrder}

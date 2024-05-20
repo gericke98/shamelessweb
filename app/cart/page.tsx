@@ -56,7 +56,7 @@ const CartPage = () => {
   };
 
   return (
-    <div className="lg:m-24 m-15">
+    <div className="lg:m-24 m-14">
       <Table>
         <TableHeader>
           <TableRow>

@@ -68,6 +68,7 @@ export async function createOrder(cartItems: Props, formData: FormData) {
         createdAt: currentTime,
         updatedAt: currentTime,
         paid: false,
+        fulfilled: false,
       })
       .returning();
     // Actualizo también la tabla de los productos del pedido

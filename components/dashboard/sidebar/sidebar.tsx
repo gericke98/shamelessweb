@@ -22,9 +22,9 @@ const menuItems = [
         icon: <MdDashboard />,
       },
       {
-        title: "Users",
-        path: "/dashboard/users",
-        icon: <MdSupervisedUserCircle />,
+        title: "Orders",
+        path: "/dashboard/orders",
+        icon: <MdAttachMoney />,
       },
       {
         title: "Products",
@@ -32,9 +32,9 @@ const menuItems = [
         icon: <MdShoppingBag />,
       },
       {
-        title: "Orders",
-        path: "/dashboard/orders",
-        icon: <MdAttachMoney />,
+        title: "Users",
+        path: "/dashboard/users",
+        icon: <MdSupervisedUserCircle />,
       },
     ],
   },

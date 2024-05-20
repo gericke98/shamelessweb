@@ -8,12 +8,11 @@ type Props = {
 };
 const LayoutDashboard = ({ children }: Props) => {
   return (
-    <div className="bg-[var(--primary-dark-color)] flex flex-row h-full w-full">
+    <div className="bg-[var(--primary-dark-color)] flex flex-row h-full w-full min-h-screen">
       <div className="basis-1/5 bg-[var(--primary-soft-color)] p-5 text-white">
         <SideBar />
       </div>
       <div className="basis-4/5 text-white p-5 h-full w-full ">
-        <NavBar />
         {children}
         <Footer />
       </div>
