@@ -10,11 +10,12 @@ const db = drizzle(sql, { schema });
 const main = async () => {
   try {
     console.log("Seeding database");
+    await db.delete(schema.collections);
     await db.delete(schema.products);
     await db.delete(schema.variants);
-    await db.delete(schema.collections);
-    await db.delete(schema.shipping);
     await db.delete(schema.orders);
+    await db.delete(schema.productOrders);
+    await db.delete(schema.shipping);
     await db.delete(schema.discounts);
 
     await db.insert(schema.collections).values([

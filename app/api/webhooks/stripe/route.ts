@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
             await db
               .update(variants)
               .set({ stock: variant.stock - product.quantity })
-              .where(eq(variants.id, variant.id));
+              .where(eq(variants.id, Number(variant.id)));
             //Creo el pedido en la tabla de orders
           }
         }
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
       await db
         .update(orders)
         .set({ updatedAt: currentTime, paid: true })
-        .where(eq(orders.id, orderId));
+        .where(eq(orders.id, Number(orderId)));
 
       revalidatePath("/", "layout");
     } catch (e) {

@@ -13,7 +13,7 @@ export const getCollections = cache(async () => {
 });
 
 export const getProduct = cache(async (id: string) => {
-  let idnumber = +id;
+  let idnumber = Number(id);
   const data = await db.query.products.findMany({
     where: eq(products.id, idnumber),
     with: {
@@ -54,6 +54,21 @@ export const getProducts = cache(async () => {
       },
     },
   });
+  return data;
+});
+
+export const getOrders = cache(async () => {
+  const data = await db.query.orders.findMany({
+    with: {
+      products: true,
+      client: true,
+    },
+  });
+  return data;
+});
+
+export const getUsers = cache(async () => {
+  const data = await db.query.users.findMany();
   return data;
 });
 

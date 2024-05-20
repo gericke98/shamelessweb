@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/db/drizzle";
-import { orders, productOrders } from "@/db/schema";
+import { orders, productOrders, users } from "@/db/schema";
 import { CartItem } from "@/types";
 import { createStripeUrl } from "./payments";
 import { redirect } from "next/navigation";
@@ -44,17 +44,26 @@ export async function createOrder(cartItems: Props, formData: FormData) {
   const currentTime = new Date(); // Current timestamp
   // Actualizo la informacion de la base de datos
   if (rawFormData) {
+    //Actualizo la tabla de usuarios
+    const user = await db
+      .insert(users)
+      .values({
+        name: rawFormData.name?.toString() || "No information",
+        subscribed: true,
+        surname: rawFormData.sname?.toString() || "No information",
+        address1: rawFormData.address?.toString() || "No information",
+        address2: rawFormData.address2?.toString() || "NA",
+        zipcode: rawFormData.zip?.toString() || "No information",
+        city: rawFormData.city?.toString() || "No information",
+        number: Number(rawFormData.number) || 666666666,
+        email: rawFormData.email?.toString() || "No information",
+      })
+      .returning();
+    let customerId = user[0].id.toString();
     const order = await db
       .insert(orders)
       .values({
-        name: rawFormData.name?.toString() || "No information",
-        surname: rawFormData.sname?.toString(),
-        address1: rawFormData.address?.toString(),
-        address2: rawFormData.address2?.toString() || "NA",
-        zipcode: rawFormData.zip?.toString() || "No information",
-        city: rawFormData.city?.toString(),
-        number: Number(rawFormData.number) || 666666666,
-        email: rawFormData.email?.toString(),
+        clientId: Number(customerId),
         total: Math.round(cartItems.carttotal * 100),
         createdAt: currentTime,
         updatedAt: currentTime,
@@ -65,11 +74,13 @@ export async function createOrder(cartItems: Props, formData: FormData) {
     let orderId = order[0].id.toString();
     cartItems.cartitems.map(async (cartitem: CartItem) => {
       const variant = await getVariant(cartitem.id, cartitem.variant);
-      await db.insert(productOrders).values({
-        orderId: orderId,
-        productId: variant?.id.toString(),
-        quantity: cartitem.quantity,
-      });
+      if (variant) {
+        await db.insert(productOrders).values({
+          orderId: parseInt(orderId, 10) || 1,
+          productId: variant.id,
+          quantity: cartitem.quantity || 0,
+        });
+      }
     });
     let email =
       rawFormData.email?.toString() || "hello@shamelesscollective.com";

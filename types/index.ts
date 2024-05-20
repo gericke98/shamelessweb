@@ -1,4 +1,4 @@
-import { products, variants } from "@/db/schema";
+import { orders, productOrders, products, users, variants } from "@/db/schema";
 
 export type CartItem = {
   id: number;
@@ -26,3 +26,11 @@ export type CartContextType = {
 export type ProductType = typeof products.$inferSelect & {
   variants: (typeof variants.$inferSelect)[];
 };
+
+export type OrderType = typeof orders.$inferSelect & {
+  products: (typeof productOrders.$inferSelect)[];
+} & {
+  client: typeof users.$inferSelect;
+};
+
+export type UserType = typeof users.$inferSelect;

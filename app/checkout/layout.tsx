@@ -19,7 +19,11 @@ const initialState = {
 const CheckoutLayout = ({ children }: Props) => {
   const { cartItems, cartTotal, updatePrice } = useContext(CartContext);
 
-  const [state, formAction] = useActionState(checkDiscount, initialState);
+  // const [state, formAction] = useActionState(checkDiscount, initialState);
+  const state = {
+    name: "",
+    discount: 0,
+  };
   if (state.discount > 0) {
     updatePrice(state.discount);
   }
@@ -43,10 +47,7 @@ const CheckoutLayout = ({ children }: Props) => {
           {cartItems.map((item: CartItem) => (
             <CheckoutCard key={item.id} item={item} />
           ))}
-          <form
-            className="w-2/3 flex flex-row gap-3 items-center"
-            action={formAction}
-          >
+          <form className="w-2/3 flex flex-row gap-3 items-center" action={""}>
             <FloatingLabelInput
               name={"discount"}
               placeholder={"Discount code or gift card"}

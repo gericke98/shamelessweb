@@ -136,11 +136,11 @@ export async function addProduct(formData: FormData) {
       const newdb = await db
         .insert(products)
         .values({
-          categoryId: 2,
-          name: rawFormData.name,
-          description: rawFormData.description,
-          tag: "BACK IN STOCK",
-          price: rawFormData.price,
+          categoryId: 2 || 1,
+          name: rawFormData.name || "No information",
+          description: rawFormData.description || "No information",
+          tag: "BACK IN STOCK" || "BACK IN STOCK",
+          price: rawFormData.price || 0,
           frontImageSrc: "/world-tour-front.jpg",
           backImageSrc: "/world-tour-back.jpg",
         })

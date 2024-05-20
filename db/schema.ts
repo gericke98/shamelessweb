@@ -19,7 +19,11 @@ export const categoriesRelations = relations(collections, ({ many }) => ({
 
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
-  categoryId: integer("category_id"),
+  categoryId: integer("category_id")
+    .references(() => collections.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
   tag: text("tag").notNull(),
@@ -55,27 +59,30 @@ export const variantsRelations = relations(variants, ({ one }) => ({
 
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  surname: text("surname").notNull(),
-  address1: text("address1").notNull(),
-  address2: text("address2"),
-  zipcode: text("zip").notNull(),
-  city: text("city").notNull(),
-  number: integer("number").notNull(),
-  email: text("email").notNull(),
+  clientId: integer("client_id")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
   total: integer("total").notNull(),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
   paid: boolean("paid").notNull(),
 });
-export const orderRelations = relations(orders, ({ many }) => ({
+export const orderRelations = relations(orders, ({ one, many }) => ({
   products: many(productOrders),
+  client: one(users, {
+    fields: [orders.clientId],
+    references: [users.id],
+  }),
 }));
 
 export const productOrders = pgTable("productOrders", {
   id: serial("id").primaryKey(),
-  orderId: text("orderId").notNull(),
-  productId: text("productId").notNull(),
+  orderId: integer("order_id")
+    .references(() => orders.id, { onDelete: "cascade" })
+    .notNull(),
+  productId: integer("product_id")
+    .references(() => variants.id, { onDelete: "cascade" })
+    .notNull(),
   quantity: integer("quantity").notNull(),
 });
 
@@ -101,3 +108,20 @@ export const discounts = pgTable("discounts", {
   name: text("name").notNull(),
   percentage: integer("percentage").notNull(),
 });
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  subscribed: boolean("subscribed").notNull(),
+  surname: text("surname").notNull(),
+  address1: text("address1").notNull(),
+  address2: text("address2"),
+  zipcode: text("zip").notNull(),
+  city: text("city").notNull(),
+  number: integer("number").notNull(),
+  email: text("email").notNull(),
+});
+
+export const usersRelations = relations(users, ({ many }) => ({
+  order: many(orders),
+}));
