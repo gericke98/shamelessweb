@@ -37,31 +37,58 @@ const FloatingLabelInput = ({
   };
 
   return (
-    <div className="w-full relative">
-      <input
-        type={type}
-        name={name}
-        className={cn(
-          "pt-3 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5 text-sm",
-          value ? "pb-1" : "pb-3"
-        )}
-        placeholder={placeholder}
-        value={value}
-        onChange={handleChange}
-        required
-      />
-      <label
-        htmlFor="name"
-        className={
-          value
-            ? "absolute top-2.5 left-4 text-gray-500 transition-all duration-300 ease-in-out -translate-y-1 text-sm"
-            : "hidden"
-        }
-      >
-        {placeholder}
-      </label>
-      {error && <p className="text-red-500 text-xs italic">{error}</p>}
-    </div>
+    <>
+      <div className="w-full lg:relative hidden">
+        <input
+          type={type}
+          name={name}
+          className={cn(
+            "pt-3 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5 text-sm",
+            value ? "pb-1" : "pb-3"
+          )}
+          placeholder={placeholder}
+          value={value}
+          onChange={handleChange}
+          required
+        />
+        <label
+          htmlFor="name"
+          className={
+            value
+              ? "absolute top-2.5 left-4 text-gray-500 transition-all duration-300 ease-in-out -translate-y-1 text-sm"
+              : "hidden"
+          }
+        >
+          {placeholder}
+        </label>
+        {error && <p className="text-red-500 text-xs italic">{error}</p>}
+      </div>
+      <div className="w-full lg:hidden relative">
+        <input
+          type={type}
+          name={name}
+          className={cn(
+            "pt-2 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5 text-xs",
+            value ? "pb-1" : "pb-2"
+          )}
+          placeholder={placeholder}
+          value={value}
+          onChange={handleChange}
+          required
+        />
+        <label
+          htmlFor="name"
+          className={
+            value
+              ? "absolute top-2.5 left-4 text-gray-500 transition-all duration-300 ease-in-out -translate-y-1 text-xs"
+              : "hidden"
+          }
+        >
+          {placeholder}
+        </label>
+        {error && <p className="text-red-500 text-xs italic">{error}</p>}
+      </div>
+    </>
   );
 };
 
