@@ -36,7 +36,7 @@ const CartDropdown = () => {
           <p>Your cart is empty</p>
         )}
       </div>
-      <div className="flex flex-row justify-between mt-4 w-full p-3 gap-2">
+      <div className="flex flex-row justify-between mt-4 w-full lg:p-3 p-2 lg:gap-2 gap-1">
         <Link href="/cart">
           <Button variant="default" size="ancho" onClick={goToCart}>
             VIEW CART

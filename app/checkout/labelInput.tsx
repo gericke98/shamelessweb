@@ -41,25 +41,12 @@ const FloatingLabelInput = ({
       <input
         type={type}
         name={name}
-        className={cn(
-          "lg:pt-3 pt-2 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5 text-sm",
-          value ? "pb-1" : "lg:pb-3 pb-2"
-        )}
+        className="lg:pt-3 pt-2 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5 text-sm lg:pb-3 pb-2"
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
         required
       />
-      <label
-        htmlFor="name"
-        className={
-          value
-            ? "absolute top-2.5 left-4 text-gray-500 transition-all duration-300 ease-in-out -translate-y-1 text-sm"
-            : "hidden"
-        }
-      >
-        {placeholder}
-      </label>
       {error && <p className="text-red-500 text-xs italic">{error}</p>}
     </div>
   );
