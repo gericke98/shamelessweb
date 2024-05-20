@@ -10,7 +10,7 @@ export const Hero = () => {
           src="/heropc.jpg"
           alt="Hero"
           fill
-          style={{ objectFit: "cover", objectPosition: "10% 12%" }}
+          style={{ objectFit: "cover", objectPosition: "7% 12%" }}
           priority
         />
       </div>
