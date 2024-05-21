@@ -13,7 +13,7 @@ export const CategoryList = async () => {
           return (
             <div
               key={idx}
-              className="flex flex-col w-full items-center justify-center mt-16"
+              className="flex flex-col w-full items-center justify-center lg:mt-16 mt-6"
             >
               <h2 className="font-bold text-center mb-10 text-2xl">
                 {category.name.toUpperCase()}
