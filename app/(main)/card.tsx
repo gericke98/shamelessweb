@@ -26,7 +26,7 @@ export const Card = ({ product }: Props) => {
           viewport={{ once: true }}
         >
           <div className="absolute inset-0">
-            <Carousel className="w-full h-full bg-red-200">
+            <Carousel className="w-full h-full">
               <CarouselContent>
                 <CarouselItem className="overflow-hidden">
                   <Link key={product.id} href={`/product/${product.id}`}>
