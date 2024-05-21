@@ -59,7 +59,7 @@ export const Card = ({ product }: Props) => {
           </div>
         </motion.div>
       </MotionConfig>
-      <div>
+      <div className="bg-red-200">
         <h3 className="text-left mt-2 text-sm lg:text-md font-medium">
           {product.name}
         </h3>
