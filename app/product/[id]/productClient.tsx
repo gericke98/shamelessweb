@@ -48,7 +48,7 @@ const SizeSelector = ({
   product,
   cartItems,
 }: SizeSelectorProps) => (
-  <div className="flex flex-row gap-8 mt-2 border-t-2 pt-6 pb-6 border-b-2 justify-between px-4">
+  <div className="flex flex-row gap-5 mt-2 border-t-2 pt-6 pb-6 border-b-2 justify-between px-4">
     {variants.map((variant) => {
       const variantStock = variant.stock;
       const cartItemQuantity =
@@ -85,7 +85,7 @@ const ProductInfo = ({
   cartItems,
   addProductToCart,
 }: ProductInfoProps) => (
-  <div className="overflow-hidden h-full px-10 lg:pt-8 lg:px-20">
+  <div className="overflow-hidden h-full px-5 lg:pt-8 lg:px-20">
     <h1 className="text-3xl pt-10">{product.name}</h1>
     <h3 className="text-xl pt-5">{product.price}.00 €</h3>
     <p className="mt-1">Taxes included</p>
