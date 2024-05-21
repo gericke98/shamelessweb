@@ -17,10 +17,10 @@ type Props = {
 
 export const Card = ({ product }: Props) => {
   return (
-    <div className="w-full h-full mb-5 relative overflow-hidden cursor-pointer">
+    <div className="w-full h-full mb-5 relative cursor-pointer">
       <MotionConfig transition={{ duration: 1 }}>
         <motion.div
-          className="relative lg:h-[75vh] h-[40vh] w-auto overflow-hidden"
+          className="relative lg:h-[75vh] h-[50vh] w-auto overflow-hidden z-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -59,11 +59,11 @@ export const Card = ({ product }: Props) => {
           </div>
         </motion.div>
       </MotionConfig>
-      <div className="bg-red-200">
-        <h3 className="text-left mt-2 text-sm lg:text-md font-medium">
+      <div className="relative z-30 mt-2">
+        <h3 className="text-left mt-2 text-xs lg:text-md font-medium">
           {product.name}
         </h3>
-        <h3 className="text-left mt-0.5 text-sm lg:text-md">
+        <h3 className="text-left mt-0.5 text-xs lg:text-md">
           €{product.price}
         </h3>
       </div>
