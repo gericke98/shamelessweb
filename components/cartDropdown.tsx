@@ -13,21 +13,18 @@ const CartDropdown = () => {
     setIsCartOpen(false);
   };
   return cartItems.length ? (
-    <div className="absolute lg:w-[440px] w-screen h-[320px] flex flex-col top-14 lg:right-5 right-0 bg-white outline-offset-3">
+    <div className="fixed top-0 right-0 z-50 lg:w-1/4  w-full h-full flex flex-col bg-white outline-offset-3 pt-5 px-2 border-2 ">
       <div className="flex justify-end pr-2 pt-1 cursor-pointer">
         <Image
           src={CloseIcon}
-          width={20}
-          height={20}
+          width={30}
+          height={30}
           alt="Close icon"
           onClick={() => setIsCartOpen(false)}
         />
       </div>
-      <div className="flex flex-row items-center gap-1 pl-2 ">
-        <Image src={DoneIcon} height={30} width={30} alt="Done icon" />
-        <h3 className="font-thin">Added to cart</h3>
-      </div>
-      <div className="flex flex-col overflow-auto p-4 ">
+      <h1>YOUR CART</h1>
+      <div className="flex flex-col overflow-auto gap-2 h-3/4">
         {cartItems.length ? (
           cartItems.map((item) => (
             <CartItem key={item.id + item.variant} cartItem={item} />
@@ -36,14 +33,12 @@ const CartDropdown = () => {
           <p>Your cart is empty</p>
         )}
       </div>
+      <div className="text-sm mt-5 border-y-2 py-2 text-center">
+        Buy now and get free shipping
+      </div>
       <div className="flex flex-row justify-between mt-4 w-full lg:p-3 p-2">
-        <Link href="/cart">
-          <Button variant="default" size="ancho" onClick={goToCart}>
-            VIEW CART
-          </Button>
-        </Link>
-        <Link href="/checkout">
-          <Button variant="default" size="ancho">
+        <Link href="/checkout" className="w-full">
+          <Button variant="default" size="ancho" className="w-full">
             CHECKOUT
           </Button>
         </Link>

@@ -27,6 +27,8 @@ export type ProductType = typeof products.$inferSelect & {
   variants: (typeof variants.$inferSelect)[];
 };
 
+export type VariantType = typeof variants.$inferSelect;
+
 export type OrderType = typeof orders.$inferSelect & {
   products: (typeof productOrders.$inferSelect)[];
 } & {

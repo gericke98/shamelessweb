@@ -1,4 +1,3 @@
-import { categories, products } from "@/placeholder";
 import { Card } from "./card";
 import { getCollections } from "@/db/queries";
 

@@ -41,7 +41,7 @@ const FloatingLabelInput = ({
       <input
         type={type}
         name={name}
-        className="lg:pt-3 pt-2 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5 text-sm lg:pb-3 pb-2"
+        className="lg:pt-5 pt-2 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5 text-sm lg:pb-3 pb-2"
         placeholder={placeholder}
         value={value}
         onChange={handleChange}

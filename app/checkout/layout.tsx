@@ -37,21 +37,23 @@ const CheckoutLayout = ({ children }: Props) => {
   return (
     <>
       <div className="hidden w-full h-full lg:flex flex-col items-center">
-        <div className="m-3">
-          <Link href="/">
-            <Image
-              src={"/LOGO_black.png"}
-              width={0}
-              height={0}
-              sizes="33vw"
-              alt="Logo"
-              className="cursor-pointer w-[6vw] h-auto min-w-24"
-            />
-          </Link>
-        </div>
-        <div className="flex flex-row flex-no-wrap w-full h-full">
-          <div className="w-1/2 border-2">{children}</div>
-          <div className="w-1/2 bg-custom-gray flex justify-start pl-20 pt-20 flex-col gap-4 border-2">
+        <div className="flex flex-row flex-no-wrap w-full h-full min-h-screen">
+          <div className="w-1/2 border-t-2">
+            <div className="flex items-center justify-center w-full mt-20">
+              <Link href="/">
+                <Image
+                  src={"/LOGO_black.png"}
+                  width={0}
+                  height={0}
+                  sizes="33vw"
+                  alt="Logo"
+                  className="cursor-pointer w-[10vw] h-auto min-w-24"
+                />
+              </Link>
+            </div>
+            {children}
+          </div>
+          <div className="w-1/2 bg-custom-gray flex justify-start pl-20 pt-20 flex-col gap-4">
             {cartItems.map((item: CartItem) => (
               <CheckoutCard key={item.id} item={item} />
             ))}
@@ -74,25 +76,20 @@ const CheckoutLayout = ({ children }: Props) => {
               </h5>
             )}
 
-            <div className="w-2/3 flex justify-between items-center mt-3">
-              <h2 className="text-md font-regular">Subtotal</h2>
-              <h2 className="text-md font-regular">
-                {" "}
-                {Math.round(cartTotal * 100) / 100} €
-              </h2>
+            <div className="w-2/3 flex justify-between items-center mt-3 border-t-2 pt-3">
+              <h2 className="text-md font-regular ">Subtotal</h2>
+              <h2 className="text-md font-regular">{cartTotal.toFixed(2)} €</h2>
             </div>
-            <div className="w-2/3 flex justify-between items-center -mt-1">
+            <div className="w-2/3 flex justify-between items-center -mt-1 border-b-2 pb-3">
               <h2 className="text-md font-regular">Shipping</h2>
               <h2 className="text-md font-regular">0.00 €</h2>
             </div>
             <div className="w-2/3 flex justify-between items-center mt-4">
               <h2 className="text-lg font-bold">Total</h2>
-              <h2 className="text-lg font-bold">
-                {Math.round(cartTotal * 100) / 100} €
-              </h2>
+              <h2 className="text-lg font-bold">{cartTotal.toFixed(2)} €</h2>
             </div>
             <h3 className="text-md -mt-2 text-gray-500">
-              Including {Math.round(cartTotal * 100 * 0.21) / 100}€ in taxes
+              Including {(cartTotal * 0.21).toFixed(2)}€ in taxes
             </h3>
           </div>
         </div>

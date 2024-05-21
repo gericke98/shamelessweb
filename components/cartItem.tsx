@@ -49,47 +49,51 @@ const CartItem = ({ cartItem }: { cartItem: CartItemType }) => {
     });
   };
   return (
-    <div className="flex flex-col w-full h-full mb-6">
+    <div className="flex flex-col w-full h-full bg-white">
       <div className="flex flex-row w-full flex-start items-top mb-5 gap-4 mt-5">
         <Image
           src={cartItem.imageSrc}
-          width={100}
+          width={150}
           height={150}
           alt={cartItem.name}
         />
-        <div className="flex flex-col flex-start gap-2">
-          <span className="text-md">{cartItem.name}</span>
-          <span className="text-md">
-            {cartItem.quantity} x €{cartItem.price}
-          </span>
-          <span className="text-sm text-slate-400">
-            Size: {cartItem.variant}
-          </span>
-          <div className="flex flex-row gap-2 items-center">
-            <Image
-              src={leftArrow}
-              width={18}
-              height={18}
-              alt="left arrow"
-              className="cursor-pointer"
-              onClick={removeItemFromCart}
-            />
-            {cartItem.quantity}
-            <Image
-              src={rightArrow}
-              width={18}
-              height={18}
-              alt="right arrow"
-              className="cursor-pointer"
-              onClick={addItemCart}
-            />
+        <div className="flex flex-col justify-between gap-2">
+          <div className="flex flex-col">
+            <span className="text-md">{cartItem.name}</span>
+            <span className="text-md">
+              {cartItem.quantity} x €{cartItem.price}
+            </span>
+            <span className="text-sm text-slate-400">
+              Size: {cartItem.variant}
+            </span>
           </div>
-          <span
-            className="text-xs text-slate-400 cursor-pointer"
-            onClick={removeItem}
-          >
-            Remove
-          </span>
+          <div>
+            <div className="flex flex-row gap-2 items-center">
+              <Image
+                src={leftArrow}
+                width={18}
+                height={18}
+                alt="left arrow"
+                className="cursor-pointer"
+                onClick={removeItemFromCart}
+              />
+              {cartItem.quantity}
+              <Image
+                src={rightArrow}
+                width={18}
+                height={18}
+                alt="right arrow"
+                className="cursor-pointer"
+                onClick={addItemCart}
+              />
+            </div>
+            <span
+              className="lg:text-sm text-xs text-slate-400 cursor-pointer"
+              onClick={removeItem}
+            >
+              Remove
+            </span>
+          </div>
         </div>
       </div>
     </div>
