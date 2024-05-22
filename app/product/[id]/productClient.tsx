@@ -85,12 +85,12 @@ const ProductInfo = ({
   cartItems,
   addProductToCart,
 }: ProductInfoProps) => (
-  <div className="overflow-hidden h-full px-5 lg:pt-8 lg:px-20">
+  <div className="overflow-hidden h-full px-9 lg:pt-8 lg:px-20">
     <h1 className="text-3xl pt-10">{product.name}</h1>
     <h3 className="text-xl pt-5">{product.price}.00 €</h3>
     <p className="mt-1">Taxes included</p>
 
-    <div className="pr-4 mt-9">
+    <div className="mt-9">
       <p className="text-md tracking-wider">{product.description}</p>
       <p className="mt-14 text-md tracking-wider">
         Model (man) wearing size L - 188 cm
@@ -138,7 +138,7 @@ const ProductInfo = ({
         </Button>
       </div>
     )}
-    <Accordion type="single" collapsible className="mt-10 mb-10">
+    <Accordion type="single" collapsible className="my-10">
       <AccordionItem value="details">
         <AccordionTrigger>
           <h3 className="text-md font-normal">DETAILS</h3>
@@ -238,7 +238,7 @@ export const ProductClientPage = ({ product }: Props) => {
   return (
     <div
       className={cn(
-        "flex flex-row w-full h-full",
+        "flex flex-row w-full h-full m-0 p-0",
         isCartOpen && "bg-slate-100"
       )}
     >
@@ -289,7 +289,7 @@ export const ProductClientPage = ({ product }: Props) => {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
-        <div className="w-full h-full pl-5">
+        <div className="w-full h-full px-5">
           <ProductInfo
             product={product}
             activeVariant={activeVariant}
