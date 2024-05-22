@@ -48,7 +48,7 @@ const SizeSelector = ({
   product,
   cartItems,
 }: SizeSelectorProps) => (
-  <div className="flex flex-row gap-5 mt-2 border-t-2 pt-6 pb-6 border-b-2 justify-between px-4">
+  <div className="flex flex-row gap-4 mt-2 border-t-2 py-6 border-b-2 justify-between px-2">
     {variants.map((variant) => {
       const variantStock = variant.stock;
       const cartItemQuantity =
@@ -61,7 +61,7 @@ const SizeSelector = ({
         <p
           key={variant.id}
           className={cn(
-            "cursor-pointer text-sm uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300",
+            "cursor-pointer text-xs uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300",
             {
               "border-b-current": variant.name === activeVariant,
               "line-through text-slate-300":
