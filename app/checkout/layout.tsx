@@ -120,9 +120,7 @@ const CheckoutLayout = ({ children }: Props) => {
                   Mostrar resumen de tu pedido
                 </AccordionTrigger>
               </div>
-              <h3 className="text-bold">
-                {Math.round(cartTotal * 100) / 100} €
-              </h3>
+              <h3 className="text-bold">{cartTotal.toFixed(2)} €</h3>
             </div>
             <AccordionContent>
               <div className="w-full bg-custom-gray flex flex-col justify-start items-center pt-8 gap-4 border-2">
@@ -151,8 +149,7 @@ const CheckoutLayout = ({ children }: Props) => {
                 <div className="w-full px-5 flex justify-between items-center mt-3">
                   <h2 className="text-md font-regular">Subtotal</h2>
                   <h2 className="text-md font-regular">
-                    {" "}
-                    {Math.round(cartTotal * 100) / 100} €
+                    {cartTotal.toFixed(2)} €
                   </h2>
                 </div>
                 <div className="w-full px-5  flex justify-between items-center -mt-1">
@@ -162,11 +159,11 @@ const CheckoutLayout = ({ children }: Props) => {
                 <div className="w-full px-5  flex justify-between items-center mt-4">
                   <h2 className="text-lg font-bold">Total</h2>
                   <h2 className="text-lg font-bold">
-                    {Math.round(cartTotal * 100) / 100} €
+                    {cartTotal.toFixed(2)} €
                   </h2>
                 </div>
                 <h3 className="text-md -mt-2 text-gray-500 text-left">
-                  Including {Math.round(cartTotal * 100 * 0.21) / 100}€ in taxes
+                  Including {(cartTotal * 0.21).toFixed(2)}€ in taxes
                 </h3>
               </div>
             </AccordionContent>

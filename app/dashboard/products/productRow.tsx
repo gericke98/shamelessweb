@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const ProductRow = ({ product }: Props) => {
-  const price = Math.round(product.price * 100) / 100;
+  const price = product.price.toFixed(2);
   const handleDelete: React.MouseEventHandler<HTMLButtonElement> = async (
     event
   ) => {
