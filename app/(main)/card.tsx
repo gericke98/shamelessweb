@@ -17,39 +17,40 @@ type Props = {
 
 export const Card = ({ product }: Props) => {
   return (
-    <div className="w-full h-full mb-5 relative cursor-pointer">
+    <div className="lg:h-[75vh] h-[50vh] mb-5 relative cursor-pointer">
       <MotionConfig transition={{ duration: 1 }}>
         <motion.div
-          className="relative lg:h-[75vh] h-[50vh] w-auto overflow-hidden z-10"
+          className="relative h-5/6 w-auto"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
           <div className="absolute inset-0">
             <Carousel className="w-full h-full">
-              <CarouselContent>
-                <CarouselItem className="overflow-hidden">
-                  <Link key={product.id} href={`/product/${product.id}`}>
-                    <Image
-                      src={product.frontImageSrc}
-                      alt={product.name}
-                      width={590}
-                      height={500}
-                      className="overflow-hidden object-center"
-                    />
-                  </Link>
-                </CarouselItem>
-                <CarouselItem className="overflow-hidden">
-                  <Link key={product.id} href={`/product/${product.id}`}>
-                    <Image
-                      src={product.backImageSrc}
-                      alt={product.name}
-                      width={600}
-                      height={600}
-                    />
-                  </Link>
-                </CarouselItem>
-              </CarouselContent>
+              <Link key={product.id} href={`/product/${product.id}`}>
+                <CarouselContent>
+                  <CarouselItem>
+                    <div className="relative w-full h-full lg:min-h-[62vh] min-h-[41vh]">
+                      <Image
+                        src={product.frontImageSrc}
+                        alt={product.name}
+                        fill
+                        className="overflow-hidden object-cover object-center"
+                      />
+                    </div>
+                  </CarouselItem>
+                  <CarouselItem>
+                    <div className="relative w-full h-full lg:min-h-[62vh] min-h-[41vh]">
+                      <Image
+                        src={product.backImageSrc}
+                        alt={product.name}
+                        fill
+                        className="overflow-hidden object-cover object-center"
+                      />
+                    </div>
+                  </CarouselItem>
+                </CarouselContent>
+              </Link>
               <CarouselPrevious />
               <CarouselNext />
             </Carousel>
@@ -59,7 +60,7 @@ export const Card = ({ product }: Props) => {
           </div>
         </motion.div>
       </MotionConfig>
-      <div className="relative z-30 mt-2">
+      <div className="h-1/6 mt-2">
         <h3 className="text-left mt-2 text-xs lg:text-md font-medium">
           {product.name}
         </h3>
