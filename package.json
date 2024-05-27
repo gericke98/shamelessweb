@@ -29,6 +29,7 @@
     "formidable": "^3.5.1",
     "framer-motion": "^11.0.28",
     "lucide-react": "^0.367.0",
+    "mime": "^4.0.3",
     "mongoose": "^8.3.3",
     "next": "^14.2.3",
     "next-themes": "^0.3.0",

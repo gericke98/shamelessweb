@@ -7,34 +7,75 @@ type Combined = {
 };
 
 import db from "@/db/drizzle";
-import { products, variants } from "@/db/schema";
+import { images, products, variants } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
+import { mkdir, stat, writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { join } from "path";
+import mime from "mime";
 
 export async function editProduct(formData: FormData) {
-  //Extraigo la info de producto
+  // //Extraigo la info de producto
   const rawFormData = {
     id: Number(formData.get("id")),
     name: formData.get("name")?.toString() || "s",
     description: formData.get("description")?.toString(),
     price: Number(formData.get("price")),
+    image: (formData.get("main_image") as File) || null,
   };
-
-  //Extraigo la info de variantes
-  // Convert FormData to array of objects
+  // // Create the buffer of the image
+  let buffer;
+  try {
+    buffer = Buffer.from(await rawFormData.image.arrayBuffer());
+  } catch (error) {
+    console.error("Error creating buffer from image file:", error);
+    throw new Error("Invalid image file");
+  }
+  // // Create the upload directory
+  const uploadDir = join(process.cwd(), "public");
+  try {
+    // Check if directory exists
+    await stat(uploadDir);
+  } catch (error: any) {
+    if (error.code === "ENOENT") {
+      // If the directory doesn't exist, create one
+      await mkdir(uploadDir, { recursive: true });
+    } else {
+      console.error("Error while trying to create directory:", error);
+      throw error;
+    }
+  }
+  // Save the image file
+  try {
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    const filename = `${rawFormData.image.name.replace(
+      /\.[^/.]+$/,
+      ""
+    )}-${uniqueSuffix}.${mime.getExtension(rawFormData.image.type)}`;
+    await writeFile(`${uploadDir}/${filename}`, buffer);
+    const fileUrl = `/${filename}`;
+    // Save the file URL to the database
+    await db.insert(images).values({
+      productId: Number(rawFormData.id),
+      path: fileUrl,
+    });
+  } catch (e) {
+    console.error("Error while trying to upload a file:", e);
+    throw e;
+  }
+  // //Extraigo la info de variantes
+  // // Convert FormData to array of objects
   const formDataEntries = Array.from(formData.entries()).map(
     ([name, value]) => ({ name, value })
   );
   const variantInputs = formDataEntries.filter((input) =>
     input.name.includes("variant")
   );
-
   const stockInputs = formDataEntries.filter((input) =>
     input.name.includes("stock")
   );
-
-  // Creo un unico array con los valores
+  // // Creo un unico array con los valores
   const stockMap: { [key: string]: string } = stockInputs.reduce(
     (map, stock) => {
       const id = stock.name.split("-")[1];
@@ -43,7 +84,6 @@ export async function editProduct(formData: FormData) {
     },
     {} as { [key: string]: string }
   );
-
   const stockToUpdate: Combined[] = variantInputs.map((variant) => {
     const id = variant.name.split("-")[1]; // Extract the ID from the variant name
     return {
@@ -52,7 +92,6 @@ export async function editProduct(formData: FormData) {
       stock: stockMap[id], // Get the corresponding stock value using the ID
     };
   });
-
   //Actualizo bbdd
   if (rawFormData && stockToUpdate) {
     try {
@@ -65,7 +104,6 @@ export async function editProduct(formData: FormData) {
           price: rawFormData.price,
         })
         .where(eq(products.id, rawFormData.id));
-
       //Actualizo variantes
       stockToUpdate.map(async (stockInfo) => {
         await db

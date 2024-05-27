@@ -7,7 +7,7 @@ import Chart from "./chart/chart";
 const DashboardPage = () => {
   return (
     <div className="flex gap-5 mt-5">
-      <div className="basis-3/4 flex flex-col gap-5">
+      <div className="w-full flex flex-col gap-5">
         <div className="flex gap-5 space-between">
           <Card />
           <Card />
@@ -15,9 +15,6 @@ const DashboardPage = () => {
         </div>
         <Orders />
         <Chart />
-      </div>
-      <div className="basis-1/4">
-        <RightBar />
       </div>
     </div>
   );

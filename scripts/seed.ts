@@ -361,6 +361,26 @@ const main = async () => {
         name: "X-LARGE",
         stock: 5,
       },
+      {
+        productId: 11,
+        name: "SMALL",
+        stock: 5,
+      },
+      {
+        productId: 11,
+        name: "MEDIUM",
+        stock: 5,
+      },
+      {
+        productId: 11,
+        name: "LARGE",
+        stock: 5,
+      },
+      {
+        productId: 11,
+        name: "X-LARGE",
+        stock: 5,
+      },
     ]);
     await db.insert(schema.images).values([
       {

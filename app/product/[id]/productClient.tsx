@@ -249,12 +249,15 @@ export const ProductClientPage = ({ product }: Props) => {
           width={1600}
           height={1000}
         />
-        <Image
-          src={product.mainImg}
-          alt={product.name}
-          width={1600}
-          height={1000}
-        />
+        {product.images.map((image) => (
+          <Image
+            key={image.id}
+            src={image.path || product.mainImg}
+            alt={product.name}
+            width={1600}
+            height={1000}
+          />
+        ))}
       </ScrollArea>
       <div className="hidden lg:block w-[35vw]">
         <ProductInfo
@@ -277,14 +280,16 @@ export const ProductClientPage = ({ product }: Props) => {
                 height={1000}
               />
             </CarouselItem>
-            <CarouselItem>
-              <Image
-                src={product.mainImg}
-                alt={product.name}
-                width={1600}
-                height={1000}
-              />
-            </CarouselItem>
+            {product.images.map((image) => (
+              <CarouselItem key={image.id}>
+                <Image
+                  src={image.path || product.mainImg}
+                  alt={product.name}
+                  width={1600}
+                  height={1000}
+                />
+              </CarouselItem>
+            ))}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />

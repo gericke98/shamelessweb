@@ -1,4 +1,3 @@
-import NavBar from "@/components/dashboard/navbar/navbar";
 import { SideBar } from "@/components/dashboard/sidebar/sidebar";
 import React from "react";
 import Footer from "./footer/footer";

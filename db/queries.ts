@@ -24,6 +24,7 @@ export const getProduct = cache(async (id: string) => {
       variants: {
         orderBy: [asc(variants.id)],
       },
+      images: true,
     },
   });
   return data;
@@ -70,6 +71,7 @@ export const getProducts = cache(async () => {
       variants: {
         orderBy: [asc(variants.id)],
       },
+      images: true,
     },
   });
   return data;

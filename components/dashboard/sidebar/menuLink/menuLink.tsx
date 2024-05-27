@@ -12,6 +12,7 @@ type Props = {
 
 const MenuLink: React.FC<Props> = ({ title, path, icon }) => {
   const pathname = usePathname();
+
   return (
     <Link
       href={path}

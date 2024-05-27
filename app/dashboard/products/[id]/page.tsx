@@ -66,6 +66,8 @@ const SingleProductPage = async ({ params }: Props) => {
               </div>
             </div>
           ))}
+          <label className="text-lg">Media</label>
+          <input type="file" accept="image/*" name="main_image" />
           <button className="w-full p-5 bg-[teal] border-none text-white rounded-sm cursor-pointer mt-4">
             Update
           </button>
