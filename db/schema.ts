@@ -28,12 +28,12 @@ export const products = pgTable("products", {
   description: text("description").notNull(),
   tag: text("tag").notNull(),
   price: integer("price").notNull(),
-  frontImageSrc: text("front_image").notNull(),
-  backImageSrc: text("back_image").notNull(),
+  mainImg: text("main_image").notNull(),
 });
 
 export const productsRelations = relations(products, ({ one, many }) => ({
   variants: many(variants),
+  images: many(images),
   collection: one(collections, {
     fields: [products.categoryId],
     references: [collections.id],
@@ -53,6 +53,21 @@ export const variantsRelations = relations(variants, ({ one }) => ({
   productOrder: one(productOrders),
   product: one(products, {
     fields: [variants.productId],
+    references: [products.id],
+  }),
+}));
+
+export const images = pgTable("images", {
+  id: serial("id").primaryKey(),
+  productId: integer("product_id")
+    .references(() => products.id, { onDelete: "cascade" })
+    .notNull(),
+  path: text("path"),
+});
+
+export const imagesRelations = relations(images, ({ one }) => ({
+  product: one(products, {
+    fields: [images.productId],
     references: [products.id],
   }),
 }));

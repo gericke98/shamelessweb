@@ -17,6 +17,7 @@ const main = async () => {
     await db.delete(schema.productOrders);
     await db.delete(schema.shipping);
     await db.delete(schema.discounts);
+    await db.delete(schema.images);
 
     await db.insert(schema.collections).values([
       {
@@ -46,8 +47,7 @@ const main = async () => {
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "BACK IN STOCK",
         price: 35,
-        frontImageSrc: "/wstee-front.jpg",
-        backImageSrc: "/wstee-back.jpg",
+        mainImg: "/wstee-front.jpg",
       },
       {
         id: 2,
@@ -57,8 +57,7 @@ const main = async () => {
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "BACK IN STOCK",
         price: 35,
-        frontImageSrc: "/lg-front.jpg",
-        backImageSrc: "/lg-back.jpg",
+        mainImg: "/lg-front.jpg",
       },
       {
         id: 3,
@@ -68,8 +67,8 @@ const main = async () => {
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "BACK IN STOCK",
         price: 35,
-        frontImageSrc: "/ciao-front.jpg",
-        backImageSrc: "/ciao-back.jpg",
+        mainImg: "/ciao-front.jpg",
+        // backImageSrc: "/ciao-back.jpg",
       },
       {
         id: 4,
@@ -79,8 +78,8 @@ const main = async () => {
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "BACK IN STOCK",
         price: 39,
-        frontImageSrc: "/too-late-front.jpg",
-        backImageSrc: "/too-late-back.jpg",
+        mainImg: "/too-late-front.jpg",
+        // backImageSrc: "/too-late-back.jpg",
       },
       {
         id: 5,
@@ -90,8 +89,8 @@ const main = async () => {
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "BACK IN STOCK",
         price: 39,
-        frontImageSrc: "/world-tour-front.jpg",
-        backImageSrc: "/world-tour-back.jpg",
+        mainImg: "/world-tour-front.jpg",
+        // backImageSrc: "/world-tour-back.jpg",
       },
       {
         id: 6,
@@ -101,8 +100,8 @@ const main = async () => {
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "NEW IN",
         price: 59,
-        frontImageSrc: "/starboy-front.jpg",
-        backImageSrc: "/starboy-back.jpg",
+        mainImg: "/starboy-front.jpg",
+        // backImageSrc: "/starboy-back.jpg",
       },
       {
         id: 7,
@@ -112,8 +111,8 @@ const main = async () => {
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "NEW IN",
         price: 59,
-        frontImageSrc: "/ws-front.jpg",
-        backImageSrc: "/ws-back.jpg",
+        mainImg: "/ws-front.jpg",
+        // backImageSrc: "/ws-back.jpg",
       },
       {
         id: 8,
@@ -122,9 +121,9 @@ const main = async () => {
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "BACK IN STOCK",
-        price: 59,
-        frontImageSrc: "/essential-front.jpg",
-        backImageSrc: "/essential-back.jpg",
+        price: 55,
+        mainImg: "/essential-front.jpg",
+        // backImageSrc: "/essential-back.jpg",
       },
       {
         id: 9,
@@ -133,9 +132,9 @@ const main = async () => {
         description:
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "BACK IN STOCK",
-        price: 59,
-        frontImageSrc: "/walnut-front.jpg",
-        backImageSrc: "/walnut-back.jpg",
+        price: 55,
+        mainImg: "/walnut-front.jpg",
+        // backImageSrc: "/walnut-back.jpg",
       },
       {
         id: 10,
@@ -145,8 +144,19 @@ const main = async () => {
           "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
         tag: "NEW IN",
         price: 84,
-        frontImageSrc: "/zip-front.jpg",
-        backImageSrc: "/zip-back.jpg",
+        mainImg: "/zip-front.jpg",
+        // backImageSrc: "/zip-back.jpg",
+      },
+      {
+        id: 11,
+        categoryId: 4,
+        name: "ESSENTIAL WITHOUT SHAME CREWNECK",
+        description:
+          "Oversized lilac T-shirt made in Portugal. 100% cotton (200 GSM). Details printed in off lilac. Carefully designed cut to make a boxy fit.",
+        tag: "NEW IN",
+        price: 55,
+        mainImg: "/ews-1.jpg",
+        // backImageSrc: "/zip-back.jpg",
       },
     ]);
 
@@ -350,6 +360,36 @@ const main = async () => {
         productId: 10,
         name: "X-LARGE",
         stock: 5,
+      },
+    ]);
+    await db.insert(schema.images).values([
+      {
+        productId: 11,
+        path: "/ews-2.jpg",
+      },
+      {
+        productId: 11,
+        path: "/ews-3.jpg",
+      },
+      {
+        productId: 11,
+        path: "/ews-4.jpg",
+      },
+      {
+        productId: 11,
+        path: "/ews-5.jpg",
+      },
+      {
+        productId: 11,
+        path: "/ews-6.jpg",
+      },
+      {
+        productId: 11,
+        path: "/ews-7.jpg",
+      },
+      {
+        productId: 11,
+        path: "/ews-8.jpg",
       },
     ]);
 

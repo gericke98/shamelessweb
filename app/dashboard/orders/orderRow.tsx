@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { OrderType } from "@/types";
+import Link from "next/link";
 
 type Props = {
   order: OrderType;
@@ -8,7 +9,9 @@ type Props = {
 export const OrderRow = ({ order }: Props) => {
   return (
     <tr>
-      <td className="p-2">#33{order.id}</td>
+      <td className="p-2 cursor-pointer">
+        <Link href={`/dashboard/orders/${order.id}`}>#33{order.id}</Link>
+      </td>
       <td className="p-2">
         {order.createdAt
           ? order.createdAt.toLocaleString()

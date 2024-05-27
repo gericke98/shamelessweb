@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion, MotionConfig } from "framer-motion";
-import { products } from "@/db/schema";
+import { images, products } from "@/db/schema";
 import {
   Carousel,
   CarouselContent,
@@ -12,7 +12,9 @@ import {
 import Link from "next/link";
 
 type Props = {
-  product: typeof products.$inferSelect;
+  product: typeof products.$inferSelect & {
+    images: (typeof images.$inferSelect)[];
+  };
 };
 
 export const Card = ({ product }: Props) => {
@@ -32,23 +34,25 @@ export const Card = ({ product }: Props) => {
                   <CarouselItem>
                     <div className="relative w-full h-full lg:min-h-[62vh] min-h-[41vh]">
                       <Image
-                        src={product.frontImageSrc}
+                        src={product.mainImg}
                         alt={product.name}
                         fill
                         className="overflow-hidden object-cover object-center"
                       />
                     </div>
                   </CarouselItem>
-                  <CarouselItem>
-                    <div className="relative w-full h-full lg:min-h-[62vh] min-h-[41vh]">
-                      <Image
-                        src={product.backImageSrc}
-                        alt={product.name}
-                        fill
-                        className="overflow-hidden object-cover object-center"
-                      />
-                    </div>
-                  </CarouselItem>
+                  {product.images.map((image) => (
+                    <CarouselItem key={image.id}>
+                      <div className="relative w-full h-full lg:min-h-[62vh] min-h-[41vh]">
+                        <Image
+                          src={image.path || product.mainImg}
+                          alt={product.name}
+                          fill
+                          className="overflow-hidden object-cover object-center"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
               </Link>
               <CarouselPrevious />

@@ -17,14 +17,14 @@ const SingleProductPage = async ({ params }: Props) => {
     <div className="flex gap-20 mt-5 ">
       <div className="basis-1/4">
         <div className="w-full h-[450px] relative rounded-sm overflow-hidden bg-[var(--primary-soft-color)] mb-5">
-          <Image src={product[0].frontImageSrc} alt={product[0].name} fill />
+          <Image src={product[0].mainImg} alt={product[0].name} fill />
         </div>
         {product[0].name}
       </div>
       <div className="basis-3/4 bg-[var(--primary-soft-color)] p-5 rounded-sm font-bold text-white">
         <form className="flex flex-col gap-2" action={editProduct}>
           <input className="hidden" name={"id"} value={product[0].id} />
-          <label className="text-lg">Name</label>
+          <label className="text-lg">Title</label>
           <DashboardInput
             name={"name"}
             placeholder={product[0].name}

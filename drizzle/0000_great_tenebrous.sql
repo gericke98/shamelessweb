@@ -32,8 +32,7 @@ CREATE TABLE IF NOT EXISTS "products" (
 	"description" text NOT NULL,
 	"tag" text NOT NULL,
 	"price" integer NOT NULL,
-	"front_image" text NOT NULL,
-	"back_image" text NOT NULL
+	"mainImg" text NOT NULL,
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "shipping" (

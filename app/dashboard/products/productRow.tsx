@@ -25,7 +25,7 @@ export const ProductRow = ({ product }: Props) => {
         <Link href={`/dashboard/products/${product.id}`}>
           <div className="flex items-center gap-2">
             <Image
-              src={product.frontImageSrc}
+              src={product.mainImg}
               alt="product"
               width={40}
               height={40}

@@ -141,8 +141,8 @@ export async function addProduct(formData: FormData) {
           description: rawFormData.description || "No information",
           tag: "BACK IN STOCK" || "BACK IN STOCK",
           price: rawFormData.price || 0,
-          frontImageSrc: "/world-tour-front.jpg",
-          backImageSrc: "/world-tour-back.jpg",
+          mainImg: "/world-tour-front.jpg",
+          // backImageSrc: "/world-tour-back.jpg",
         })
         .returning();
 

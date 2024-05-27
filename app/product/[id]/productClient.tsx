@@ -212,7 +212,7 @@ export const ProductClientPage = ({ product }: Props) => {
             price: product.price,
             variant: activeVariant,
             quantity: 0,
-            imageSrc: product.frontImageSrc,
+            imageSrc: product.mainImg,
             maxstock: stockActive,
           });
         } catch (error) {
@@ -227,7 +227,7 @@ export const ProductClientPage = ({ product }: Props) => {
         price: product.price,
         variant: activeVariant,
         quantity: 0,
-        imageSrc: product.frontImageSrc,
+        imageSrc: product.mainImg,
         maxstock: stockActive,
       });
     } else {
@@ -244,13 +244,13 @@ export const ProductClientPage = ({ product }: Props) => {
     >
       <ScrollArea className="hidden lg:flex flex-col h-[100vh] w-[65vw]">
         <Image
-          src={product.frontImageSrc}
+          src={product.mainImg}
           alt={product.name}
           width={1600}
           height={1000}
         />
         <Image
-          src={product.backImageSrc}
+          src={product.mainImg}
           alt={product.name}
           width={1600}
           height={1000}
@@ -271,7 +271,7 @@ export const ProductClientPage = ({ product }: Props) => {
           <CarouselContent>
             <CarouselItem>
               <Image
-                src={product.frontImageSrc}
+                src={product.mainImg}
                 alt={product.name}
                 width={1600}
                 height={1000}
@@ -279,7 +279,7 @@ export const ProductClientPage = ({ product }: Props) => {
             </CarouselItem>
             <CarouselItem>
               <Image
-                src={product.backImageSrc}
+                src={product.mainImg}
                 alt={product.name}
                 width={1600}
                 height={1000}

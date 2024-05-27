@@ -1,12 +1,16 @@
 import { cache } from "react";
 import db from "./drizzle";
 import { and, asc, eq } from "drizzle-orm";
-import { discounts, products, shipping, variants } from "./schema";
+import { discounts, orders, products, shipping, variants } from "./schema";
 
 export const getCollections = cache(async () => {
   const data = await db.query.collections.findMany({
     with: {
-      products: true,
+      products: {
+        with: {
+          images: true,
+        },
+      },
     },
   });
   return data;
@@ -20,6 +24,20 @@ export const getProduct = cache(async (id: string) => {
       variants: {
         orderBy: [asc(variants.id)],
       },
+    },
+  });
+  return data;
+});
+
+export const getOrder = cache(async (id: string) => {
+  let idnumber = Number(id);
+  const data = await db.query.orders.findMany({
+    where: eq(orders.id, idnumber),
+    with: {
+      products: {
+        orderBy: [asc(products.id)],
+      },
+      client: true,
     },
   });
   return data;
