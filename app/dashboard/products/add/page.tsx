@@ -1,6 +1,8 @@
+"use client";
 import { addProduct } from "@/actions/product";
 import DashboardInput from "@/components/dashboard/input/dashboardInput";
-import React from "react";
+import React, { useState } from "react";
+import { ImageGridAdd } from "./imageGridadd";
 
 const variants = [
   {
@@ -22,10 +24,40 @@ const variants = [
 ];
 
 const AddProductPage = () => {
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const addproductparam = {
+    images: previewImages,
+  };
+  const addProductOrder = addProduct.bind(null, addproductparam);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const newPreviews: string[] = [];
+    const newFiles: File[] = [];
+
+    files.forEach((file) => {
+      newFiles.push(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        newPreviews.push(reader.result as string);
+
+        // Only update the state after all files have been read
+        if (newPreviews.length === files.length) {
+          setPreviewImages((prev) => [...prev, ...newPreviews]);
+          setSelectedFiles((prev) => [...prev, ...newFiles]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  const handleRemovePreviewImage = (index: number) => {
+    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
   return (
     <div className="bg-[var(--primary-soft-color)] p-5 rounded-sm mt-5">
       <form
-        action={addProduct}
+        action={addProductOrder}
         className="flex flex-wrap justify-between gap-2"
       >
         <label className="text-lg">Name</label>
@@ -42,21 +74,11 @@ const AddProductPage = () => {
           type="textarea"
           valueini={""}
         />
-        <label className="text-lg">Front image</label>
-        <input
-          type="file"
-          accept="image"
-          name="image"
-          required
-          className="p-6 w-full bg-transparent border-2 border-[#2e374a]"
-        />
-        <label className="text-lg">Back image</label>
-        <input
-          type="file"
-          accept="image"
-          name="image"
-          required
-          className="p-6 w-full bg-transparent border-2 border-[#2e374a]"
+        <label className="text-lg">Media</label>
+        <ImageGridAdd
+          previewImages={previewImages}
+          handleFileChange={handleFileChange}
+          handleRemovePreviewImage={handleRemovePreviewImage}
         />
         <label className="text-lg">Price</label>
         <DashboardInput

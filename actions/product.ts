@@ -14,12 +14,14 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { join } from "path";
 
-type Props = {
+type PropsEdit = {
   images: (typeof images.$inferSelect)[];
   previewImages: string[];
 };
-
-export async function editProduct(imagesInput: Props, formData: FormData) {
+type PropsAdd = {
+  images: string[];
+};
+export async function editProduct(imagesInput: PropsEdit, formData: FormData) {
   // Extraigo la info de producto - la que se pone en el formulario
   const rawFormData = {
     id: Number(formData.get("id")),
@@ -29,6 +31,7 @@ export async function editProduct(imagesInput: Props, formData: FormData) {
   };
 
   const imageIds = imagesInput.images.map((image) => image.id);
+
   // Extraigo la info de variantes y stock
   const formDataEntries = Array.from(formData.entries()).map(
     ([name, value]) => ({ name, value })
@@ -147,17 +150,15 @@ export async function editProduct(imagesInput: Props, formData: FormData) {
   }
 }
 
-export async function addProduct(formData: FormData) {
+export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
   //Extraigo la info de producto
   const rawFormData = {
     name: formData.get("name")?.toString() || "s",
     description: formData.get("description")?.toString(),
     price: Number(formData.get("price")),
-    images: formData.get("images"),
   };
-
+  const mainImgPath = imagesInput.images[0].toString();
   //Extraigo la info de variantes
-  // Convert FormData to array of objects
   const formDataEntries = Array.from(formData.entries()).map(
     ([name, value]) => ({ name, value })
   );
@@ -187,6 +188,20 @@ export async function addProduct(formData: FormData) {
       stock: stockMap[id], // Get the corresponding stock value using the ID
     };
   });
+  // Create the upload directory
+  const uploadDir = join(process.cwd(), "public");
+  try {
+    // Check if directory exists
+    await stat(uploadDir);
+  } catch (error: any) {
+    if (error.code === "ENOENT") {
+      // If the directory doesn't exist, create one
+      await mkdir(uploadDir, { recursive: true });
+    } else {
+      console.error("Error while trying to create directory:", error);
+      throw error;
+    }
+  }
 
   //Actualizo bbdd
   if (rawFormData && stockToUpdate) {
@@ -200,8 +215,7 @@ export async function addProduct(formData: FormData) {
           description: rawFormData.description || "No information",
           tag: "BACK IN STOCK" || "BACK IN STOCK",
           price: rawFormData.price || 0,
-          mainImg: "/world-tour-front.jpg",
-          // backImageSrc: "/world-tour-back.jpg",
+          mainImg: mainImgPath || "/world-tour-front.jpg",
         })
         .returning();
 
@@ -213,10 +227,49 @@ export async function addProduct(formData: FormData) {
           stock: Number(stockInfo.stock),
         });
       });
+
+      // Actualizo imagenes
+      imagesInput.images.map(async (imagePath) => {
+        // Create the buffer of the image
+        let buffer;
+        try {
+          buffer = Buffer.from(
+            await fetch(imagePath).then((res) => res.arrayBuffer())
+          );
+        } catch (error) {
+          console.error("Error creating buffer from image file:", error);
+          throw new Error("Invalid image file");
+        }
+
+        // Save the image file
+        try {
+          const uniqueSuffix = `${Date.now()}-${Math.round(
+            Math.random() * 1e9
+          )}`;
+          let filename = `${rawFormData.name}-${uniqueSuffix}.jpg`;
+          filename = filename.replace(/\s+/g, "-"); // Replace spaces with hyphens
+          await writeFile(`${uploadDir}/${filename}`, buffer);
+          const fileUrl = `/${filename}`;
+          // Save the file URL to the database
+
+          await db
+            .insert(images)
+            .values({
+              productId: Number(newdb[0].id),
+              path: fileUrl.toString(),
+            })
+            .returning();
+          // Agrego la nueva imagen al array de ids para que no se elimine mas adelante
+        } catch (e) {
+          console.error("Error while trying to upload a file:", e);
+          throw e;
+        }
+      });
       revalidatePath("/", "layout");
     } catch (e) {
       console.log("Error updating database");
     }
+
     redirect("/dashboard");
   }
 }
