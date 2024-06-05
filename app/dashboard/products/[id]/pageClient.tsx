@@ -1,14 +1,51 @@
+"use client";
 import { editProduct } from "@/actions/product";
 import DashboardInput from "@/components/dashboard/input/dashboardInput";
 import Image from "next/image";
 import { ImageGrid } from "./imageGrid";
 import { ProductType } from "@/types";
+import { useState } from "react";
 
 type Props = {
   product: ProductType;
 };
 
 export const ClientPage = ({ product }: Props) => {
+  const [imageGrid, setImageGrid] = useState(product.images);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const editproductparam = {
+    images: imageGrid,
+    previewImages: previewImages,
+  };
+  const updateProductOrder = editProduct.bind(null, editproductparam);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const newPreviews: string[] = [];
+    const newFiles: File[] = [];
+
+    files.forEach((file) => {
+      newFiles.push(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        newPreviews.push(reader.result as string);
+
+        // Only update the state after all files have been read
+        if (newPreviews.length === files.length) {
+          setPreviewImages((prev) => [...prev, ...newPreviews]);
+          setSelectedFiles((prev) => [...prev, ...newFiles]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  const handleRemovePreviewImage = (index: number) => {
+    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+  const handleRemoveImage = (index: number) => {
+    setImageGrid((prev) => prev.filter((_, i) => i !== index));
+  };
   return (
     <div className="flex flex-col gap-20 mt-5 h-full">
       <div className="flex flex-col lg:flex-row gap-20">
@@ -19,7 +56,7 @@ export const ClientPage = ({ product }: Props) => {
           {product.name}
         </div>
         <div className="basis-3/4 bg-[var(--primary-soft-color)] p-5 rounded-sm font-bold text-white">
-          <form className="flex flex-col gap-2" action={editProduct}>
+          <form className="flex flex-col gap-2" action={updateProductOrder}>
             <input className="hidden" name={"id"} value={product.id} readOnly />
             <label className="text-lg">Title</label>
             <DashboardInput
@@ -64,7 +101,15 @@ export const ClientPage = ({ product }: Props) => {
               </div>
             ))}
             <label className="text-lg">Media</label>
-            {product.images && <ImageGrid product={product} />}
+            {product.images && (
+              <ImageGrid
+                imageGrid={imageGrid}
+                previewImages={previewImages}
+                handleFileChange={handleFileChange}
+                handleRemovePreviewImage={handleRemovePreviewImage}
+                handleRemoveImage={handleRemoveImage}
+              />
+            )}
             <button className="w-full p-5 bg-[teal] border-none text-white rounded-sm cursor-pointer mt-4">
               Update
             </button>

@@ -8,71 +8,28 @@ type Combined = {
 
 import db from "@/db/drizzle";
 import { images, products, variants } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, notInArray } from "drizzle-orm";
 import { mkdir, stat, writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { join } from "path";
-import mime from "mime";
 
-export async function uploadImage(formData: FormData) {
-  "use server";
-  console.log("Entro");
-  console.log(formData);
-}
+type Props = {
+  images: (typeof images.$inferSelect)[];
+  previewImages: string[];
+};
 
-export async function editProduct(formData: FormData) {
-  // //Extraigo la info de producto
+export async function editProduct(imagesInput: Props, formData: FormData) {
+  // Extraigo la info de producto - la que se pone en el formulario
   const rawFormData = {
     id: Number(formData.get("id")),
     name: formData.get("name")?.toString() || "s",
     description: formData.get("description")?.toString(),
     price: Number(formData.get("price")),
-    image: (formData.get("main_image") as File) || null,
   };
-  console.log(rawFormData.image);
-  // // Create the buffer of the image
-  let buffer;
-  try {
-    buffer = Buffer.from(await rawFormData.image.arrayBuffer());
-  } catch (error) {
-    console.error("Error creating buffer from image file:", error);
-    throw new Error("Invalid image file");
-  }
-  // // Create the upload directory
-  const uploadDir = join(process.cwd(), "public");
-  try {
-    // Check if directory exists
-    await stat(uploadDir);
-  } catch (error: any) {
-    if (error.code === "ENOENT") {
-      // If the directory doesn't exist, create one
-      await mkdir(uploadDir, { recursive: true });
-    } else {
-      console.error("Error while trying to create directory:", error);
-      throw error;
-    }
-  }
-  // Save the image file
-  try {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const filename = `${rawFormData.image.name.replace(
-      /\.[^/.]+$/,
-      ""
-    )}-${uniqueSuffix}.${mime.getExtension(rawFormData.image.type)}`;
-    await writeFile(`${uploadDir}/${filename}`, buffer);
-    const fileUrl = `/${filename}`;
-    // Save the file URL to the database
-    await db.insert(images).values({
-      productId: Number(rawFormData.id),
-      path: fileUrl,
-    });
-  } catch (e) {
-    console.error("Error while trying to upload a file:", e);
-    throw e;
-  }
-  // //Extraigo la info de variantes
-  // // Convert FormData to array of objects
+
+  const imageIds = imagesInput.images.map((image) => image.id);
+  // Extraigo la info de variantes y stock
   const formDataEntries = Array.from(formData.entries()).map(
     ([name, value]) => ({ name, value })
   );
@@ -82,7 +39,7 @@ export async function editProduct(formData: FormData) {
   const stockInputs = formDataEntries.filter((input) =>
     input.name.includes("stock")
   );
-  // // Creo un unico array con los valores
+  // Creo un unico array con los valores de variante-stock
   const stockMap: { [key: string]: string } = stockInputs.reduce(
     (map, stock) => {
       const id = stock.name.split("-")[1];
@@ -99,7 +56,58 @@ export async function editProduct(formData: FormData) {
       stock: stockMap[id], // Get the corresponding stock value using the ID
     };
   });
-  //Actualizo bbdd
+
+  // Create the upload directory
+  const uploadDir = join(process.cwd(), "public");
+  try {
+    // Check if directory exists
+    await stat(uploadDir);
+  } catch (error: any) {
+    if (error.code === "ENOENT") {
+      // If the directory doesn't exist, create one
+      await mkdir(uploadDir, { recursive: true });
+    } else {
+      console.error("Error while trying to create directory:", error);
+      throw error;
+    }
+  }
+  imagesInput.previewImages.map(async (imagePath) => {
+    // Create the buffer of the image
+    let buffer;
+    try {
+      buffer = Buffer.from(
+        await fetch(imagePath).then((res) => res.arrayBuffer())
+      );
+    } catch (error) {
+      console.error("Error creating buffer from image file:", error);
+      throw new Error("Invalid image file");
+    }
+
+    // Save the image file
+    try {
+      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+      let filename = `${rawFormData.name}-${uniqueSuffix}.jpg`;
+      filename = filename.replace(/\s+/g, "-"); // Replace spaces with hyphens
+      await writeFile(`${uploadDir}/${filename}`, buffer);
+      const fileUrl = `/${filename}`;
+      // Save the file URL to the database
+
+      const imagesDB = await db
+        .insert(images)
+        .values({
+          productId: Number(rawFormData.id),
+          path: fileUrl.toString(),
+        })
+        .returning();
+      // Agrego la nueva imagen al array de ids para que no se elimine mas adelante
+      imageIds.push(imagesDB[0].id);
+    } catch (e) {
+      console.error("Error while trying to upload a file:", e);
+      throw e;
+    }
+  });
+
+  // Actualizo bbdd
   if (rawFormData && stockToUpdate) {
     try {
       //Actualizo productos
@@ -111,7 +119,8 @@ export async function editProduct(formData: FormData) {
           price: rawFormData.price,
         })
         .where(eq(products.id, rawFormData.id));
-      //Actualizo variantes
+
+      // Actualizo variantes
       stockToUpdate.map(async (stockInfo) => {
         await db
           .update(variants)
@@ -125,6 +134,11 @@ export async function editProduct(formData: FormData) {
             )
           );
       });
+
+      // Actualizo imagenes: Elimino las que ya no estan
+      await db.delete(images).where(notInArray(images.id, imageIds));
+
+      // Insert las nuevas
       revalidatePath("/", "layout");
     } catch (e) {
       console.log("Error updating database");
