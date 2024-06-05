@@ -15,6 +15,12 @@ import { redirect } from "next/navigation";
 import { join } from "path";
 import mime from "mime";
 
+export async function uploadImage(formData: FormData) {
+  "use server";
+  console.log("Entro");
+  console.log(formData);
+}
+
 export async function editProduct(formData: FormData) {
   // //Extraigo la info de producto
   const rawFormData = {
@@ -24,6 +30,7 @@ export async function editProduct(formData: FormData) {
     price: Number(formData.get("price")),
     image: (formData.get("main_image") as File) || null,
   };
+  console.log(rawFormData.image);
   // // Create the buffer of the image
   let buffer;
   try {

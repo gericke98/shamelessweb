@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "./card/card";
-import RightBar from "./rightbar/rightbar";
 import Orders from "./orders/page";
 import Chart from "./chart/chart";
 
