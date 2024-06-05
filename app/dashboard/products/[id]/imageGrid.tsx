@@ -19,7 +19,7 @@ export const ImageGrid = ({
   handleRemoveImage,
 }: Props) => {
   return (
-    <div className="grid lg:grid-cols-3 grid-cols-2 gap-3 py-3 px-5 h-full">
+    <div className="grid lg:grid-cols-3 grid-cols-2 gap-x-3 gap-y-2 py-3 px-5 h-ful align-top">
       {imageGrid.map((image, index) => (
         <div key={image.id} className="relative w-full h-0 pb-[100%]">
           <Image
