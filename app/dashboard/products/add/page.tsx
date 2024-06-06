@@ -2,7 +2,7 @@
 import { addProduct } from "@/actions/product";
 import DashboardInput from "@/components/dashboard/input/dashboardInput";
 import React, { useState } from "react";
-import { ImageGridAdd } from "./imageGridadd";
+import { ImageGridAdd } from "./imageGridAdd";
 
 const variants = [
   {
@@ -30,25 +30,72 @@ const AddProductPage = () => {
     images: previewImages,
   };
   const addProductOrder = addProduct.bind(null, addproductparam);
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const resizeImage = (file: File) => {
+    return new Promise<File>((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const img = new Image();
+        img.src = reader.result as string;
+
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          const MAX_WIDTH = 800;
+          const MAX_HEIGHT = 800;
+
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width = Math.round((width * MAX_HEIGHT) / height);
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx?.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                const resizedFile = new File([blob], file.name, {
+                  type: file.type,
+                  lastModified: Date.now(),
+                });
+                resolve(resizedFile);
+              }
+            },
+            file.type,
+            0.8
+          );
+        };
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = Array.from(event.target.files || []);
     const newPreviews: string[] = [];
     const newFiles: File[] = [];
 
-    files.forEach((file) => {
-      newFiles.push(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        newPreviews.push(reader.result as string);
+    for (const file of files) {
+      const resizedFile = await resizeImage(file);
+      newFiles.push(resizedFile);
+      newPreviews.push(URL.createObjectURL(resizedFile));
+    }
 
-        // Only update the state after all files have been read
-        if (newPreviews.length === files.length) {
-          setPreviewImages((prev) => [...prev, ...newPreviews]);
-          setSelectedFiles((prev) => [...prev, ...newFiles]);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
+    setPreviewImages((prev) => [...prev, ...newPreviews]);
+    setSelectedFiles((prev) => [...prev, ...newFiles]);
   };
   const handleRemovePreviewImage = (index: number) => {
     setPreviewImages((prev) => prev.filter((_, i) => i !== index));

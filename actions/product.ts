@@ -151,6 +151,7 @@ export async function editProduct(imagesInput: PropsEdit, formData: FormData) {
 }
 
 export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
+  console.log("Entro");
   //Extraigo la info de producto
   const rawFormData = {
     name: formData.get("name")?.toString() || "s",
@@ -189,6 +190,7 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
     };
   });
   // Create the upload directory
+  console.log("Entro 2");
   const uploadDir = join(process.cwd(), "public");
   try {
     // Check if directory exists
@@ -218,7 +220,7 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
           mainImg: mainImgPath || "/world-tour-front.jpg",
         })
         .returning();
-
+      console.log("Entro 3");
       //Actualizo variantes
       stockToUpdate.map(async (stockInfo) => {
         await db.insert(variants).values({
@@ -227,7 +229,7 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
           stock: Number(stockInfo.stock),
         });
       });
-
+      console.log("Entro 4");
       // Actualizo imagenes
       imagesInput.images.map(async (imagePath) => {
         // Create the buffer of the image
@@ -240,7 +242,7 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
           console.error("Error creating buffer from image file:", error);
           throw new Error("Invalid image file");
         }
-
+        console.log("Entro 5");
         // Save the image file
         try {
           const uniqueSuffix = `${Date.now()}-${Math.round(
