@@ -124,8 +124,6 @@ export async function addProduct(formData: FormData) {
     description: formData.get("description")?.toString(),
     price: Number(formData.get("price")),
   };
-  // console.log(imagesInput.images);
-  // const mainImgPath = imagesInput.images[0].toString();
   const mainImgPath = "";
   //Extraigo la info de variantes
   const formDataEntries = Array.from(formData.entries()).map(
@@ -195,43 +193,6 @@ export async function addProduct(formData: FormData) {
           stock: Number(stockInfo.stock),
         });
       });
-      // Actualizo imagenes
-      // imagesInput.images.map(async (imagePath) => {
-      //   console.log(imagePath);
-      //   // Create the buffer of the image
-      //   let buffer;
-      //   try {
-      //     buffer = Buffer.from(
-      //       await fetch(imagePath).then((res) => res.arrayBuffer())
-      //     );
-      //   } catch (error) {
-      //     console.error("Error creating buffer from image file:", error);
-      //     throw new Error("Invalid image file");
-      //   }
-      //   // Save the image file
-      //   try {
-      //     const uniqueSuffix = `${Date.now()}-${Math.round(
-      //       Math.random() * 1e9
-      //     )}`;
-      //     let filename = `${rawFormData.name}-${uniqueSuffix}.jpg`;
-      //     filename = filename.replace(/\s+/g, "-"); // Replace spaces with hyphens
-      //     await writeFile(`${uploadDir}/${filename}`, buffer);
-      //     const fileUrl = `/${filename}`;
-      //     // Save the file URL to the database
-
-      //     await db
-      //       .insert(images)
-      //       .values({
-      //         productId: Number(newdb[0].id),
-      //         path: fileUrl.toString(),
-      //       })
-      //       .returning();
-      //     // Agrego la nueva imagen al array de ids para que no se elimine mas adelante
-      //   } catch (e) {
-      //     console.error("Error while trying to upload a file:", e);
-      //     throw e;
-      //   }
-      // });
       revalidatePath("/", "layout");
     } catch (e) {
       console.log("Error updating database");

@@ -25,7 +25,6 @@ const ImageTest = () => {
     const ext = file?.name.split(".").at(-1);
     const uid = uuidv4().replace(/-/g, "");
     const fileName = `${uid}${ext ? "." + ext : ""}`;
-    console.log("Entro");
 
     try {
       const uploadToS3 = new PutObjectCommand({

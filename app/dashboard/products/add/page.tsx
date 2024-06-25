@@ -42,7 +42,6 @@ const AddProductPage = () => {
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
     },
   });
-  console.log(s3);
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -56,11 +55,10 @@ const AddProductPage = () => {
   const handleUploadS3 = async (e: any) => {
     if (!file) return;
     e.preventDefault();
-    console.log(file);
     const ext = file?.name.split(".").at(-1);
     const uid = uuidv4().replace(/-/g, "");
     const fileName = `${uid}${ext ? "." + ext : ""}`;
-    console.log(fileName);
+
     try {
       const uploadToS3 = new PutObjectCommand({
         Bucket: Bucket,

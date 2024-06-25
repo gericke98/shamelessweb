@@ -86,7 +86,6 @@ export const ClientPage = ({ product }: Props) => {
   };
   const handleRemoveImage = async (index: number) => {
     const filename = imageGrid.filter((_, i) => i === index)[0];
-    console.log(filename.path);
     const newpreview = imageGrid.filter((_, i) => i !== index);
     if (filename) {
       try {
