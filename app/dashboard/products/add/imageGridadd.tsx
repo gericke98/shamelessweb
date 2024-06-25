@@ -1,5 +1,4 @@
 "use client";
-import { ProductType } from "@/types";
 import Image from "next/image";
 
 import { FaTimes } from "react-icons/fa";

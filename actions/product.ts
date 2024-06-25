@@ -117,14 +117,14 @@ export async function editProduct(imagesInput: PropsEdit, formData: FormData) {
   }
 }
 
-export async function addProduct(formData: FormData) {
+export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
   //Extraigo la info de producto
   const rawFormData = {
     name: formData.get("name")?.toString() || "s",
     description: formData.get("description")?.toString(),
     price: Number(formData.get("price")),
   };
-  const mainImgPath = "";
+  const mainImgPath = imagesInput ? imagesInput.images[0].toString() : "";
   //Extraigo la info de variantes
   const formDataEntries = Array.from(formData.entries()).map(
     ([name, value]) => ({ name, value })
@@ -155,20 +155,6 @@ export async function addProduct(formData: FormData) {
       stock: stockMap[id], // Get the corresponding stock value using the ID
     };
   });
-  // Create the upload directory
-  const uploadDir = join(process.cwd(), "public");
-  try {
-    // Check if directory exists
-    await stat(uploadDir);
-  } catch (error: any) {
-    if (error.code === "ENOENT") {
-      // If the directory doesn't exist, create one
-      await mkdir(uploadDir, { recursive: true });
-    } else {
-      console.error("Error while trying to create directory:", error);
-      throw error;
-    }
-  }
 
   //Actualizo bbdd
   if (rawFormData && stockToUpdate) {
@@ -191,6 +177,14 @@ export async function addProduct(formData: FormData) {
           productId: newdb[0].id,
           name: stockInfo.name.toString(),
           stock: Number(stockInfo.stock),
+        });
+      });
+
+      imagesInput.images.map(async (imageNew) => {
+        // Actualizo imagenes
+        await db.insert(images).values({
+          productId: newdb[0].id,
+          path: imageNew.toString(),
         });
       });
       revalidatePath("/", "layout");

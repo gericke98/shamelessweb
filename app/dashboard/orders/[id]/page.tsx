@@ -15,9 +15,12 @@ const SingleOrderPage = async ({ params }: Props) => {
   return (
     <div className="flex gap-20 mt-5">
       <div className="w-full bg-[var(--primary-soft-color)] p-5 rounded-sm font-bold text-white">
-        <h1 className="font-bold w-full text-left text-3xl mb-8">
-          #33{order[0].id}
-        </h1>
+        <div className="flex flex-row justify-between">
+          <h1 className="font-bold w-full text-left text-3xl mb-8">
+            #33{order[0].id}
+          </h1>
+          {/* TO DO: AÑADIR X PARA SALIR DEL ORDER IR  */}
+        </div>
         <form className="flex flex-col gap-2" action={editOrder}>
           <input className="hidden" name={"id"} value={order[0].clientId} />
           <label className="text-lg">Name</label>
@@ -44,24 +47,28 @@ const SingleOrderPage = async ({ params }: Props) => {
           <label className="text-lg mt-10">
             Dirección de envío y facturación
           </label>
+          <label className="text-lg">Address</label>
           <DashboardInput
             name={"address"}
             placeholder={order[0].client.address1}
             type="text"
             valueini={order[0].client.address1}
           />
+          <label className="text-lg">Address 2</label>
           <DashboardInput
             name={"address2"}
             placeholder={order[0].client.address2 || ""}
             type="text"
             valueini={order[0].client.address2 || ""}
           />
+          <label className="text-lg">City</label>
           <DashboardInput
             name={"city"}
             placeholder={order[0].client.city}
             type="text"
             valueini={order[0].client.city}
           />
+          <label className="text-lg">Zip Code</label>
           <DashboardInput
             name={"zip"}
             placeholder={order[0].client.zipcode}
