@@ -16,7 +16,7 @@ export const ClientPage = ({ product }: Props) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const editproductparam = {
     images: imageGrid,
-    previewImages: previewImages,
+    previewImages: selectedFiles,
   };
   const updateProductOrder = editProduct.bind(null, editproductparam);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +50,7 @@ export const ClientPage = ({ product }: Props) => {
     <div className="flex flex-col gap-20 mt-5 h-full">
       <div className="flex flex-col lg:flex-row gap-20">
         <div className="basis-1/4">
-          <div className="lg:w-full lg:h-[400px] hidden  lg:block relative rounded-sm overflow-hidden bg-[var(--primary-soft-color)] mb-5">
+          <div className="lg:w-auto lg:h-[400px] hidden  lg:block relative rounded-sm overflow-hidden bg-[var(--primary-soft-color)] mb-5">
             <Image src={product.mainImg} alt={product.name} fill sizes="75vw" />
           </div>
           {product.name}

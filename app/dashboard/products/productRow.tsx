@@ -1,4 +1,6 @@
 "use client";
+
+import { deleteProduct } from "@/actions/product";
 import { ProductType } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,16 +11,6 @@ type Props = {
 
 export const ProductRow = ({ product }: Props) => {
   const price = product.price.toFixed(2);
-  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = async (
-    event
-  ) => {
-    console.log(`Elimino producto ${product.id}`);
-    // try {
-    //   await deleteProduct(product.id);
-    // } catch (e) {
-    //   console.log("Something went wrong");
-    // }
-  };
   return (
     <tr>
       <td className="p-2">
@@ -49,7 +41,9 @@ export const ProductRow = ({ product }: Props) => {
           </Link>
           <button
             className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[crimson]"
-            onClick={handleDelete}
+            onClick={async () => {
+              await deleteProduct(product.id);
+            }}
           >
             Delete
           </button>

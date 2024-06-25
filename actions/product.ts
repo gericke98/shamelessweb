@@ -16,7 +16,7 @@ import { join } from "path";
 
 type PropsEdit = {
   images: (typeof images.$inferSelect)[];
-  previewImages: string[];
+  previewImages: File[];
 };
 type PropsAdd = {
   images: string[];
@@ -74,26 +74,17 @@ export async function editProduct(imagesInput: PropsEdit, formData: FormData) {
       throw error;
     }
   }
-  imagesInput.previewImages.map(async (imagePath) => {
-    // Create the buffer of the image
-    let buffer;
-    try {
-      buffer = Buffer.from(
-        await fetch(imagePath).then((res) => res.arrayBuffer())
-      );
-    } catch (error) {
-      console.error("Error creating buffer from image file:", error);
-      throw new Error("Invalid image file");
-    }
+  for (const file of imagesInput.previewImages) {
+    const buffer = Buffer.from(
+      await fetch(file).then((res) => res.arrayBuffer())
+    );
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    let filename = `${rawFormData.name}-${uniqueSuffix}.jpg`;
+    filename = filename.replace(/\s+/g, "-");
 
-    // Save the image file
     try {
-      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-      let filename = `${rawFormData.name}-${uniqueSuffix}.jpg`;
-      filename = filename.replace(/\s+/g, "-"); // Replace spaces with hyphens
       await writeFile(`${uploadDir}/${filename}`, buffer);
-      const fileUrl = `/${filename}`;
-      // Save the file URL to the database
+      const fileUrl = `/uploads/${filename}`;
 
       const imagesDB = await db
         .insert(images)
@@ -102,14 +93,13 @@ export async function editProduct(imagesInput: PropsEdit, formData: FormData) {
           path: fileUrl.toString(),
         })
         .returning();
-      // Agrego la nueva imagen al array de ids para que no se elimine mas adelante
+
       imageIds.push(imagesDB[0].id);
     } catch (e) {
       console.error("Error while trying to upload a file:", e);
       throw e;
     }
-  });
-
+  }
   // Actualizo bbdd
   if (rawFormData && stockToUpdate) {
     try {
@@ -150,15 +140,16 @@ export async function editProduct(imagesInput: PropsEdit, formData: FormData) {
   }
 }
 
-export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
-  console.log("Entro");
+export async function addProduct(formData: FormData) {
   //Extraigo la info de producto
   const rawFormData = {
     name: formData.get("name")?.toString() || "s",
     description: formData.get("description")?.toString(),
     price: Number(formData.get("price")),
   };
-  const mainImgPath = imagesInput.images[0].toString();
+  // console.log(imagesInput.images);
+  // const mainImgPath = imagesInput.images[0].toString();
+  const mainImgPath = "";
   //Extraigo la info de variantes
   const formDataEntries = Array.from(formData.entries()).map(
     ([name, value]) => ({ name, value })
@@ -190,7 +181,6 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
     };
   });
   // Create the upload directory
-  console.log("Entro 2");
   const uploadDir = join(process.cwd(), "public");
   try {
     // Check if directory exists
@@ -220,7 +210,6 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
           mainImg: mainImgPath || "/world-tour-front.jpg",
         })
         .returning();
-      console.log("Entro 3");
       //Actualizo variantes
       stockToUpdate.map(async (stockInfo) => {
         await db.insert(variants).values({
@@ -229,44 +218,43 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
           stock: Number(stockInfo.stock),
         });
       });
-      console.log("Entro 4");
       // Actualizo imagenes
-      imagesInput.images.map(async (imagePath) => {
-        // Create the buffer of the image
-        let buffer;
-        try {
-          buffer = Buffer.from(
-            await fetch(imagePath).then((res) => res.arrayBuffer())
-          );
-        } catch (error) {
-          console.error("Error creating buffer from image file:", error);
-          throw new Error("Invalid image file");
-        }
-        console.log("Entro 5");
-        // Save the image file
-        try {
-          const uniqueSuffix = `${Date.now()}-${Math.round(
-            Math.random() * 1e9
-          )}`;
-          let filename = `${rawFormData.name}-${uniqueSuffix}.jpg`;
-          filename = filename.replace(/\s+/g, "-"); // Replace spaces with hyphens
-          await writeFile(`${uploadDir}/${filename}`, buffer);
-          const fileUrl = `/${filename}`;
-          // Save the file URL to the database
+      // imagesInput.images.map(async (imagePath) => {
+      //   console.log(imagePath);
+      //   // Create the buffer of the image
+      //   let buffer;
+      //   try {
+      //     buffer = Buffer.from(
+      //       await fetch(imagePath).then((res) => res.arrayBuffer())
+      //     );
+      //   } catch (error) {
+      //     console.error("Error creating buffer from image file:", error);
+      //     throw new Error("Invalid image file");
+      //   }
+      //   // Save the image file
+      //   try {
+      //     const uniqueSuffix = `${Date.now()}-${Math.round(
+      //       Math.random() * 1e9
+      //     )}`;
+      //     let filename = `${rawFormData.name}-${uniqueSuffix}.jpg`;
+      //     filename = filename.replace(/\s+/g, "-"); // Replace spaces with hyphens
+      //     await writeFile(`${uploadDir}/${filename}`, buffer);
+      //     const fileUrl = `/${filename}`;
+      //     // Save the file URL to the database
 
-          await db
-            .insert(images)
-            .values({
-              productId: Number(newdb[0].id),
-              path: fileUrl.toString(),
-            })
-            .returning();
-          // Agrego la nueva imagen al array de ids para que no se elimine mas adelante
-        } catch (e) {
-          console.error("Error while trying to upload a file:", e);
-          throw e;
-        }
-      });
+      //     await db
+      //       .insert(images)
+      //       .values({
+      //         productId: Number(newdb[0].id),
+      //         path: fileUrl.toString(),
+      //       })
+      //       .returning();
+      //     // Agrego la nueva imagen al array de ids para que no se elimine mas adelante
+      //   } catch (e) {
+      //     console.error("Error while trying to upload a file:", e);
+      //     throw e;
+      //   }
+      // });
       revalidatePath("/", "layout");
     } catch (e) {
       console.log("Error updating database");
@@ -274,4 +262,10 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
 
     redirect("/dashboard");
   }
+}
+
+export async function deleteProduct(id: number) {
+  await db.delete(products).where(eq(products.id, id));
+  // Hidration
+  revalidatePath("/", "layout");
 }

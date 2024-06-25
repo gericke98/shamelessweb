@@ -3,6 +3,8 @@ import { addProduct } from "@/actions/product";
 import DashboardInput from "@/components/dashboard/input/dashboardInput";
 import React, { useState } from "react";
 import { ImageGridAdd } from "./imageGridAdd";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { v4 as uuidv4 } from "uuid";
 
 const variants = [
   {
@@ -24,89 +26,54 @@ const variants = [
 ];
 
 const AddProductPage = () => {
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const addproductparam = {
-    images: previewImages,
-  };
-  const addProductOrder = addProduct.bind(null, addproductparam);
-  const resizeImage = (file: File) => {
-    return new Promise<File>((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const img = new Image();
-        img.src = reader.result as string;
-
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
-
-          const MAX_WIDTH = 800;
-          const MAX_HEIGHT = 800;
-
-          let width = img.width;
-          let height = img.height;
-
-          if (width > height) {
-            if (width > MAX_WIDTH) {
-              height = Math.round((height * MAX_WIDTH) / width);
-              width = MAX_WIDTH;
-            }
-          } else {
-            if (height > MAX_HEIGHT) {
-              width = Math.round((width * MAX_HEIGHT) / height);
-              height = MAX_HEIGHT;
-            }
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-          ctx?.drawImage(img, 0, 0, width, height);
-
-          canvas.toBlob(
-            (blob) => {
-              if (blob) {
-                const resizedFile = new File([blob], file.name, {
-                  type: file.type,
-                  lastModified: Date.now(),
-                });
-                resolve(resizedFile);
-              }
-            },
-            file.type,
-            0.8
-          );
-        };
-      };
-      reader.readAsDataURL(file);
-    });
-  };
+  const [file, setFile] = useState<File | null>(null);
+  const previewImages = [""];
+  const handleRemovePreviewImage = () => {};
+  // const addproductparam = {
+  //   images: previewImages,
+  // };
+  // const addProductOrder = addProduct.bind(null, addproductparam);
+  const Bucket = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+  const s3 = new S3Client({
+    region: process.env.NEXT_PUBLIC_AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID as string,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY as string,
+    },
+  });
+  console.log(s3);
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const files = Array.from(event.target.files || []);
-    const newPreviews: string[] = [];
-    const newFiles: File[] = [];
+    event.preventDefault();
+    if (!event.target.files) return;
+    setFile(event.target.files[0]);
 
-    for (const file of files) {
-      const resizedFile = await resizeImage(file);
-      newFiles.push(resizedFile);
-      newPreviews.push(URL.createObjectURL(resizedFile));
-    }
-
-    setPreviewImages((prev) => [...prev, ...newPreviews]);
-    setSelectedFiles((prev) => [...prev, ...newFiles]);
+    // setPreviewImages((prev) => [...prev, ...newPreviews]);
+    // setSelectedFiles((prev) => [...prev, ...newFiles]);
   };
-  const handleRemovePreviewImage = (index: number) => {
-    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
-    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  const handleUploadS3 = async (e: any) => {
+    if (!file) return;
+    e.preventDefault();
+    console.log(file);
+    const ext = file?.name.split(".").at(-1);
+    const uid = uuidv4().replace(/-/g, "");
+    const fileName = `${uid}${ext ? "." + ext : ""}`;
+    console.log(fileName);
+    try {
+      const uploadToS3 = new PutObjectCommand({
+        Bucket: Bucket,
+        Key: fileName,
+        Body: file,
+      });
+      await s3.send(uploadToS3);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="bg-[var(--primary-soft-color)] p-5 rounded-sm mt-5">
-      <form
-        action={addProductOrder}
-        className="flex flex-wrap justify-between gap-2"
-      >
+      <form action={""} className="flex flex-wrap justify-between gap-2">
         <label className="text-lg">Name</label>
         <DashboardInput
           name={"name"}
@@ -158,6 +125,7 @@ const AddProductPage = () => {
         <button
           type="submit"
           className="w-full p-5 bg-[teal] cursor-pointer border-none rounded-sm mt-4"
+          onClick={handleUploadS3}
         >
           Submit
         </button>

@@ -91,9 +91,3 @@ export const getUsers = cache(async () => {
   const data = await db.query.users.findMany();
   return data;
 });
-
-export const deleteProduct = async (id: number) => {
-  // TO DO: HANDLE DELETE
-  console.log(`Elimino product ${id}`);
-  // await db.delete(products).where(eq(products.id, id));
-};
