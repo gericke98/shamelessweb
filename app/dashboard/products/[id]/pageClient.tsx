@@ -5,6 +5,12 @@ import Image from "next/image";
 import { ImageGrid } from "./imageGrid";
 import { ProductType } from "@/types";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 
 type Props = {
   product: ProductType;
@@ -13,35 +19,72 @@ type Props = {
 export const ClientPage = ({ product }: Props) => {
   const [imageGrid, setImageGrid] = useState(product.images);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  // Configuracion S3
+  const Bucket = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+  const s3 = new S3Client({
+    region: process.env.NEXT_PUBLIC_AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID as string,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY as string,
+    },
+  });
   const editproductparam = {
     images: imageGrid,
-    previewImages: selectedFiles,
+    previewImages: previewImages,
   };
   const updateProductOrder = editProduct.bind(null, editproductparam);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Check del input
+    event.preventDefault();
+    if (!event.target.files) return;
+
+    // Creo un array con todos los files
     const files = Array.from(event.target.files || []);
-    const newPreviews: string[] = [];
-    const newFiles: File[] = [];
 
-    files.forEach((file) => {
-      newFiles.push(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        newPreviews.push(reader.result as string);
+    // Recorro cada file para crear objeto en bucket S3
+    files.forEach(async (file) => {
+      // Creo el nombre del fichero que se va a guardar en s3
+      const ext = file?.name.split(".").at(-1);
+      const uid = uuidv4().replace(/-/g, "");
+      const fileName = `${uid}${ext ? "." + ext : ""}`;
 
-        // Only update the state after all files have been read
-        if (newPreviews.length === files.length) {
-          setPreviewImages((prev) => [...prev, ...newPreviews]);
-          setSelectedFiles((prev) => [...prev, ...newFiles]);
-        }
-      };
-      reader.readAsDataURL(file);
+      try {
+        // Añado el objeto a S3
+        const uploadToS3 = new PutObjectCommand({
+          Bucket,
+          Key: fileName,
+          Body: file,
+        });
+        await s3.send(uploadToS3);
+        // En caso de exitoso guardo la url
+        const newfileName = `https://${
+          process.env.NEXT_PUBLIC_AWS_BUCKET_NAME
+        }.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${uid}${
+          ext ? "." + ext : ""
+        }`;
+        setPreviewImages([...previewImages, newfileName]);
+      } catch (error) {
+        console.error(error);
+      }
     });
   };
-  const handleRemovePreviewImage = (index: number) => {
-    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
-    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  const handleRemovePreviewImage = async (index: number) => {
+    const filename = previewImages.filter((_, i) => i === index)[0];
+    const newpreview = previewImages.filter((_, i) => i !== index);
+    try {
+      // Añado el objeto a S3
+      const uploadToS3 = new DeleteObjectCommand({
+        Bucket,
+        Key: filename,
+      });
+      await s3.send(uploadToS3);
+      // En caso de exitoso guardo la url
+      setPreviewImages(newpreview);
+    } catch (error) {
+      console.error(error);
+    }
+    // setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+    // setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
   const handleRemoveImage = (index: number) => {
     setImageGrid((prev) => prev.filter((_, i) => i !== index));
@@ -50,7 +93,7 @@ export const ClientPage = ({ product }: Props) => {
     <div className="flex flex-col gap-20 mt-5 h-full">
       <div className="flex flex-col lg:flex-row gap-20">
         <div className="basis-1/4">
-          <div className="lg:w-auto lg:h-[400px] hidden  lg:block relative rounded-sm overflow-hidden bg-[var(--primary-soft-color)] mb-5">
+          <div className="lg:w-auto lg:h-[550px] hidden  lg:block relative rounded-sm overflow-hidden bg-[var(--primary-soft-color)] mb-5">
             <Image src={product.mainImg} alt={product.name} fill sizes="75vw" />
           </div>
           {product.name}

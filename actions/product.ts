@@ -16,7 +16,7 @@ import { join } from "path";
 
 type PropsEdit = {
   images: (typeof images.$inferSelect)[];
-  previewImages: File[];
+  previewImages: string[];
 };
 type PropsAdd = {
   images: string[];
@@ -60,32 +60,9 @@ export async function editProduct(imagesInput: PropsEdit, formData: FormData) {
     };
   });
 
-  // Create the upload directory
-  const uploadDir = join(process.cwd(), "public");
-  try {
-    // Check if directory exists
-    await stat(uploadDir);
-  } catch (error: any) {
-    if (error.code === "ENOENT") {
-      // If the directory doesn't exist, create one
-      await mkdir(uploadDir, { recursive: true });
-    } else {
-      console.error("Error while trying to create directory:", error);
-      throw error;
-    }
-  }
-  for (const file of imagesInput.previewImages) {
-    const buffer = Buffer.from(
-      await fetch(file).then((res) => res.arrayBuffer())
-    );
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    let filename = `${rawFormData.name}-${uniqueSuffix}.jpg`;
-    filename = filename.replace(/\s+/g, "-");
-
+  for (const fileUrl of imagesInput.previewImages) {
     try {
-      await writeFile(`${uploadDir}/${filename}`, buffer);
-      const fileUrl = `/uploads/${filename}`;
-
+      // Lo incluyo en la base de datos
       const imagesDB = await db
         .insert(images)
         .values({

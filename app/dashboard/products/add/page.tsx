@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { ImageGridAdd } from "./imageGridAdd";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
+import ImageTest from "./imagesTest";
 
 const variants = [
   {
@@ -89,11 +90,12 @@ const AddProductPage = () => {
           valueini={""}
         />
         <label className="text-lg">Media</label>
-        <ImageGridAdd
+        {/* <ImageGridAdd
           previewImages={previewImages}
           handleFileChange={handleFileChange}
           handleRemovePreviewImage={handleRemovePreviewImage}
-        />
+        /> */}
+        <ImageTest />
         <label className="text-lg">Price</label>
         <DashboardInput
           name={"price"}
