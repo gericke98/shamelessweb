@@ -83,11 +83,25 @@ export const ClientPage = ({ product }: Props) => {
     } catch (error) {
       console.error(error);
     }
-    // setPreviewImages((prev) => prev.filter((_, i) => i !== index));
-    // setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
-  const handleRemoveImage = (index: number) => {
-    setImageGrid((prev) => prev.filter((_, i) => i !== index));
+  const handleRemoveImage = async (index: number) => {
+    const filename = imageGrid.filter((_, i) => i === index)[0];
+    console.log(filename.path);
+    const newpreview = imageGrid.filter((_, i) => i !== index);
+    if (filename) {
+      try {
+        // Añado el objeto a S3
+        const uploadToS3 = new DeleteObjectCommand({
+          Bucket,
+          Key: filename.path?.toString(),
+        });
+        await s3.send(uploadToS3);
+        // En caso de exitoso guardo la url
+        setImageGrid(newpreview);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
   return (
     <div className="flex flex-col gap-20 mt-5 h-full">
