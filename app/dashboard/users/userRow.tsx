@@ -1,3 +1,5 @@
+"use client";
+import { deleteUser } from "@/actions/users";
 import { cn } from "@/lib/utils";
 import { UserType } from "@/types";
 import Link from "next/link";
@@ -30,7 +32,12 @@ export const UserRow = ({ user }: Props) => {
             </button>
           </Link>
           <Link href="/">
-            <button className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[crimson]">
+            <button
+              className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[crimson]"
+              onClick={async () => {
+                await deleteUser(user.id);
+              }}
+            >
               Delete
             </button>
           </Link>
