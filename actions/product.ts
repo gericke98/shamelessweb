@@ -180,7 +180,7 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
         });
       });
 
-      imagesInput.images.map(async (imageNew) => {
+      imagesInput.images.map(async (imageNew, idx) => {
         // Actualizo imagenes
         await db.insert(images).values({
           productId: newdb[0].id,

@@ -3,8 +3,7 @@ import React, { useContext, useEffect } from "react";
 import CartItem from "./cartItem";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import DoneIcon from "../public/done.svg";
-import CloseIcon from "../public/close.svg";
+import CloseIcon from "../public/closewhite.svg";
 import Link from "next/link";
 
 const CartDropdown = () => {

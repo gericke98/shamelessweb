@@ -31,7 +31,7 @@ export const UserRow = ({ user }: Props) => {
               View
             </button>
           </Link>
-          <Link href="/">
+          <Link href="/dashboard">
             <button
               className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[crimson]"
               onClick={async () => {

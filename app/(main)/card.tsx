@@ -69,7 +69,7 @@ export const Card = ({ product }: Props) => {
           {product.name}
         </h3>
         <h3 className="text-left mt-0.5 text-xs lg:text-md">
-          €{product.price}
+          € {product.price.toFixed(2)}
         </h3>
       </div>
     </div>

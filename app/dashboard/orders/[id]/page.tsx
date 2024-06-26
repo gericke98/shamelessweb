@@ -1,7 +1,10 @@
 import { editOrder } from "@/actions/oders";
 import DashboardInput from "@/components/dashboard/input/dashboardInput";
-import { getOrder } from "@/db/queries";
+import { getOrder, getProducts } from "@/db/queries";
+import Image from "next/image";
 import React from "react";
+import CloseIcon from "@/public/closewhite.svg";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -11,15 +14,23 @@ type Props = {
 
 const SingleOrderPage = async ({ params }: Props) => {
   const order = await getOrder(params.id);
+  const products = await getProducts();
+  // Extraigo los ids de los productos del pedido
+  const orderProductsIds = order.flatMap((o) =>
+    o.products.map((p) => p.productId)
+  );
 
+  const productOrders = products.filter((p) =>
+    p.variants.some((v) => orderProductsIds.includes(v.id))
+  );
   return (
     <div className="flex gap-20 mt-5">
       <div className="w-full bg-[var(--primary-soft-color)] p-5 rounded-sm font-bold text-white">
-        <div className="flex flex-row justify-between">
-          <h1 className="font-bold w-full text-left text-3xl mb-8">
-            #33{order[0].id}
-          </h1>
-          {/* TO DO: AÑADIR X PARA SALIR DEL ORDER IR  */}
+        <div className="flex flex-row justify-between items-start">
+          <h1 className="font-bold h-full text-3xl mb-8">#33{order[0].id}</h1>
+          <Link href="/dashboard/orders">
+            <Image src={CloseIcon} width={30} height={30} alt="Close icon" />
+          </Link>
         </div>
         <form className="flex flex-col gap-2" action={editOrder}>
           <input className="hidden" name={"id"} value={order[0].clientId} />
@@ -75,32 +86,30 @@ const SingleOrderPage = async ({ params }: Props) => {
             type="text"
             valueini={order[0].client.zipcode}
           />
-          {/* <label className="text-lg">Products</label> */}
-          {/* {order[0].products.map((product) => (
-            <div key={product.id} className="w-full flex flex-row">
-              <div className="w-1/2">
-                <DashboardInput
-                  name={`variant-${product.id}`}
-                  placeholder={product.id.toString()}
-                  type="text"
-                  valueini={product.id.toString()}
+          <label className="text-lg mt-10">Products</label>
+          <div className="flex flex-row justify-between px-2 py-4">
+            {productOrders.map((productOrder) => (
+              <div
+                key={productOrder.id}
+                className="flex flex-col justify-center relative w-40 h-60"
+              >
+                <h5 className="bg-[var(--primary-dark-color)] px-3 py-1 rounded-full absolute top-0 right-0 z-50 text-center">
+                  5
+                </h5>
+                <Image
+                  src={productOrder.mainImg}
+                  alt={productOrder.id.toString()}
+                  fill
                 />
+
+                <h4 className="text-sm pt-5 w-40">{productOrder.name}</h4>
               </div>
-              <div className="w-1/2">
-                <DashboardInput
-                  name={`stock-${product.id}`}
-                  placeholder={product.quantity.toString()}
-                  type="number"
-                  valueini={product.quantity.toString()}
-                />
-              </div>
-            </div>
-          ))} */}
+            ))}
+          </div>
           <button className="w-full p-5 bg-[teal] border-none text-white rounded-sm cursor-pointer mt-4">
             Update
           </button>
         </form>
-        {/* TO DO: ADD PRODUCTS ALREADY BOUGHT */}
       </div>
     </div>
   );

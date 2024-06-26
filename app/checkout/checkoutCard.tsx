@@ -7,7 +7,7 @@ type Props = {
 
 export const CheckoutCard = ({ item }: Props) => {
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <div className="flex flex-row lg:w-8/12 w-full lg:p-0 p-4">
         <div className="relative w-28 h-28 border-2 rounded-xl">
           <div className="overflow-hidden w-full h-full">

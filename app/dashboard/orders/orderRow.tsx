@@ -20,7 +20,7 @@ export const OrderRow = ({ order }: Props) => {
       <td className="p-2">
         {order.client.name} {order.client.surname}
       </td>
-      <td className="p-2">€{order.total / 100}</td>
+      <td className="p-2">€ {(order.total / 100).toFixed(2)}</td>
       <td className="p-2">
         <span
           className={cn(

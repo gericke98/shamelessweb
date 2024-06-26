@@ -1,12 +1,14 @@
 import { getOrders } from "@/db/queries";
 import React from "react";
 import { OrderRow } from "./orderRow";
+import { revalidatePath } from "next/cache";
 
 const Orders = async () => {
   //Get all the orders
+  revalidatePath("/");
   const orders = await getOrders();
   return (
-    <div className="bg-[var(--primary-soft-color)] p-5 rounded-sm min-h-screen">
+    <div className="bg-[var(--primary-soft-color)] p-5 rounded-sm min-h-96">
       <h2 className="mb-5 font-thin">Latest transactions</h2>
       <table className="w-full">
         <thead className="text-left">

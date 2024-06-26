@@ -92,7 +92,7 @@ export const getProducts = cache(async () => {
   return data;
 });
 
-export const getOrders = cache(async () => {
+export const getOrders = async () => {
   const data = await db.query.orders.findMany({
     with: {
       products: true,
@@ -100,7 +100,7 @@ export const getOrders = cache(async () => {
     },
   });
   return data;
-});
+};
 
 export const getUsers = cache(async () => {
   const data = await db.query.users.findMany();
