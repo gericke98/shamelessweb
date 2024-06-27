@@ -31,13 +31,13 @@ export const PageClient = ({ products }: Props) => {
           </button>
         </Link>
       </div>
-      <table className="w-full text-left">
+      <table className="w-full text-left mt-5 lg:mt-0 ">
         <thead>
-          <th className="p-2">Product</th>
-          <th className="p-2">Price</th>
-          <th className="p-2">Created at</th>
-          <th className="p-2">Inventory</th>
-          <th className="p-2">Actions</th>
+          <th className="p-2 text-xs lg:text-lg">Product</th>
+          <th className="p-2 text-xs lg:text-lg">Price</th>
+          <th className="p-2 text-xs lg:text-lg min-w-20">Created at</th>
+          <th className="p-2 text-xs lg:text-lg">Inventory</th>
+          <th className="p-2 text-xs lg:text-lg">Actions</th>
         </thead>
         <tbody>
           {filteredProducts.map((product) => (

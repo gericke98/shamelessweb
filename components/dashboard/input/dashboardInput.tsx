@@ -34,7 +34,7 @@ const DashboardInput = ({
             name={name}
             placeholder={placeholder}
             value={value}
-            className="w-full p-5 border-2 border-[#2e374a] rounded-sm bg-[var(--primary-dark-color)]"
+            className="w-full lg:p-5 p-3 border-2 border-[#2e374a] rounded-sm bg-[var(--primary-dark-color)] lg:text-base text-sm"
             onChange={handleChange}
             required
           />
@@ -43,7 +43,7 @@ const DashboardInput = ({
             type={type}
             name={name}
             className={cn(
-              "pt-5 pb-5 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5"
+              "lg:p-5 p-3 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full lg:text-base text-sm"
             )}
             placeholder={placeholder}
             value={value}
@@ -56,7 +56,7 @@ const DashboardInput = ({
             type={type}
             name={name}
             className={cn(
-              "pt-5 pb-5 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full pl-5 pr-5"
+              "lg:p-5 p-3 bg-transparent border-2 border-[#d6d7d9] rounded-xl w-full lg:text-base text-sm"
             )}
             placeholder={placeholder}
             value={value}

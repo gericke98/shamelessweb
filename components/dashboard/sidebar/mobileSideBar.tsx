@@ -1,16 +1,13 @@
+import Link from "next/link";
 import React from "react";
-
 import {
   MdAttachMoney,
   MdDashboard,
   MdHelpCenter,
-  MdLogout,
   MdOutlineSettings,
   MdShoppingBag,
   MdSupervisedUserCircle,
 } from "react-icons/md";
-import MenuLink from "./menuLink/menuLink";
-import Image from "next/image";
 
 const menuItems = [
   {
@@ -19,22 +16,22 @@ const menuItems = [
       {
         title: "Dashboard",
         path: "/dashboard",
-        icon: <MdDashboard />,
+        icon: <MdDashboard style={{ color: "black" }} size={22} />,
       },
       {
         title: "Orders",
         path: "/dashboard/orders",
-        icon: <MdAttachMoney />,
+        icon: <MdAttachMoney style={{ color: "black" }} size={22} />,
       },
       {
         title: "Products",
         path: "/dashboard/products",
-        icon: <MdShoppingBag />,
+        icon: <MdShoppingBag style={{ color: "black" }} size={22} />,
       },
       {
         title: "Users",
         path: "/dashboard/users",
-        icon: <MdSupervisedUserCircle />,
+        icon: <MdSupervisedUserCircle style={{ color: "black" }} size={22} />,
       },
     ],
   },
@@ -56,29 +53,18 @@ const menuItems = [
 ];
 export const MobileSideBar = () => {
   return (
-    <div className="sticky bottom-0 h-full">
-      <div className="w-full flex flex-row">
-        <ul className="list-none">
-          {menuItems.map((cat) => (
-            <li key={cat.title}>
-              <span className="text-white font-bold text-sm m-2">
-                <span className="text-slate-500">{cat.title}</span>
-                {cat.list.map((item) => (
-                  <MenuLink
-                    title={item.title}
-                    path={item.path}
-                    icon={item.icon}
-                    key={item.title}
-                  />
-                ))}
-              </span>
-            </li>
-          ))}
-        </ul>
+    <div className="w-full fixed bottom-0 flex items-center h-14 bg-white z-10">
+      <div className="flex flex-row w-full justify-between items-center">
+        {menuItems[0].list.map((menu) => (
+          <Link
+            href={menu.path}
+            key={menu.title}
+            className="w-full flex justify-center"
+          >
+            {menu.icon}
+          </Link>
+        ))}
       </div>
-      <button className="flex items-center gap-2 pointer rounded-sm p-5 my-1 bg-transparent border-none w-full hover:bg-[#2e374a]">
-        <MdLogout /> Logout
-      </button>
     </div>
   );
 };

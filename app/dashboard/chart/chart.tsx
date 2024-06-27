@@ -50,7 +50,7 @@ const data = [
 
 export default function Chart() {
   return (
-    <div className="w-full h-[450px] bg-[var(--primary-soft-color)] p-5">
+    <div className="w-full h-[450px] bg-[var(--primary-soft-color)] lg:p-5 p-2">
       <h2 className="font-regular text-white mb-5">Weekly Recap</h2>
       <ResponsiveContainer width="100%" height="90%">
         <LineChart
@@ -59,8 +59,8 @@ export default function Chart() {
           data={data}
           margin={{
             top: 5,
-            right: 30,
-            left: 20,
+            right: 10,
+            left: 10,
             bottom: 5,
           }}
         >

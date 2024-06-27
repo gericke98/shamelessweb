@@ -11,29 +11,24 @@ type Props = {
 export const UserRow = ({ user }: Props) => {
   return (
     <tr>
-      <td className="p-2">
+      <td className="p-2 text-xs lg:text-lg">
         {user.name} {user.surname}
       </td>
-      <td className="p-2">{user.email}</td>
-      <td className="p-2">{user.city}</td>
+      <td className="p-2 text-xs lg:text-lg">{user.email}</td>
+      <td className="p-2 text-xs lg:text-lg">{user.city}</td>
       <td
         className={cn(
-          "p-2",
+          "p-2 text-xs lg:text-lg",
           user.subscribed ? "bg-[#afd6ee75]" : "bg-[#f7737375]"
         )}
       >
         {user.subscribed ? "Yes" : "No"}
       </td>
-      <td className="p-2">
+      <td className="p-2 text-xs lg:text-lg">
         <div className="flex gap-2">
-          <Link href="/add">
-            <button className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[teal]">
-              View
-            </button>
-          </Link>
           <Link href="/dashboard">
             <button
-              className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[crimson]"
+              className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[crimson] text-xs lg:text-lg"
               onClick={async () => {
                 await deleteUser(user.id);
               }}

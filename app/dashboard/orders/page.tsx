@@ -8,17 +8,17 @@ const Orders = async () => {
   revalidatePath("/");
   const orders = await getOrders();
   return (
-    <div className="bg-[var(--primary-soft-color)] p-5 rounded-sm min-h-96">
-      <h2 className="mb-5 font-thin">Latest transactions</h2>
+    <div className="bg-[var(--primary-soft-color)] lg:p-5 p-3 rounded-sm min-h-96">
+      <h2 className="mb-5 font-light">Latest transactions</h2>
       <table className="w-full">
         <thead className="text-left">
-          <th className="p-2">Id</th>
-          <th className="p-2">Date</th>
-          <th className="p-2">Name</th>
-          <th className="p-2">Total</th>
-          <th className="p-2">Payment status</th>
-          <th className="p-2">Fulfillment status</th>
-          <th className="p-2">Items</th>
+          <th className="p-2 text-xs lg:text-lg">Id</th>
+          <th className="p-2 text-xs lg:text-lg">Date</th>
+          <th className="p-2 text-xs lg:text-lg">Name</th>
+          <th className="p-2 text-xs lg:text-lg min-w-20 ">Total</th>
+          <th className="p-2 text-xs lg:text-lg">Payment status</th>
+          <th className="p-2 text-xs lg:text-lg">Fulfillment status</th>
+          <th className="p-2 text-xs lg:text-lg">Items</th>
         </thead>
         <tbody>
           {orders.map((order) => (

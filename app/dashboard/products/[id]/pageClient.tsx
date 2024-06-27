@@ -105,7 +105,7 @@ export const ClientPage = ({ product }: Props) => {
   return (
     <div className="flex flex-col gap-20 mt-5 h-full">
       <div className="flex flex-col lg:flex-row gap-20">
-        <div className="basis-1/4">
+        <div className="basis-1/4 hidden lg:flex">
           <div className="lg:w-auto lg:h-[550px] hidden  lg:block relative rounded-sm overflow-hidden bg-[var(--primary-soft-color)] mb-5">
             <Image src={product.mainImg} alt={product.name} fill sizes="75vw" />
           </div>
@@ -114,28 +114,28 @@ export const ClientPage = ({ product }: Props) => {
         <div className="basis-3/4 bg-[var(--primary-soft-color)] p-5 rounded-sm font-bold text-white">
           <form className="flex flex-col gap-2" action={updateProductOrder}>
             <input className="hidden" name={"id"} value={product.id} readOnly />
-            <label className="text-lg">Title</label>
+            <label className="lg:text-lg text-base">Title</label>
             <DashboardInput
               name={"name"}
               placeholder={product.name}
               type="text"
               valueini={product.name}
             />
-            <label className="text-lg">Description</label>
+            <label className="lg:text-lg text-base">Description</label>
             <DashboardInput
               name={"description"}
               placeholder={product.description}
               type="textarea"
               valueini={product.description}
             />
-            <label className="text-lg">Price</label>
+            <label className="lg:text-lg text-base">Price</label>
             <DashboardInput
               name={"price"}
               placeholder={product.price.toString()}
               type="number"
               valueini={product.price.toString()}
             />
-            <label className="text-lg">Size</label>
+            <label className="lg:text-lg text-base">Size</label>
             {product.variants.map((variant) => (
               <div key={variant.id} className="w-full flex flex-row">
                 <div className="w-1/2">
@@ -156,7 +156,7 @@ export const ClientPage = ({ product }: Props) => {
                 </div>
               </div>
             ))}
-            <label className="text-lg">Media</label>
+            <label className="lg:text-lg text-base">Media</label>
             {product.images && (
               <ImageGrid
                 imageGrid={imageGrid}
@@ -166,7 +166,7 @@ export const ClientPage = ({ product }: Props) => {
                 handleRemoveImage={handleRemoveImage}
               />
             )}
-            <button className="w-full p-5 bg-[teal] border-none text-white rounded-sm cursor-pointer mt-4">
+            <button className="w-full p-5 bg-[teal] border-none text-white rounded-sm cursor-pointer mt-4 mb-20 lg:mb-0">
               Update
             </button>
           </form>

@@ -15,7 +15,7 @@ export const ProductRow = ({ product }: Props) => {
     <tr>
       <td className="p-2">
         <Link href={`/dashboard/products/${product.id}`}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-xs lg:text-base">
             <Image
               src={product.mainImg}
               alt="product"
@@ -27,20 +27,20 @@ export const ProductRow = ({ product }: Props) => {
           </div>
         </Link>
       </td>
-      <td className="p-2">{price}</td>
-      <td className="p-2">13.01.2022</td>
-      <td className="p-2">
+      <td className="p-2 text-xs lg:text-base">{price}</td>
+      <td className="p-2 text-xs lg:text-base">13.01.2022</td>
+      <td className="p-2 text-xs lg:text-base">
         {product.variants.reduce((total, variant) => total + variant.stock, 0)}
       </td>
       <td className="p-2">
         <div className="flex gap-2">
           <Link href={`/dashboard/products/${product.id}`}>
-            <button className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[teal]">
+            <button className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[teal] text-xs lg:text-base">
               View
             </button>
           </Link>
           <button
-            className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[crimson]"
+            className="py-1 px-2 rounded-sm text-white cursor-pointer bg-[crimson] text-xs lg:text-base"
             onClick={async () => {
               await deleteProduct(product.id);
             }}

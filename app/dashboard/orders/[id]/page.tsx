@@ -27,66 +27,68 @@ const SingleOrderPage = async ({ params }: Props) => {
     <div className="flex gap-20 mt-5">
       <div className="w-full bg-[var(--primary-soft-color)] p-5 rounded-sm font-bold text-white">
         <div className="flex flex-row justify-between items-start">
-          <h1 className="font-bold h-full text-3xl mb-8">#33{order[0].id}</h1>
+          <h1 className="font-bold h-full lg:text-3xl text-xl mb-8">
+            #33{order[0].id}
+          </h1>
           <Link href="/dashboard/orders">
             <Image src={CloseIcon} width={30} height={30} alt="Close icon" />
           </Link>
         </div>
         <form className="flex flex-col gap-2" action={editOrder}>
           <input className="hidden" name={"id"} value={order[0].clientId} />
-          <label className="text-lg">Name</label>
+          <label className="lg:text-lg text-base">Name</label>
           <DashboardInput
             name={"name"}
             placeholder={order[0].client.name}
             type="text"
             valueini={order[0].client.name}
           />
-          <label className="text-lg">Email</label>
+          <label className="lg:text-lg text-base">Email</label>
           <DashboardInput
             name={"email"}
             placeholder={order[0].client.email}
             type="text"
             valueini={order[0].client.email}
           />
-          <label className="text-lg">Phone</label>
+          <label className="lg:text-lg text-base">Phone</label>
           <DashboardInput
             name={"phone"}
             placeholder={order[0].client.number.toString()}
             type="text"
             valueini={order[0].client.number.toString()}
           />
-          <label className="text-lg mt-10">
+          <label className="lg:text-lg text-base mt-10">
             Dirección de envío y facturación
           </label>
-          <label className="text-lg">Address</label>
+          <label className="lg:text-lg text-base">Address</label>
           <DashboardInput
             name={"address"}
             placeholder={order[0].client.address1}
             type="text"
             valueini={order[0].client.address1}
           />
-          <label className="text-lg">Address 2</label>
+          <label className="lg:text-lg text-base">Address 2</label>
           <DashboardInput
             name={"address2"}
             placeholder={order[0].client.address2 || ""}
             type="text"
             valueini={order[0].client.address2 || ""}
           />
-          <label className="text-lg">City</label>
+          <label className="lg:text-lg text-base">City</label>
           <DashboardInput
             name={"city"}
             placeholder={order[0].client.city}
             type="text"
             valueini={order[0].client.city}
           />
-          <label className="text-lg">Zip Code</label>
+          <label className="lg:text-lg text-base">Zip Code</label>
           <DashboardInput
             name={"zip"}
             placeholder={order[0].client.zipcode}
             type="text"
             valueini={order[0].client.zipcode}
           />
-          <label className="text-lg mt-10">Products</label>
+          <label className="lg:text-lg text-base mt-10">Products</label>
           <div className="flex flex-row justify-between px-2 py-4">
             {productOrders.map((productOrder) => (
               <div
@@ -106,7 +108,7 @@ const SingleOrderPage = async ({ params }: Props) => {
               </div>
             ))}
           </div>
-          <button className="w-full p-5 bg-[teal] border-none text-white rounded-sm cursor-pointer mt-4">
+          <button className="w-full p-5 bg-[teal] border-none text-white rounded-sm cursor-pointer mt-4 mb-16 lg:mb-0">
             Update
           </button>
         </form>

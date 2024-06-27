@@ -1,5 +1,4 @@
 import React from "react";
-import Card from "./card/cardProducts";
 import Orders from "./orders/page";
 import Chart from "./chart/chart";
 import CardUsers from "./card/cardUsers";

@@ -19,7 +19,7 @@ const LayoutDashboard = ({ children }: Props) => {
         </div>
       </div>
       <div className="lg:hidden bg-[var(--primary-dark-color)] flex flex-col h-full w-full min-h-screen">
-        <div className="basis-4/5 text-white p-5 h-full w-full ">
+        <div className="basis-4/5 text-white h-full w-full ">
           <MobileSideBar />
           {children}
         </div>

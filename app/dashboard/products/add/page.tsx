@@ -101,34 +101,34 @@ const AddProductPage = () => {
         action={addProductOrder}
         className="flex flex-wrap justify-between gap-2"
       >
-        <label className="text-lg">Name</label>
+        <label className="lg:text-lg text-base">Name</label>
         <DashboardInput
           name={"name"}
           placeholder={"Name"}
           type="text"
           valueini={""}
         />
-        <label className="text-lg">Description</label>
+        <label className="lg:text-lg text-base">Description</label>
         <DashboardInput
           name={"description"}
           placeholder={"Insert description here"}
           type="textarea"
           valueini={""}
         />
-        <label className="text-lg">Media</label>
+        <label className="lg:text-lg text-base">Media</label>
         <ImageGridAdd
           previewImages={previewImages}
           handleFileChange={handleFileChange}
           handleRemovePreviewImage={handleRemovePreviewImage}
         />
-        <label className="text-lg">Price</label>
+        <label className="lg:text-lg text-base">Price</label>
         <DashboardInput
           name={"price"}
           placeholder={"35"}
           type="number"
           valueini={""}
         />
-        <label className="text-lg">Size</label>
+        <label className="lg:text-lg text-base">Size</label>
         {variants.map((variant) => (
           <div key={variant.name} className="w-full flex flex-row">
             <div className="w-1/2">
@@ -151,7 +151,7 @@ const AddProductPage = () => {
         ))}
         <button
           type="submit"
-          className="w-full p-5 bg-[teal] cursor-pointer border-none rounded-sm mt-4"
+          className="w-full p-5 bg-[teal] cursor-pointer border-none rounded-sm mt-4 mb-20 lg:mb-0"
         >
           Add
         </button>
