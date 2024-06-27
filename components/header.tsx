@@ -8,6 +8,8 @@ import { useContext, useEffect, useState } from "react";
 
 import CartIcon from "../public/cart.svg";
 import CartDropdown from "./cartDropdown";
+import { getCollections } from "@/db/queries";
+import { CollectionType } from "@/types";
 
 const links = [
   { name: "HOME", path: "/" },
@@ -18,7 +20,10 @@ const links = [
   { name: "HOODIES", path: "/hoodies" },
 ];
 
-export const HeaderComponent = () => {
+type Props = {
+  collections: CollectionType;
+};
+export const HeaderComponent = ({ collections }: Props) => {
   const pathname = usePathname();
   const { cartCount, isCartOpen, setIsCartOpen } = useContext(CartContext);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -63,17 +68,24 @@ export const HeaderComponent = () => {
           </Link>
         </div>
         <div className="flex flex-grow justify-between px-5">
-          {links.map((link) => (
+          <Link
+            href="/"
+            className="cursor-pointer text-md tracking-wide uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300 sm:text-sm md:text-md"
+            passHref
+          >
+            HOME
+          </Link>
+          {collections.map((collection) => (
             <Link
-              key={link.name}
-              href="/"
+              key={collection.id}
+              href={`${collection.id}`}
               className={cn(
                 "cursor-pointer text-md tracking-wide uppercase border-b-2 border-transparent hover:border-b-current transition-all duration-300 sm:text-sm md:text-md",
-                pathname === link.path && "border-b-current"
+                pathname === collection.id.toString() && "border-b-current"
               )}
               passHref
             >
-              {link.name}
+              {collection.name}
             </Link>
           ))}
         </div>
