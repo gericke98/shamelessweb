@@ -28,6 +28,8 @@ export async function editProduct(imagesInput: PropsEdit, formData: FormData) {
     name: formData.get("name")?.toString() || "s",
     description: formData.get("description")?.toString(),
     price: Number(formData.get("price")),
+    tag: formData.get("tag")?.toString(),
+    collection: formData.get("category")?.toString(),
   };
 
   const imageIds = imagesInput.images.map((image) => image.id);
@@ -87,6 +89,8 @@ export async function editProduct(imagesInput: PropsEdit, formData: FormData) {
           name: rawFormData.name,
           description: rawFormData.description,
           price: rawFormData.price,
+          categoryId: Number(rawFormData.collection),
+          tag: rawFormData.tag?.toString(),
         })
         .where(eq(products.id, rawFormData.id));
 
@@ -123,6 +127,8 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
     name: formData.get("name")?.toString() || "s",
     description: formData.get("description")?.toString(),
     price: Number(formData.get("price")),
+    category: Number(formData.get("category")),
+    tag: formData.get("tag"),
   };
   const mainImgPath = imagesInput ? imagesInput.images[0].toString() : "";
   //Extraigo la info de variantes
@@ -163,10 +169,10 @@ export async function addProduct(imagesInput: PropsAdd, formData: FormData) {
       const newdb = await db
         .insert(products)
         .values({
-          categoryId: 2 || 1,
+          categoryId: rawFormData.category || 1,
           name: rawFormData.name || "No information",
           description: rawFormData.description || "No information",
-          tag: "BACK IN STOCK" || "BACK IN STOCK",
+          tag: rawFormData.tag?.toString() || "BACK IN STOCK",
           price: rawFormData.price || 0,
           mainImg: mainImgPath || "/world-tour-front.jpg",
         })

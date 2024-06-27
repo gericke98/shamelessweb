@@ -8,20 +8,8 @@ import {
   shipping,
   users,
   variants,
+  collections,
 } from "./schema";
-
-export const getCollections = cache(async () => {
-  const data = await db.query.collections.findMany({
-    with: {
-      products: {
-        with: {
-          images: true,
-        },
-      },
-    },
-  });
-  return data;
-});
 
 export const getProduct = cache(async (id: string) => {
   let idnumber = Number(id);
@@ -76,6 +64,19 @@ export const getVariant = cache(async (id: number, name: string) => {
 export const getDiscount = cache(async (name: string) => {
   const data = await db.query.discounts.findFirst({
     where: eq(discounts.name, name),
+  });
+  return data;
+});
+
+export const getCollections = cache(async () => {
+  const data = await db.query.collections.findMany({
+    with: {
+      products: {
+        with: {
+          images: true,
+        },
+      },
+    },
   });
   return data;
 });

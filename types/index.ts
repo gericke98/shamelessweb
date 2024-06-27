@@ -1,4 +1,5 @@
 import {
+  collections,
   images,
   orders,
   productOrders,
@@ -34,6 +35,24 @@ export type ProductType = typeof products.$inferSelect & {
   variants: (typeof variants.$inferSelect)[];
   images: (typeof images.$inferSelect)[];
 };
+export type CollectionType = {
+  id: number;
+  name: string;
+  products: {
+    id: number;
+    name: string;
+    description: string;
+    categoryId: number;
+    tag: string;
+    price: number;
+    mainImg: string;
+    images: {
+      id: number;
+      productId: number;
+      path: string | null;
+    }[];
+  }[];
+}[];
 
 export type VariantType = typeof variants.$inferSelect;
 

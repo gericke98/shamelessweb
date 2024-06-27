@@ -3,7 +3,7 @@ import { editProduct } from "@/actions/product";
 import DashboardInput from "@/components/dashboard/input/dashboardInput";
 import Image from "next/image";
 import { ImageGrid } from "./imageGrid";
-import { ProductType } from "@/types";
+import { CollectionType, ProductType } from "@/types";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -14,9 +14,13 @@ import {
 
 type Props = {
   product: ProductType;
+  collections: CollectionType;
 };
 
-export const ClientPage = ({ product }: Props) => {
+export const ClientPage = ({ product, collections }: Props) => {
+  const collectionSelected = collections.filter(
+    (c) => c.id === product.categoryId
+  );
   const [imageGrid, setImageGrid] = useState(product.images);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   // Configuracion S3
@@ -120,6 +124,30 @@ export const ClientPage = ({ product }: Props) => {
               placeholder={product.name}
               type="text"
               valueini={product.name}
+            />
+            <label className="lg:text-lg text-base">Collections</label>
+            <select
+              name="category"
+              id="category"
+              className="w-full border-2 border-[#2e374a] rounded-sm bg-[var(--primary-dark-color)] lg:text-base text-sm"
+            >
+              {collections.map((collection) => (
+                <option
+                  key={collection.id}
+                  value={collection.id}
+                  className="lg:text-base text-sm"
+                  selected={collection.id === collectionSelected[0].id}
+                >
+                  {collection.name}
+                </option>
+              ))}
+            </select>
+            <label className="lg:text-lg text-base">Tag</label>
+            <DashboardInput
+              name={"tag"}
+              placeholder={"BACK IN STOCK "}
+              type="text"
+              valueini={""}
             />
             <label className="lg:text-lg text-base">Description</label>
             <DashboardInput
